@@ -43,14 +43,18 @@ url = 'https://localhost:44373/api';
       //console.log("hit");
       let response = await this.http.post(`${this.url}${endpoint}`, body, this.headers).toPromise()
       .catch(e => {
-        this.toastr.warning("Oops, something went wrong!");
         if (e.status === 401 || e.status === 400) {
+          this.toastr.warning("Oops, something went wrong!");
           localStorage.setItem("37y7ffheu73", "");
           localStorage.setItem("8d9s8fhvh9f", "");
           this.router.navigate(['/login']);
         }
         else if (e.status === 404){
+          this.toastr.warning("Oops, something went wrong!");
           window.location.reload();
+        }
+        else if (e.status === 500){
+          this.toastr.warning("Employee already exists!");
         }
     });
       return response;
@@ -123,7 +127,7 @@ url = 'https://localhost:44373/api';
       else if (e.status === 409){
         return e.status;
       }
-      else{        
+      else{
       this.toastr.warning("Oops, something went wrong!");
       }
   });
