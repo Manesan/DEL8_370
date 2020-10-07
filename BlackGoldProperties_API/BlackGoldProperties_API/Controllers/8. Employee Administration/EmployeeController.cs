@@ -146,6 +146,13 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     //    return BadRequest();
 
 
+                    var check = db.EMPLOYEEs.Where(x => x.USER.USEREMAIL == email).Select(x => x.USER.USEREMAIL).FirstOrDefault();
+
+                    if(check != null)
+                    {
+                        return null;
+                    }
+
 
                     //Add an employee 
                     db.USERs.Add(new USER
