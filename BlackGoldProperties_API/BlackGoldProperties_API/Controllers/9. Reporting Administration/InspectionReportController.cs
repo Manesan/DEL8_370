@@ -12,7 +12,7 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
         [Route("api/inspectionreport")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] DateTime startdate, [FromUri] DateTime enddate)
         {
-            //Check valid token, logged in, role
+            //Check valid token, logged in, roles
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
