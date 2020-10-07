@@ -3,8 +3,8 @@
         <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
     </div>
 
-    <div style="width: 100%;align-content: center;">
-        <div style="background-color: rgb(22, 21, 21);">
+    <div style="width: 100%; margin: auto;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21);">
             <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
 
             <div style="background-color:lightgray; float: right; ">
@@ -15,28 +15,28 @@
         </div>
         <br>
         <div *ngIf="takeonInspections || outgoingInspections">
-            <div >
-                <h1 class="bgp-text-gold" >Inspections Report</h1>
-                <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
-                <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
-            </div>
-            <div  id="Details" >
-                <table class="container" >
-                    <tr>
-                        <th nowrap>Report Date Range:</th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <td>Start date</td> <td>End Date</td>
-                    </tr>
-                    <tr>
-                        <td>{{startDate}}</td> <td nowrap>{{endDate}}</td>
-                    </tr>
-                </table>
-            </div>
+                <div id="subHeading">
+                    <h1 class="bgp-text-gold" >{{reportType}}</h1>
+                    <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
+                    <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
+                </div>
+                <div  >
+                    <table style="margin: auto; " id="dateTable" >
+                        <tr>
+                            <th colspan="2">Report Date Range:</th>
+                        </tr>
+                        <tr>
+                            <td>Start date</td> <td>End Date</td>
+                        </tr>
+                        <tr>
+                            <td>{{startDate}}</td> <td nowrap>{{endDate}}</td>
+                        </tr>
+                    </table>
+                </div>
+           
 
             <div class="categoryTable">
-                <table>
+                <table style="margin: auto;" id="table">
                     <tr class="topBorder">
                         <th colspan="4" style="text-align: center; color: black;" >Take-on Inspections</th>
                     </tr>
@@ -84,14 +84,15 @@
                     </tr>
                 </table>
             </div> -->
-            
+        </div>    
  
 
     </div>
 
             <br>
-            <div style="width: 60%; float: left; align-content: center;" *ngIf="chart" id="canvas-div">
+            <div style="width: 60%; margin: auto;" *ngIf="chart" id="canvas-div">
                 <canvas id="pie-chart" > {{chart}} </canvas>
+                <br>
                 <br>
                 
                 <h5 style="text-align: center;">***End of Report***</h5>  

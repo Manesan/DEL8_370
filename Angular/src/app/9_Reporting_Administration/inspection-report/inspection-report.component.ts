@@ -34,6 +34,7 @@ export class InspectionReportComponent implements OnInit {
     public startDate: any;
     public endDate: any;
     chart=[];
+    public reportType = "Inspection Report";
   
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
@@ -94,10 +95,52 @@ export class InspectionReportComponent implements OnInit {
   }
 
   async DownloadReport(){
+    var doc = new jsPDF("a4")
+    
   //   let reportDetails = await this.service.Get(`/inspectionreport?token=${this.token.token}&startdate=${this.startDate}&enddate=${this.endDate}`);
   //     var doc = new jsPDF();
-  //     var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-  //     var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+      var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+      var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+      
+    let finalY = 100;
+
+          //Header
+    let data = document.getElementById("headerDiv"); 
+    let headerDivWidth =  data.offsetWidth;
+    let headerDivHeight =  data.offsetHeight;
+    let hratio = headerDivHeight/headerDivWidth;
+    let width = pageWidth*hratio
+    let contentDataURL: any = await html2canvas(data).then(canvas => {
+      let contentDataURL = canvas.toDataURL('image/png'); 
+      return contentDataURL;
+    });     
+    console.log("hit", contentDataURL)
+    doc.addImage(contentDataURL, 'PNG', 10, 5, pageWidth-20, pageHeight-280);  
+
+    //Header
+    let data1 = document.getElementById("subHeading");  
+    let contentDataURL1: any = await html2canvas(data1).then(canvas => {
+      let contentDataURL1 = canvas.toDataURL('image/png'); 
+      return contentDataURL1;
+    });     
+    console.log("hit", contentDataURL)
+    doc.addImage(contentDataURL1, 'PNG', 10, 20, pageWidth+150, pageHeight-200);  
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#dateTable', useCss: true, head: [
+      ['Report Dates']]})
+      finalY = doc.autoTable.previous.finalY;
+
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#table', useCss: true, head: [
+        ['Inspections']]})
+        finalY = doc.autoTable.previous.finalY;
+
+      //Pie chart
+      var newCanvas = <HTMLCanvasElement>document.querySelector('#pie-chart');
+      var newCanvasImg = newCanvas.toDataURL("image/png", 1.0);
+      doc.addImage(newCanvasImg, 'PNG', 0, finalY+15, 210, 100);     
+      doc.text("***End of report***", (pageWidth / 2.5), finalY+130)
+
+        doc.save('Inspection Report')
   //     console.log(pageWidth)
 
   //     let length = reportDetails["allInspections"].length;
