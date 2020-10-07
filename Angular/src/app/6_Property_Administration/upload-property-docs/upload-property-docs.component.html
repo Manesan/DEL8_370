@@ -1,0 +1,110 @@
+<div *ngIf="properties" class="container-fluid bgp-background-gray bgp-padding">
+  <!------->
+    <div class="header" >
+      <h1 >Property Documents </h1>
+      <h5>View and maintain property documentation </h5>
+    </div>
+      <br><br>
+  <!------->
+
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+    <br>
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+      <div class="col-sm-3 "  *ngFor = "let x of properties">
+        <div class="card text-white bg-dark mb-3 animate__animated  animate__slideInRight bgp-card-large bgp-card" >
+          <div class="card-body ">
+            <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+            <div class="scrollbar bgp-card-textbox-large" id="style-3">
+          <div *ngFor = "let y of x.Documents">
+            <span  (click)="getPropertyDocument(y.PROPERTYDOCUMENTID)"   class="bgp-text-white fake-link" >{{y.PROPERTYDOCUMENTTYPEDESCRIPTION}}</span>
+            <br>
+          </div>
+            <br>
+          </div>
+            <div class="bgp-buttons-in-cards">
+              <button (click)="openUpload(x.PROPERTYID)"class="btn  btn-outline-warning my-2 my-sm-0" type="submit" title="Upload property documentation"><i class="fas fa-arrow-circle-up"></i></button>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of Upload Property Document Modal -->
+      <div id="docsModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Upload Property Document</h4>
+            </div>
+            <form ngNativeValidate (ngSubmit)="confirmUpload()">
+            <div class="modal-body">
+              <p style="text-align: center;" class="bgp-text-bold bgp-text-gold">Please provide the property document details</p>
+              <p class="bgp-text-bold bgp-text-gold">Property</p>
+              <input [(ngModel)]="address" class ="form-control" type="text" id="property" name="property" disabled="true" >
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Document (.PDF)</p>
+              <input  id ="propertydocument" name="propertydocument" required class="bgp-text-white" name="valuationdocument" type="file" accept="application/pdf" #fileSelect  (change)="propertyDocumentChangeListener($event)"/>
+              <!-- <button class="btn btn-outline-warning my-2 my-sm-0 " type="button" (click)="fileSelect.click()"><i class="fas fa-arrow-circle-up"></i> Choose File</button> -->
+              <br><br>
+              <p class="bgp-text-bold bgp-text-gold">Document Type</p>
+              <select  [(ngModel)]="documenttypeid" required class ="form-control" name="properties" id="properties">
+                <option *ngFor = "let x of documenttypes" [ngValue]= "x.PROPERTYDOCUMENTTYPEID"  >{{x.PROPERTYDOCUMENTTYPEDESCRIPTION}}</option>
+              </select>
+            </div>
+            <div class= "modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Upload</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+  <!-----End of Upload Property Document Modal-->
+
+  <!-- Start of Confirm Upload Modal -->
+      <div id="confirmUploadModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal ">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Upload this property document?</h4>
+            </div>
+            <div class="modal-body">
+              <p class="bgp-text-white">{{documenttypebound}}</p>
+            </div>
+            <div class= "modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" (click)="upload()">Yes</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-----End of Confirm Upload Modal-->
+</div>
+
+
+
+
+
+
+
+
+
+
+

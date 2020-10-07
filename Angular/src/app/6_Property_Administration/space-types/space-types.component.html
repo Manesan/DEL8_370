@@ -1,0 +1,160 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+  <!------->
+  <div class="header">
+    <h1>Space Types </h1>
+    <h5>View and maintain space types </h5>
+  </div>
+
+    <br>
+    <br>
+  <!------->
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5" >
+    <button title="Add a space type" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal" title="Add a space type"><i class="fas fa-plus"></i></button>
+    <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+  </div>
+
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+      <div class="col-sm-3" *ngFor = "let x of spaceTypes">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+        <div class="card-body">
+        <h5 class="card-title bgp-text-gold">{{x.SPACETYPEDESCRIPTION}}</h5>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.SPACETYPEID)" title="View this space type"><i class="far fa-eye"></i></button>
+              &nbsp;
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#deleteModal" title="Delete this space type" (click)="deleteBinding(x.SPACETYPEID)"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+  </div>
+  <!----End of Rows-->
+
+  <!-- Start of Edit Modal -->
+    <div id="editModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Space Type</h4>
+            <div class="bgp-buttons-in-cards">
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this space type" onclick="editSingleAttributeCRUD('Space Type')"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+          </div>
+          <div id="prompt" style="display: none;">
+            <br>
+            <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated space type details</h6>
+          </div>
+          <form  ngNativeValidate (ngSubmit)="submitUpdate()">
+          <div class="modal-body">
+            <p class="bgp-text-bold bgp-text-gold">Description</p>
+            <input disabled id="descriptionInput"  class="form-control" id="descriptionInput"  name="descriptionInput" [(ngModel)]="descriptionInput" required maxlength="50">
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton" style="visibility: hidden;" >Update</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload();" >Cancel</button>
+        </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <!-----End of Edit Modal-->
+
+  <!-- Start of Confirm Edit Modal -->
+    <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Update this space type?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{descriptionInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"    (click)="update(spaceTypeid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Edit Modal-->
+
+  <!-- Start of Add Modal -->
+  <div id="addModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal" >
+        <div class="modal-header"  >
+          <h4 class="modal-title bgp-text-gold">Add Space Type</h4>
+        </div>
+        <br>
+        <h6 class="bgp-text-gold" style="text-align: center;" id="prompt">Please provide the space type details</h6>
+        <form  ngNativeValidate (ngSubmit)="submitAdd()">
+        <div class="modal-body">
+          <p class="bgp-text-bold bgp-text-gold">Description</p>
+          <input input  id="descriptionInput"  class="form-control"id="descriptionInput" name="descriptionInput"  [(ngModel)]="descriptionInput" required maxlength="50">
+        </div>
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Add</button>
+          &nbsp;
+          <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onclick="window.location.reload();">Cancel</button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <!-----End of Add Modal-->
+
+  <!-- Start of Confirm Add Modal -->
+    <div id="confirmAddModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal ">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Add this space type?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{descriptionInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="add()">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload();">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Add Modal-->
+
+
+  <!-- Start of Delete Modal -->
+    <div id="deleteModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header modal-dialog-centered">
+            <h4 class="modal-title bgp-text-gold">Are you sure you want to delete this space type?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{descriptionInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="delete(spaceTypeid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload();">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Delete Modal-->
+</div>
+

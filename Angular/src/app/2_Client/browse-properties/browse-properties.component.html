@@ -1,0 +1,50 @@
+<!---<br>-->
+                      <!-----Start of filter panel-->
+                      <!-- <div class="panel-group bgp-padding bgp-background-gray" >
+                        <div class="panel panel-default" >
+                          <div class="panel-heading" >
+                            <h6 class="panel-title" >
+                              <button id ="filterButton"  data-toggle="collapse" href="#filters" class="btn btn-outline-dark bgp-text-gold" style="width:100%; height: 40px;"><i id="updownicon" class="fas fa-chevron-down"></i> &nbsp; Order By: <label id="filterCategory">Default</label> </button>
+                            </h6>
+                          </div>
+                          <div id="filters" class="panel-collapse collapse " >
+                            <ul class="list-group bgp-text-white" style=" width: 100%">
+                              <button data-toggle="collapse" href="#filters" onclick="filterDefault()" class="list-group-item bgp-modal bgp-text-gold" id="button1">Default</button>
+                              <button data-toggle="collapse" href="#filters" onclick="filterLTH()" class="list-group-item bgp-modal bgp-text-gold" id="button2">Price - Low to High</button>
+                              <button data-toggle="collapse" href="#filters" onclick="filterHTL()" class="list-group-item bgp-modal bgp-text-gold" id="button5">Price - High to Low</button>
+                              <button data-toggle="collapse" href="#filters" onclick="filterRecent()" class="list-group-item bgp-modal bgp-text-gold" id="button3">Most Recent</button>
+                              <button data-toggle="collapse" href="#filters" onclick="filterType()" class="list-group-item bgp-modal bgp-text-gold" id="button4">Property Type</button>
+                            </ul>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-----End of filter panel-->
+
+
+
+
+
+
+<div class="container-fluid bgp-background-gray bgp-padding" > 
+  <br>
+<div class="row">
+<label *ngIf="!results">No properties found</label>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of properties; let i = index">
+      <div class="card animate__animated  animate__slideInRight bg-dark">
+        <a (click)="view(x.PROPERTYID)" title="View this property"><img class="bgp-image" [src]="photos[i]" alt="Card image cap"></a>
+        <div class="card-block" style="padding: 20px 20px 18px 20px;">
+          <h3 class="card-title bgp-text-gold">R{{x.Price}}</h3>
+          <h5 class="card-text bgp-text-white">{{x.PROPERTYTYPEDESCRIPTION}}</h5>
+          <p class="bgp-text-white bg-dark">{{x.SUBURBNAME}} <br> <i class="fas fa-bed bgp-text-white" title="Bedrooms"></i>  {{x.Bedrooms?.PROPERTYSPACEQUANTITY}} &nbsp; <i class="fas fa-bath bgp-text-white" title="Bathrooms"></i> {{x.Bathrooms.PROPERTYSPACEQUANTITY}} &nbsp; <i class="fas fa-car bgp-text-white" title="Parking"></i> {{x.Parking?.PROPERTYFEATUREQUANTITY}} </p>
+          <h4 class="bgp-text-gold">{{x.MARKETTYPEDESCRIPTION}}
+          <button  (click)="view(x.PROPERTYID)" class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards"  title="View this property"><i class="far fa-eye"></i> </button>
+          </h4>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+</div>
+</div>
+

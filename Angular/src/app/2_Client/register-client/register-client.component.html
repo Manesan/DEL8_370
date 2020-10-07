@@ -1,0 +1,113 @@
+
+<div class="container-fluid bgp-background-gray bgp-padding" >
+    <div class="header" content="width=device-width, initial-scale=1.0">
+        <h2 class="h1-responsive font-weight-bold text-center my-4 bgp-text-gold" >Sign Up</h2>
+
+           <form  ngNativeValidate (ngSubmit)="register()">
+             <div>
+                 <h5 class="bgp-text-gold">Email</h5>
+               <div>
+                   <input [(ngModel)]="email" placeholder="Email Address" type="email" id="email" name="email" class="form-control" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+               </div>
+             </div>
+               <br>
+
+            <div>
+               <h5 class="bgp-text-gold">Name</h5>
+               <div>
+                    <input [(ngModel)]="name" placeholder="First Name" type="text" id="name" name="name" class="form-control" required minlength="2" maxlength="50">
+               </div>
+           </div>
+           <br>
+
+
+           <div>
+               <h5 class="bgp-text-gold">Surname</h5>
+               <div>
+                   <input [(ngModel)]="surname" placeholder="Last Name" type="text" id="surname" name="surname" class="form-control"  required minlength="2" maxlength="50">
+
+               </div>
+           </div>
+           <br>
+
+           <div>
+               <h5 class="bgp-text-gold">Contact Number </h5>
+               <div class="contactNumberWrapper">
+                   <select class="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="countryCode">
+                       <option ngDefaultControl *ngFor="let x of countryCodes" [ngValue]="x.dial_code" >{{x.dial_code}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{x.name}}</option>
+                   </select>
+                   <input [(ngModel)]="number" class="form-control bgp-disabled"  id="contactnumber" name="contactnumber" placeholder="eg. 0725437685" required  maxlength="15" style="width: 78%; float: right ;" type="tel" pattern="[0-9]{0,}">
+               </div>
+           </div>
+           <br><br>
+
+           <div>
+               <h5 class="bgp-text-gold">Alternative Contact Number</h5>
+               <div class="contactNumberWrapper">
+                   <select class="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="altCountryCode">
+                       <option ngDefaultControl *ngFor="let x of countryCodes" [ngValue]="x.dial_code" >{{x.dial_code}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{x.name}}</option>
+                   </select>
+                   <input [(ngModel)]="altnumber" class="form-control bgp-disabled"  id="altcontactnumber" name="altcontactnumber"   placeholder="eg. 0725437685"  maxlength="15" style="width: 78%; float: right ;" type="tel" pattern="[0-9]{0,}">
+               </div>
+           </div>
+           <br><br>
+
+
+           <div>
+            <h5 class="bgp-text-gold">South African?</h5>
+               <input required id="southAfricanYes" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="Yes" value="Yes">
+               <label class="bgp-text-white" for="southAfricanYes">&nbsp; Yes</label>
+               <br>
+               <input id="southAfricanNo" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="No" value="No">
+               <label class="bgp-text-white" for="southAfricanNo">&nbsp; No</label>
+               <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
+                   <h6 class="bgp-text-bold bgp-text-gold"> ID Number</h6>
+                   <input id="ClientIDInput" name="ClientIDInput"class="form-control" ngDefaultControl [(ngModel)]="clientIdNumberInput" maxlength="13" required pattern="(?<Year>[4-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][0-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])">
+                    <br>
+              </div>
+               <div class="southAfricanNoDiv" *ngIf="SouthAfrican == 'No'">
+                   <h6 class="bgp-text-bold bgp-text-gold"> Passport Number</h6>
+                   <input id="ClientPassportInput" name="ClientPassportInput"class="form-control" ngDefaultControl [(ngModel)]="clientPassportNumberInput" maxlength="20" required>
+                   <br>
+              </div>
+           </div>
+
+
+           <div>
+               <h5 class="bgp-text-gold">Address</h5>
+               <div>
+                   <input [(ngModel)]="address" placeholder="Address" type="text" id="address" name="address" class="form-control" required  maxlength="150" >
+               </div>
+           </div>
+           <br>
+
+
+           <div>
+               <h5 class="bgp-text-gold">Password</h5>
+               <div>
+                   <input [(ngModel)]="password" placeholder="Password" type="password" id="password" name="password" class="form-control" required minlength="8" maxlength="50">
+                   <password-strength-meter [password]="password" [enableFeedback]="true"></password-strength-meter>
+               </div>
+           </div>
+           <br>
+
+           <div>
+               <h5 class="bgp-text-gold">Confirm Password</h5>
+               <div>
+                   <input [(ngModel)]="confirmpassword" match ="password" placeholder="Confirm Password" type="password" id="confirmpassword" name="confirmpassword" class="form-control" required  maxlength="50" >
+               </div>
+           </div>
+           <br><br>
+
+           <div class="text-center text-md-left" style="float:right;">
+            <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Clicking the 'Register' button after providing all your details will register you as an offical BGP customer. You will now have access to the system as a client and be able to lease or purchase properties using our system" matTooltipPosition="left">
+              <i class="fas fa-info-circle"></i>
+             </button>
+               <button type="submit" class="btn btn-warning" >Register</button>
+           </div>
+           <br>
+           </form>
+       </div>
+
+
+   </div>

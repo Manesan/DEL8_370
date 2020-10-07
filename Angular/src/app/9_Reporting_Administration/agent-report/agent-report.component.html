@@ -1,0 +1,68 @@
+<div class="bgp-background-gray" style="width: 100%;">
+    <button mat-flat-button (click)="DownloadReport()">
+        Download PDF
+    </button>
+    <br> <br>
+
+    <div id="reportDiv" #pdfTable style="width: 75; padding-left: 10px;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21);" >
+            <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
+            <div style="background-color:lightgray; float: right; ">
+                <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
+                <h4><i class="fas fa-phone-square"></i> Contact Number: +27 (0)72 322 9774</h4>
+                <h4><i class="far fa-envelope"></i> Email: info@bgprop.co.za</h4>
+            </div>
+        </div>
+
+        <br>
+         <div *ngIf="agents" >
+            <div  id="subHeading">
+                <div >
+                    <h1>{{reportType}}</h1>
+                    <br>
+                    <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
+                    <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
+                </div>
+    
+                <div  id="Details" >
+                    <table id="date" class="container">
+                        <tr >
+                            <th>Report Date Range:</th>
+                            <th></th>
+                        </tr>
+                        <tr >
+                            <td>Start date</td> 
+                            <td>End Date</td>
+                        </tr>
+                        <tr >
+                            <td>{{startDate}}</td> 
+                            <td>{{endDate}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+
+            <div class="categoryTable">
+                <table class="container" id="table">
+                    <tr>
+                        <th>Agent:</th> 
+                        <th>Property Address:</th> 
+                        <th>Property Owner:</th> 
+                    </tr>
+                    <tr id="table{{i}}" *ngFor="let agent of agents; let i = index">
+                        <td>{{agent.USERNAME}}&nbsp;{{agent.USERSURNAME}}</td>  
+                        <td><p *ngFor="let property of agent.Properties">{{property.PROPERTYADDRESS}} <span>{{lineBreak}}{{lineBreak}}</span></p></td> 
+                        <td><p *ngFor="let property of agent.Properties">{{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}} <span>{{lineBreak}}{{lineBreak}}</span></p></td>
+                    </tr>
+                </table>
+            </div>
+            <br><br><br>
+            <h5 style="text-align: center;">**End of Report**</h5>
+            <br>
+            <div *ngIf="chart" id="canvas-div">
+                <canvas id="canvas" > {{chart}} </canvas>
+            </div>  
+        </div>
+    </div>
+</div>

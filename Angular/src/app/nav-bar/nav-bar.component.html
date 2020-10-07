@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" >
+  <a > <img src="../assets/bgplogo.JPG" style="width:150px;height:60px;"> </a>
+
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+      <div class="navbar-nav">
+          <a href="#" routerLink="" style="color:gold; font-weight: bold;" class="nav-item nav-link active">Home <span class="sr-only">(current)</span></a>
+          <a href="#" class="nav-item nav-link" routerLink="/contactagent">Contact</a>
+          <a href="#" class="nav-item nav-link" routerLink="/adminportal" id="adminbutton" *ngIf="service.isAdmin()">Admin Portal</a>
+          <div class="nav-item dropdown" *ngIf="!service.isAdmin() && service.loggedIn()">
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >My Profile</a>
+              <div class="dropdown-menu bgp-modal">
+                  <a  class="dropdown-item bgp-text-gold" routerLink="/updateclient">View My Profile</a>
+                    <div class="dropdown-divider"></div>
+                  <a class="dropdown-item bgp-text-gold" href="client-rentals">View My Rentals</a>
+                  <a class="dropdown-item bgp-text-gold" href="client-purchases">View My Purchases</a>
+              </div>
+          </div>
+      </div>
+
+      <div class="navbar-nav">
+        <form class="form-inline my-2 my-lg-0">
+           <button class="btn btn-outline-warning my-2 my-sm-0" *ngIf="service.loggedIn()" id="logoutButton" name="logoutButton" type="submit" (click)="Logout()" >Logout</button>
+           &nbsp;
+        </form>
+
+        <form class="form-inline my-2 my-lg-0">
+           <button class="btn btn-outline-warning my-2 my-sm-0" *ngIf="!service.loggedIn()" id="loginButton" name ="loginButton" type="submit" routerLink="/login">Login</button>
+        </form>
+          &nbsp;
+
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit" *ngIf="!service.loggedIn()" routerLink="/register">Sign Up</button>
+        </form>
+
+
+      </div>
+  </div>
+</nav>

@@ -1,0 +1,114 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+  <div class="header">
+    <h1>Property Owners </h1>
+    <h5>View and maintain property owners </h5>
+  </div>
+    <br>
+    <br>
+  <!------->
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5" >
+    <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+  </div>
+  <!------->
+
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+
+    <!--Start of one tile-->
+        <div class="col-sm-3" *ngFor =  "let x of propertyOwners">
+        <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium  bgp-card"  >
+          <div class="card-body">
+            <h5 class="card-title bgp-text-gold">{{x.PROPERTYOWNERNAME}} {{x.PROPERTYOWNERSURNAME}}</h5>
+            <h6 class="bgp-text-white">{{x.PROPERTYOWNEREMAIL}}</h6>
+            <br>
+            <div class="bgp-buttons-in-cards">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.PROPERTYOWNERID)" title="View this property"><i class="far fa-eye"></i></button>
+                &nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of Edit Modal -->
+    <div id="editModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-large-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Property Owner</h4>
+            <div class="bgp-buttons-in-cards">
+              <button id="editPropertyOwner" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this property owner" onclick="editPropertyOwner()"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+          </div>
+          <div id="prompt" style="display: none;">
+            <br >
+            <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated property owner details</h6>
+          </div>
+
+          <div class="modal-body scrollbar" id="style-3">
+            <form  ngNativeValidate (ngSubmit)="update(propertyOwnerid)">
+            <p class="bgp-text-bold bgp-text-gold">Name</p>
+            <input class="form-control"  [(ngModel)]="nameInput"  id="nameInput" name="nameInput"  disabled = "true" required  maxlength="50">
+
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Surname</p>
+            <input class="form-control"  [(ngModel)]= "surnameInput" id="surnameInput"  name="surnameInput" disabled = "true" required maxlength="50">
+
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Email</p>
+            <input class="form-control"  [(ngModel)]="emailInput" id="emailInput"  name="emailInput"  disabled = "true" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+            <input class="form-control"  [(ngModel)]="idnumberInput" id="idnumberInput" name="idnumberInput"   disabled = "true" required minlength="13" maxlength="13">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold"> Address</p>
+            <input class="form-control"  [(ngModel)]="addressInput" id="addressInput" name="addressInput"  disabled = "true" required maxlength="150">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Contact Number</p>
+            <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="contactnumberInput" id="contactnumberInput" name="contactnumberInput"   disabled = "true" required maxlength="20" pattern="\+([0-9]{1,})">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Alt Contact Number</p>
+            <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="altcontactnumberInput" id="altcontactnumberInput"   name="altcontactnumberInput" disabled = "true" maxlength="20" pattern="\+([0-9]{1,})">
+          </form>
+          </div >
+          <div class= "modal-footer  ">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmEditModal"id="OKButton" style="visibility: hidden;">Update</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <!-----End of Edit Modal-->
+
+  <!-- Start of Confirm Edit Modal -->
+    <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Update this property owner?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}} {{surnameInput}}</p>
+          </div>
+          <div class= "modal-footer ">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="update(propertyOwnerid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Edit Modal-->
+</div>

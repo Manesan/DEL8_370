@@ -1,0 +1,121 @@
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+  right: 10px;
+}
+
+
+.bgp-text-white{
+  color:white;
+  }
+
+// .bgp-padding{
+//   //padding: 50px 100px 20px;
+//   padding: 10px 10px 10px;
+//   }
+
+.bgp-padding{
+  padding: 5px 5px 5px 5px;
+}
+
+
+.container {
+  padding: 10px;
+}
+
+
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+}
+
+.bgp-card-search{
+  width: 1300px;
+  //height: 420px;
+ // height: 800px;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+
+.bgp-smallsearchinput{
+  width: 200px;
+
+}
+
+.bgp-largesearchinput{
+  width: 732px;
+}
+
+.bgp-large-modal{
+  background-color:#292b2c;
+  width: 40rem;
+  height: 40rem;
+}
+
+
+
+.bgp-property-img{
+width: 48%;
+float: left;
+}
+.bgp-property-info{
+  width: 48%;
+  float: right;
+  }
+
+  .bgp-property-container{
+    width: 100%;
+
+  }
+  .bgp-modal{
+    background-color:#292b2c;
+  }
+
+.bgp-ref{
+  margin-left: 50px;
+}
+
+.bgp-clickable{
+  cursor: pointer;
+}
+.bgp-card{
+width: auto;
+}
+
+.modal-footer{
+  border-top: 0 none;
+}
+
+//Styling for the scrolling bar in cards
+#style-3::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: lightgray;
+  background-color: rgb(237, 237, 237);
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow: lightgray;
+	background-color: #ffc000
+}
+
+.scrollbar
+{
+  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+
+.bgp-carousel{
+width: 100%;
+height: 100%;
+}

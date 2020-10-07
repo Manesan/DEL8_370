@@ -1,0 +1,171 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+  <div class="header">
+    <h1>Suburbs </h1>
+    <h5>View and maintain suburbs </h5>
+  </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5" >
+      <button title="Add a suburb" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus" ></i></button>
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of suburbs">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+        <div class="card-body">
+        <h5 class="card-title bgp-text-gold">{{x.SUBURBNAME}}</h5>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.SUBURBID)" data-toggle="modal" data-target="#editModal" title="View this suburb"><i class="far fa-eye"></i></button>
+              &nbsp;
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#deleteModal" title="Delete this suburb" (click)="deleteBinding(x.SUBURBID)"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+  </div>
+  <!----End of Rows-->
+
+  <!-- Start of Edit Modal -->
+    <div id="editModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold"  id="title">View Suburb</h4>
+            <div class="bgp-buttons-in-cards">
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this suburb" onclick="editSingleAttributeCRUD('Suburb')"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+          </div>
+          <div id="prompt" style="display: none;">
+            <br >
+            <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated suburb details</h6>
+          </div>
+          <form  ngNativeValidate (ngSubmit)="submitUpdate()">
+            <div class="modal-body">
+              <p class="bgp-text-bold bgp-text-gold">Name</p>
+              <input [(ngModel)]="nameInput" disabled id="descriptionInput" name="descriptionInput" class="form-control" required>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">City</p>
+              <input disabled class="form-control" [(ngModel)]="cityNameInput" id="cityNameInput" name="cityNameInput" required>
+              <select [(ngModel)]="cityid" class ="form-control" name="cities" id="cityInput" style="visibility: hidden;">
+                <option *ngFor="let x of cities" [ngValue]="x.CITYID">{{x.CITYNAME}}</option>
+              </select>
+            </div>
+            <div class= "modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Update</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal"  onClick="window.location.reload();">Cancel</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+<!-----End of Edit Modal-->
+
+  <!-- Start of Confirm Edit Modal -->
+    <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Update this suburb?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="update(suburbid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Edit Modal-->
+
+  <!-- Start of Add Modal -->
+  <div id="addModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal" >
+        <div class="modal-header"  >
+          <h4 class="modal-title bgp-text-gold">Add Suburb</h4>
+        </div> 
+        <form  ngNativeValidate (ngSubmit)="submitAdd()">       
+        <div class="modal-body">
+          <div id=prompt>
+            <h6 class="bgp-text-gold" style="text-align: center;">Please provide the suburb details</h6>
+          </div>
+              <p class="bgp-text-bold bgp-text-gold">Name</p>
+              <input [(ngModel)]="nameInput" class="form-control" id="nameInput" name="nameInput" required>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">City</p>
+              <select [(ngModel)]="cityid" class ="form-control" name="cities" id="cityInput" required>
+                <option *ngFor="let x of cities" [ngValue]="x.CITYID">{{x.CITYNAME}}</option>
+              </select>           
+          </div>
+          
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Add</button>
+          &nbsp;
+          <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+        </div>
+      </form> 
+      </div>
+    </div>
+  </div>
+  <!-----End of Add Modal-->
+
+  <!-- Start of Confirm Add Modal -->
+    <div id="confirmAddModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal ">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Add this suburb?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="add()">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Add Modal-->
+
+
+  <!-- Start of Delete Modal -->
+    <div id="deleteModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header modal-dialog-centered">
+            <h4 class="modal-title bgp-text-gold">Are you sure you want to delete this suburb?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="delete(suburbid)">Yes</button>
+            &nbsp;  
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Delete Modal-->
+</div>
+

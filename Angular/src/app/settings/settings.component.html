@@ -1,0 +1,30 @@
+
+<div class="container-fluid bgp-background-gray bgp-padding" > 
+  <!------->
+  <div class="header">
+      <h1>Timeout Adjustment </h1>
+      <h5>Maintain the user session time on the system</h5>
+  </div>
+
+  <!------->
+
+  <div class="timerDiv bgp-gray" >
+      <form style="width: 100% " style="margin-left: auto; margin-right: auto"  ngNativeValidate (ngSubmit)="changeTimer()">
+        <div >
+            <h3 class=" font-weight-bold text-center my-4  bgp-text-gold" >Duration: (Minutes)</h3>
+            <div>
+                <div>
+                    <input [(ngModel)]="duration" placeholder="Duration" type="number" id="timer" name="timer" class="form-control" required>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="text-center text-md-left" style="float:right;">
+                <button type="submit" class="btn btn-warning">Save</button>
+            </div>
+            <br><br>
+        </div>
+      </form>
+    </div>
+</div>
+

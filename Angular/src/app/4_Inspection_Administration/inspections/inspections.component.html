@@ -1,0 +1,267 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+  <!------->
+    <div class="header">
+      <h1>Inspections </h1>
+      <h5>View and maintain inspections </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Generate Report & Search cards-->
+    <div class="col-sm-12 mb-5">
+        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#inspectionreportModal" title="Generate inspection report"><i class="fas fa-chart-pie"></i></button>
+        <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+  <!------->
+
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3"  *ngFor="let x of inspections">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card" >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-white">{{x.INSPECTIONDATE}}</h6>
+          <div class="scrollbar bgp-card-textbox-large" id="style-3">
+            <br><br>
+            <h6 class="card-subtitle bgp-text-white">{{x.INSPECTIONTYPEDESCRIPTION}}</h6>
+            <br>
+            <h6 class="card-subtitle bgp-text-white">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+            <br>
+            <h6 class="card-subtitle bgp-text-white">{{x.IVSTATUSDESCRIPTION}}</h6>
+          </div>
+            <div class="bgp-buttons-in-cards">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" title="Assign an inspector" data-toggle="modal" data-target="#assignModal" (click)="view(x.INSPECTIONID)" ><i class="far fa-user" ></i></button>
+              &nbsp;
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#viewModal" title="View this inspection" (click)="view(x.INSPECTIONID)"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+  </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of View Modal -->
+      <div id="viewModal" onended="hide()" onabort="hide()" class="modal fade" role="dialog" [style.display]="showViewModal ? 'block' : 'none'" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-large-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold" id="title">View Inspection</h4>
+              <div class="bgp-buttons-in-cards">
+                <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this inspection" (click)="editInspection()"><i class="fas fa-pencil-alt"></i></button>
+              </div>
+            </div>
+
+            <div class="modal-body scrollbar" id="style-3">
+              <div style="text-align: center;">
+                <a href="/browse" class="bgp-text-bold bgp-text-gold">{{propertyAddress}}</a>
+                <br>
+                <br>
+                <h6 class="bgp-text-gold" style="text-align: center;" id="prompt"></h6>
+                <button (click)="getInspectionDocument()"  id="downloadDocument" title="Download inspection document"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> &nbsp;Inspection Document</button>
+              </div>
+              <p class="bgp-text-bold bgp-text-gold">Date</p>
+              <input disabled class ="form-control" type="date" id="date" name="Date" ngDefaultControl [(ngModel)]="inspectionDate">
+              <br>
+              <p value="Inspector" class="bgp-text-bold bgp-text-gold">Inspector</p>
+              <input disabled class="form-control" ngDefaultControl [(ngModel)]="inspector" disabled="true" id="inspectorNameSurnameInput" name="inspectorNameSurnameInput">
+                <select ngDefaultControl [(ngModel)]="inspectorid" class ="form-control" name="inspectorInput" id="inspectorInput" style="display:none;">
+                  <option ngDefaultControl *ngFor="let x of inspectors" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                </select>
+                <br>
+              <p value="Type" class="bgp-text-bold bgp-text-gold">Type</p>
+              <input disabled class="form-control" ngDefaultControl [(ngModel)]="inspectionTypeDescription" disabled="true" id="inspectionTypeDescriptionInput">
+                <select ngDefaultControl [(ngModel)]="typeid" class ="form-control" name="inspectionTypeInput" id="inspectionTypeInput" style="display:none;">
+                  <option ngDefaultControl *ngFor="let y of inspectionTypes" [ngValue]="y.INSPECTIONTYPEID">{{y.INSPECTIONTYPEDESCRIPTION}}</option>
+                </select>
+                <br>
+              <p value="Status" class="bgp-text-bold bgp-text-gold">Status</p>
+              <input name="inspectionStatusDescriptionInput" disabled class="form-control" ngDefaultControl [(ngModel)]="inspectionStatusDescription" disabled="true" id="inspectionStatusDescriptionInput">
+                <select ngDefaultControl [(ngModel)]="statusid" class ="form-control" name="properties" id="statusInput" style="display:none;">
+                  <option ngDefaultControl *ngFor="let z of inspectionStatuses" [ngValue]="z.IVSTATUSID">{{z.IVSTATUSDESCRIPTION}}</option>
+                </select>
+                <br>
+              <p class="bgp-text-bold bgp-text-gold" >Defects</p>
+
+
+
+
+
+              <div id="defectWrapper1" class="defectWrapper" hidden>
+                <div class="first">
+                  <p class="bgp-text-bold bgp-text-gold">Defect Description</p>
+                </div>
+                <div class="second">
+                  <p class="bgp-text-bold bgp-text-gold">Space Description</p>
+                </div>
+                <div class="third">
+                  <p class="bgp-text-bold bgp-text-gold">Defect Quantity</p>
+                </div>
+                <div class="last">
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="first">
+                  <select [(ngModel)]="defectDescriptionInput" id="defectDescriptionInput" name="defectDescriptionInput"  class ="form-control">
+                    <option *ngFor="let xx of defects" [ngValue]="xx">{{xx.DEFECTDESCRIPTION}}</option>
+                  </select>
+                </div>
+                <div class="second">
+                  <select ngDefaultControl [(ngModel)]="spaceDescriptionInput" id="spaceDescriptionInput" name="spaceDescriptionInput"  class ="form-control">
+                    <option *ngFor="let xx of spaces" [ngValue]="xx">{{xx.SPACEDESCRIPTION}}</option>
+                  </select>
+                </div>
+                <div class="third">
+                  <input type="number" ngDefaultControl [(ngModel)]="propertyDefectQuantityInput" id="propertyDefectQuantityInput" name="propertyDefectQuantityInput" class ="form-control" min="1">
+                </div>
+                <div class="last">
+                  <button type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addDefect();" title="Add defect"><i class="fas fa-plus "  ></i></button>
+                </div>
+                <br>
+                <br>
+                <br>
+              </div>
+              <div id="noPointer" style="pointer-events: none;">
+                <div  class="defectWrapper" *ngFor="let x of propertyDefects, let i = index">
+                  <div class="first">
+                    <label style="white-space: nowrap;" class="form-check-label bgp-text-white" for="acceptInput">{{x[0].DEFECTDESCRIPTION}} - {{x[0].SPACEDESCRIPTION}} - {{x[0].PROPERTYDEFECTQUANTITY}}</label>
+                  </div>
+                  <div class="lineItem">
+                    <button name="deleteDefect" class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this feature" (click)="deleteDefect(i)"><i class="fas fa-trash-alt"></i></button>
+                  </div>
+                  <br><br>
+                </div>
+              </div>
+              
+
+
+
+
+
+
+
+
+
+              <p class="bgp-text-bold bgp-text-gold">Comments</p>
+              <textarea required disabled class="form-control" ngDefaultControl [(ngModel)]="comments" name="commentsInput" id="commentsInput"></textarea>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold" id="uploadDocumentLabel" style="display: none">Upload Inspection Document (.PDF)</p>
+              <input class="bgp-text-white bgp-clickable" name="inspectiondocument" type="file" accept="application/pdf" style="display: none" id="uploadButton" required (change)="inspectionDocumentChangeListener($event)"/>
+            </div>
+
+            <div class= "modal-footer ">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmCaptureModal" id="OKButton" style="visibility: hidden;">Save</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()" >Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-----End of View Modal-->
+
+  <!-- Start of Confirm Save Modal -->
+    <div id="confirmCaptureModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Save this inspection?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{propertyAddress}}</p>
+          </div>
+          <div class= "modal-footer ">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="save(inspectionid)" >Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Capture Modal-->
+
+
+ <!-- Start of Inspection Report Modal -->
+ <div id="inspectionreportModal" class="modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bgp-modal">
+      <div class="modal-header">
+        <h4 class="modal-title bgp-text-gold">Generate Inspection Report</h4>
+      </div>
+      <form  ngNativeValidate (ngSubmit)="generateReport()">
+      <br>
+      <h6 class="bgp-text-gold" style="text-align: center;" id="prompt">Please provide the report criteria</h6>
+      <div class="modal-body">
+        <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+        <input class ="form-control" type="date" id="startDate" name="startDate" ngDefaultControl [(ngModel)]="startDate" required>
+        <br>
+        <p class="bgp-text-bold bgp-text-gold">End Date</p>
+        <input class ="form-control" type="date" id="endDate" name="endDate" ngDefaultControl [(ngModel)]="endDate" required>
+      </div>
+      <div class= "modal-footer ">
+        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Generate Report</button>
+        &nbsp;
+        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+      </div>
+    </form>
+    </div>
+
+  </div>
+</div>
+<!-----End of Inspection Report Modal-->
+
+
+  <!-- Start of Assign Modal -->
+      <div id="assignModal" onended="hide()" onabort="hide()" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold" id="title">Assign Inspector</h4>
+            </div>
+            <br>
+            <h6 class="bgp-text-gold" style="text-align: center;" id="prompt">Choose an inspector to assign to this inspection</h6>
+            <div class="modal-body scrollbar" id="style-3">
+              <p class="bgp-text-bold bgp-text-gold">Inspector</p>
+                <select name="inspectorid" ngDefaultControl [(ngModel)]="inspectorid" id="inspector" class ="form-control" ngDefaultControl>
+                  <option *ngFor="let x of inspectors" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                </select>
+              <br>
+            </div>
+            <div class= "modal-footer ">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmCaptureAssignmentModal" id="OKButton">Save</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-----End of Assign Modal-->
+
+
+  <!-- Start of Confirm Capture Assign Modal -->
+    <div id="confirmCaptureAssignmentModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Assign inspector to this inspection?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{propertyAddress}}</p>
+          </div>
+          <div class= "modal-footer ">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="assign(inspectionid)" >Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Capture Assign Modal-->
+</div>

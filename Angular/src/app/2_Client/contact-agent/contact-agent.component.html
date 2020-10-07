@@ -1,0 +1,79 @@
+<div class="container-fluid bgp-background-gray bgp-padding" >
+
+    <div class="header">
+        <!--Section heading-->
+        <h2 class="h1-responsive font-weight-bold text-center my-4 bgp-text-gold">Contact Black Gold Properties</h2>
+
+        <!--Section description-->
+        <p class="text-center w-responsive mx-auto mb-5 bgp-text-gold">Do you have any questions?</p>
+
+        <div class="row  "  >
+            <div >
+                <form  ngNativeValidate (ngSubmit)="sendmessage()">
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <input placeholder="First Name" type="text" id="name"  name="name" [(ngModel)]="name" class="form-control" required  maxlength="50" >
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <input placeholder="Last Name" type="text" id="surname"  name="surname" [(ngModel)]="surname" class="form-control" required  maxlength="50">
+                            </div>
+                        </div>
+                        <br>
+
+                    <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <input placeholder="Email Address" type="text" id="email"  name="email" [(ngModel)]="email" class="form-control" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                            </div>
+                        </div>
+                        <br>
+
+                    <div class="col-md-12">
+                        <div class="contactNumberWrapper">
+                            <select class="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="countryCode" required>
+                                <option ngDefaultControl *ngFor="let x of countryCodes" [ngValue]="x.dial_code" >{{x.dial_code}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{x.name}}</option>
+                            </select>
+                            <input [(ngModel)]="contact" class="form-control bgp-disabled" placeholder="Contact Number (e.g. 0823568735)" id="contactnumber" name="contactnumber" required  maxlength="15" style="width: 78%; float: right ;" type="tel" pattern="[0-9]{0,}">
+                        </div>
+                        </div>
+                        <br>
+                    </div>
+<br>
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="md-form mb-0">
+                                <input placeholder="Subject" type="text" id="subject"  [(ngModel)]="subject" name="subject" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <textarea  placeholder="Message" type="text" id="message"  name="message" [(ngModel)]="message" rows="2" class="form-control md-textarea " required ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                <br><br>
+
+
+                <div class="text-center text-md-left" style="float:right">
+                  <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Clicking the 'Send Message' button, after providing all your details and the content of your message, will send an email to us immediately" matTooltipPosition="left">
+                    <i class="fas fa-info-circle"></i>
+                   </button>
+                    <button class="btn btn-warning"  type="submit ">Send Message</button>
+                </div>
+                <br>
+              </form>
+
+                <div class="status"></div>
+            </div>
+        </div>
+    </div>
+</div>

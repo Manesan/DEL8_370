@@ -1,0 +1,64 @@
+
+.bgp-text-white{
+  color:white;
+  }
+
+// .bgp-padding{
+//   padding: 10px 10px 10px;
+
+//   }
+
+
+.container {
+  padding: 10px;
+}
+
+
+
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+}
+
+.bgp-card-search{
+  width:100%;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+
+.bgp-smallsearchinput{
+  width: 100%;
+}
+                                                                  //i need to fix this input to be responsive and large
+.bgp-largesearchinput{
+  width: 100%;
+}
+
+
+.bgp-buttons-in-cards{
+  float: right;
+}
+
+.bgp-more-button{
+  height: auto
+}
+
+
+/* .invalid class prevents CSS from automatically applying */
+.invalid input:required:invalid {
+  background: #BE4C54;
+}
+
+/* Mark valid inputs during .invalid state */
+.invalid input:required:valid {
+  background: #17D654;
+}
+
+
+.bgp-image{
+  width: 100%;
+  height: 300px;
+}
+
+

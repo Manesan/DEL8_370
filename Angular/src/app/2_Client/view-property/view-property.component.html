@@ -1,0 +1,260 @@
+
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+
+  <!--Start of property tile-->
+    <div class="col-sm-12">
+      <div class="card text-white bg-dark mb-3 bgp-card card animate__animated  animate__fadeInUp"  >
+        <div class="card-body">
+         <br>
+              <div>
+                <p class="bgp-ref bgp-text-gold">#{{propertyid}}</p>
+              <div class="bgp-property-container" >
+                <div class="bgp-property-img">
+                  <!-- <img class="card-img-top img-fluid" [src]="propertyListingPicture" alt="Card image cap"> -->
+
+                  <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
+                    <div id="carousel1" class="carousel slide" data-ride="carousel">
+                      <div class="carousel-inner" role="listbox">
+                          <div *ngFor="let image of photos; let i = index" class="carousel-item bgp-carousel {{ (i == 0) ? 'active' : ''}}">
+                              <img class="d-block img-fluid w-100" [src]="image" >
+                          </div>
+                      </div>
+                      <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+                      <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+                  </div>
+                  </div>
+
+                    <br><br>
+                   <address title="View on google maps" onclick="addressLink()"> <h2 class="bgp-text-gold bgp-clickable">{{address}}</h2> </address>
+
+                   <p *ngIf="forsale" class="bgp-text-gold" style="font-weight: bolder; font-size: larger;">
+                    R{{price}}  &nbsp;
+                    <button *ngIf="!service.isAdmin() && service.loggedIn()"  style="float: initial;" class="btn btn-outline-warning my-2 my-sm-0 "  title="Apply to purchase this property" data-toggle="modal" data-target="#purchaseModal">
+                     Purchase </button>
+                     <button *ngIf="!service.isAdmin() && service.loggedIn()" type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Click on the 'Purchase' button where you will be prompted to upload your personal documents before making a purchase offer for this property" matTooltipPosition="right">
+                      <i class="fas fa-info-circle"></i>
+                     </button>
+                   </p>
+
+                   <p *ngIf="!forsale" class="bgp-text-gold" style="font-weight: bolder; font-size: larger;">
+                    R{{price}} p/m &nbsp;
+                    <button *ngIf="!service.isAdmin() && service.loggedIn()" style="float: initial;"  class="btn btn-outline-warning my-2 my-sm-0  "  title="Apply to rent this property" (click)="openRentApplication(propertyid)" ><i class="fas fa-file-signature"></i>Rent </button>
+
+                    <button *ngIf="!service.isAdmin() && service.loggedIn()" type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Click on the 'Rent' button and then download and complete the rental application document before completing the rental application process." matTooltipPosition="right">
+                     <i class="fas fa-info-circle"></i>
+                    </button>
+                  </p>
+                    <p class="bgp-text-white bg-dark">{{suburb}}, {{city}}, {{province}}
+                      <br> <br>
+                      <label><i class="fas fa-bed bgp-text-white" title="[Space Type Description]"></i> Bedrooms: </label>  {{bedrooms}}
+                      <br>
+                      <label><i class="fas fa-bath bgp-text-white" title="Space Type Description"></i> Bathrooms: </label> {{bathrooms}}
+                      <br>
+                      <label *ngIf="parking"><i class="fas fa-car bgp-text-white" title="[Feature Description]"></i> Parking Spaces: {{parking}} </label>   </p>
+                      <h3 class="bgp-text-gold">{{propertytype}}</h3>
+                    <h3 class="bgp-text-gold">{{markettype}}</h3>
+
+                    <br>
+                    <br>
+                    <h4 >Who is the agent?</h4>
+                    <h5 class="bgp-text-gold"> {{agentname}} {{agentsurname}}</h5>
+                    <a class="bgp-text-gold" href = "mailto:{{agentemail}}?subject = Feedback&body = Message">Inquire about this property</a>
+                      <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="This link will launch your default mail application and allow you to immediately send a message to {{agentname}} {{agentsurname}}, the agent handling this property " matTooltipPosition="right">
+                        <i class="fas fa-info-circle"></i>
+                       </button>
+                  </div>
+
+                    <div class="bgp-property-info">
+
+                      <!-----Start of one panel-->
+                      <div class="panel-group" >
+                        <div class="panel panel-default" >
+                          <div class="panel-heading" >
+                            <h6 class="panel-title" >
+                              <a data-toggle="collapse" href="#features" class="bgp-text-gold">External Features</a>
+                            </h6>
+                          </div>
+                          <div id="features" class="panel-collapse collapse show" *ngFor = "let x of features">
+                            <ul class="list-group bgp-text-white" >
+                              <li class="list-group-item bgp-modal">{{x.FEATURE.FEATUREDESCRIPTION}} - {{x.PROPERTYFEATUREQUANTITY}}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <br>
+                      <!-----End of one panel-->
+
+
+                        <div class="panel-group">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h6 class="panel-title">
+                                <a data-toggle="collapse" href="#obd" class="bgp-text-gold">Other Details</a>
+                              </h6>
+                            </div>
+                            <div id="obd" class="panel-collapse collapse show" *ngFor = "let x of otherbuildingdetails">
+                              <ul class="list-group bgp-text-white">
+                                <li class="list-group-item bgp-modal">{{x.OTHERBUILDINGDETAILDESCRIPTION}}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+
+
+                        <div class="panel-group">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h6 class="panel-title">
+                                <a data-toggle="collapse" href="#poi" class="bgp-text-gold">Points of Interest Nearby</a>
+                              </h6>
+                            </div>
+                            <div id="poi" class="panel-collapse collapse show" *ngFor = "let x of pointsofinterest">
+                              <ul class="list-group bgp-text-white">
+                                <li class="list-group-item bgp-modal">{{x.POINTOFINTEREST.POINTOFINTERESTNAME}} - {{x.POINTOFINTERESTTYPEDESCRIPTION}}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <a href="/contactagent" class="bgp-text-gold">Contact us</a>
+                        <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="This link will redirect you to the general contact form where you will be able to get in touch with a member of the Black Gold Properties team" matTooltipPosition="right">
+                          <i class="fas fa-info-circle"></i>
+                         </button>
+                    </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of property tile-->
+
+
+
+  <!-- Start of Rental Modal -->
+  <div id="rentalModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-large-modal" >
+        <div class="modal-header"  >
+          <h4 class="modal-title bgp-text-gold">Apply to Rent</h4>
+          <form method="get" action="file.doc">
+            <button (click)="getRentalApplicationForm()" title="Download rental application"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> &nbsp; Rental Application Document</button>
+            <button  type="button" class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Please download and complete the rental application document before completing this rental application process." matTooltipPosition="right">
+              <i class="fas fa-info-circle"></i>
+             </button>
+         </form>
+        </div>
+        <form  class="modal-body scrollbar" id="style-3" ngNativeValidate (ngSubmit)="submitApplicationToRent()">
+        <div >
+           <br>
+         <h5 class="bgp-text-bold bgp-text-gold">Upload the following documents</h5>
+          <br>
+         <p class="bgp-text-bold bgp-text-gold">Completed rental application document (.PDF)</p>
+         <input required class="bgp-text-white" name="rentalapplicationdocument" type="file" accept="application/pdf"  id= "rentalapplicationdocument" (change)="rentalApplicationChangeListener($event)"  />
+          <br><br>
+          <p class="bgp-text-bold bgp-text-gold">Bank statement of the last 3 months from today (.PDF)</p>
+          <input required class="bgp-text-white"name="bankstatement" type="file" accept="application/pdf, application/vnd.ms-word"  id= "bankstatement" (change)="bankStatementChangeListener($event)" />
+           <br><br>
+           <p class="bgp-text-bold bgp-text-gold">Certified copy of ID/Passport (.PDF)</p>
+           <input required class="bgp-text-white" name="iddocument" type="file" accept="application/pdf, application/vnd.ms-word"  id= "iddocument" (change)="idDocumentChangeListener($event)" />
+          <br><br>
+          
+          <p class="bgp-text-bold bgp-text-gold">Term</p>
+          <select [(ngModel)]="termid" class ="form-control" name="terms" required   id="terms">
+            <option *ngFor="let x of terms" [ngValue]="x.TERMID">{{x.TERMDESCRIPTION}}</option>
+          </select>
+
+          <br>
+          <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+          <input [(ngModel)]="startdate" required class ="form-control" type="date" id="startDate" name="startDate" min="{{this.dateToday}}" >
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Submit</button>
+          &nbsp;
+          <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <!-----End of Rental Modal-->
+
+
+  <!-- Start of Confirm Rental Modal -->
+  <div id="confirmRentalModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal ">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Submit application to rent?</h4>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="applyToRent()">Yes</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-----End of Confirm Rental Modal-->
+
+
+  <!-- Start of Purchase Modal -->
+    <div id="purchaseModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal" >
+          <div class="modal-header"  >
+            <h4 class="modal-title bgp-text-gold">Make a Purchase Offer</h4>
+          </div>
+          <form ngNativeValidate (ngSubmit)="submitPurchase()">
+          <div class="modal-body">
+            <p class="bgp-text-bold bgp-text-gold">Bank statement of the last 3 months from today (.PDF)</p>
+            <input class="bgp-text-white"name="valuationdocument" type="file" accept="application/pdf"  id= "uploadButton2" required (change)="bankStatementChangeListener($event)"/>
+             <br><br>
+             <p class="bgp-text-bold bgp-text-gold">Copy of ID/Passport (.PDF)</p>
+             <input class="bgp-text-white"name="valuationdocument" type="file" accept="application/pdf"  id= "uploadButton3" required (change)="idDocumentChangeListener($event)" />
+            <br><br>
+            <p class="bgp-text-bold bgp-text-gold">Offer Amount (R)</p>
+            <input [(ngModel)]="offeramount" name="offeramount" class="form-control" style="width: 250px;" required>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  >Submit</button>
+            &nbsp;
+            <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-----End of Purchase Modal-->
+
+  <!-- Start of Confirm Purchase Modal -->
+  <div id="confirmPurchaseModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal ">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Submit purchase offer?</h4>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="applyPurchase()">Yes</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-----End of Confirm Purchase Modal-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

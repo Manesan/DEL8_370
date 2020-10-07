@@ -1,0 +1,208 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+  <!------->
+    <div class="header">
+      <h1>Valuations </h1>
+      <h5>View and maintain valuations </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+      <div class="col-sm-12 mb-5">
+        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#valuationreportModal" title="Generate a report for valuations"><i class="fas fa-chart-pie"></i></button>
+        <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      </div>
+      <br>
+  <!------->
+
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor="let x of valuations">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-white">{{x.VALUATIONDATE}}</h6>
+        <br>
+        <div class="scrollbar bgp-card-textbox-medium" id="style-3">
+          <br>
+          <p class="card-subtitle">{{x.IVSTATUSDESCRIPTION}}</p>
+        </div>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#assignModal" title="Assign a valuer" (click)="view(x.VALUATIONID)"><i class="far fa-user"></i></button>
+            &nbsp;
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#captureModal" title="View this valuation" (click)="view(x.VALUATIONID)"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of View Modal -->
+
+        <div id="captureModal" class="modal fade " role="dialog"  data-backdrop="static">
+          <div class="modal-dialog modal-dialog-centered " >
+            <div class="modal-content bgp-large-modal" >
+              <div class="modal-header">
+                <h4 class="modal-title bgp-text-gold" id="title">View Valuation</h4>
+                <div class="bgp-buttons-in-cards">
+                  <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Capture this valuation" onclick="editValuation()"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+              </div>
+              <form class="scrollbar" id="style-3" ngNativeValidate (ngSubmit)="submitCapture()">
+              <div class="modal-body">
+                <div style="text-align: center;"><p  class="bgp-text-bold bgp-text-gold">{{propertyAddress}}</p>
+                  <br>
+                  <button (click)="getValuationDocument()" id="downloadDocument" title="Download valuation document"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> &nbsp; Valuation Document</button>
+                </div>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Valuation Date</p>
+                <input class ="form-control" type="Date" id="Date" name="Date" disabled id= "input2" ngDefaultControl [(ngModel)]="valuationDate">
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Valuation Description</p>
+                <input class="form-control" ngDefaultControl [(ngModel)]="valuationDescription" disabled id= "input3" name="input3">
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Valuer</p>
+                <input disabled class="form-control" ngDefaultControl ngDefaultControl [(ngModel)]="valuer" id="input4" name="input4">
+                  <!-- <select ngDefaultControl [(ngModel)]="valuerid" class ="form-control" name="valuerInput" id="valuerInput" style="visibility: hidden;">
+                    <option ngDefaultControl [(ngModel)]="valuer" *ngFor="let x of valuers" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                  </select> -->
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">IV Status</p>
+                <input class="form-control" ngDefaultControl [(ngModel)]="valuationStatusDescription" disabled id= "input6" name="input6">
+                <!-- <select ngDefaultControl [(ngModel)]="statusid" class ="form-control" name="valuationStatusInput" id="valuationStatusInput" style="visibility: hidden;">
+                  <option ngDefaultControl [(ngModel)]="valuationStatusDescription" *ngFor="let x of valuationStatuses" [ngValue]="x.IVSTATUSID">{{x.IVSTATUSDESCRIPTION}}</option>
+                </select> -->
+                <br>
+                <p class="bgp-text-bold bgp-text-gold" style="visibility:hidden" id="label1">Valuation Document (.PDF)</p>
+                <input class="bgp-text-white"name="valuationdocument" type="file" accept="application/pdf"  id= "uploadButton" style="visibility:hidden" required (change)="valuationDocumentChangeListener($event)"/>
+              </div>
+              <div class= "modal-footer ">
+                  <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Capture</button>
+                  &nbsp;
+                  <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+
+  <!-----End of View Modal-->
+
+  <!-- Start of Confirm Capture Modal -->
+      <div id="confirmCaptureModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Capture this valuation?</h4>
+            </div>
+            <div class="modal-body">
+              <p class="bgp-text-white">{{propertyAddress}}</p>
+            </div>
+            <div class= "modal-footer ">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="capture(valuationid)" >Yes</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-----End of Confirm Capture Modal-->
+
+
+  <!-- Start of Valuation Report Modal -->
+  <div id="valuationreportModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Generate Valuation Report</h4>
+        </div>
+        <form  ngNativeValidate (ngSubmit)="submitGenerateValuation()">
+          <div class="modal-body">
+            <p style="text-align: center;" class="bgp-text-bold bgp-text-gold">Please provide the valuation report criteria</p>
+            <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+            <input class ="form-control" [(ngModel)]="startDate" type="date" id="startDate" name="startDate" required>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">End Date</p>
+            <input class ="form-control" type="date" id="endDate" name="endDate" [(ngModel)]="endDate" required>
+          </div>
+          <div class= "modal-footer ">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Generate Report</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<!-----End of Valuation Report Modal-->
+
+
+  <!-- Start of Assign Modal -->
+      <div id="assignModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold" id="title">Assign Valuer</h4>
+            </div>
+            <br>
+            <h6 class="bgp-text-gold" style="text-align: center;" id="prompt">Choose a valuer to assign to this valuation</h6>
+            <form  ngNativeValidate (ngSubmit)="submitAssign()">
+            <div class="modal-body scrollbar" id="style-3">
+              <p class="bgp-text-bold bgp-text-gold">Valuer</p>
+              <select name="valuerid" ngDefaultControl [(ngModel)]="valuerid" id="valuerid" class ="form-control" required>
+                <option></option>
+                <option name="valuers" *ngFor="let x of valuers" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+              </select>
+              <br>
+            </div>
+            <div class= "modal-footer ">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton">Save</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  <!-----End of Assign Modal-->
+
+  <!-- Start of Confirm Capture Assign Modal -->
+      <div id="confirmCaptureAssignmentModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Assign valuer to this valuation?</h4>
+            </div>
+            <div class="modal-body">
+              <p class="bgp-text-white">{{propertyAddress}}</p>
+            </div>
+            <div class= "modal-footer ">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="assign(valuationid)" >Yes</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-----End of Confirm Capture Assign Modal-->
+</div>
+
+
+
+
+
+
+
+
+
+
+

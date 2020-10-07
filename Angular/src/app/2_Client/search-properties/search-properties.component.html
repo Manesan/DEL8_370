@@ -1,0 +1,191 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+<!--Start of search tile-->
+  <div class="col-sm-12">
+    <div class="card text-white bg-dark mb-3 bgp-card-search "  >
+      <div class="card-body">
+        <h5 class="card-title bgp-text-gold" style="text-align: center">Black Gold Properties</h5>
+       <br>
+       <div>
+        <form ngNativeValidate (ngSubmit)="search()">
+        <div class="container">
+          <div class="row">
+              <div class="col-sm-3">
+                <p class="bgp-text-gold">Market Type</p>
+                <select  [(ngModel)]="markettype" class ="form-control bgp-smallsearchinput" name="markettype" id="markettype"  required>
+                  <option *ngFor = "let x of markettypes"  [ngValue]= "x.MARKETTYPEID">{{x.MARKETTYPEDESCRIPTION}}</option>
+                </select>
+                <br>
+              </div>
+
+              <div class="col-sm-3">
+                <p class="bgp-text-gold">Property Type</p>
+                <select [(ngModel)]="propertytype" class ="form-control bgp-smallsearchinput" name="propertytype" id="propertytype" required>
+                  <option  *ngFor = "let x of propertytypes" [ngValue]= "x.PROPERTYTYPEID">{{x.PROPERTYTYPEDESCRIPTION}}</option>
+                </select>
+                <br>
+              </div>
+
+              <!-- Div for auto-popup-->
+              <div class="col-sm-6 autocomplete">
+                <p class="bgp-text-gold">Area</p>
+                <input list="area" [(ngModel)]="area" class="form-control bgp-largesearchinput " id="myInput" name ="area" placeholder="Search by area or suburb" required>
+                <datalist id="area">
+                  <option *ngFor="let area of areas">{{ area }}</option>
+                </datalist>
+              </div>
+
+              <div class="col-sm-6">
+
+                <br>
+                <button type="button" onclick="hideDiv()" class="btn btn-outline-warning my-2 my-sm-0 bgp-more-button"  title="Search"><i id="updownicon" class="fas fa-chevron-down"></i> More search options</button>
+                <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Clicking the 'More Search Options' button will display optional search parameters that you may select in order to help find the best properties for you" matTooltipPosition="right">
+                  <i class="fas fa-info-circle"></i>
+                 </button>
+              </div>
+             </div>
+          <br>
+      </div>
+
+      <div class="container" id="moreOptions" style="display: none;">
+        <div class="row">
+            <div class="col-sm-2">
+              <label>Price From:</label>
+              <select [(ngModel)]="pricefrom" class ="form-control bgp-smallsearchinput" name="priceFrom" id="priceFrom">
+                <option [ngValue]=0 >0</option>
+                <option [ngValue]=150000 >150 000</option>
+                <option [ngValue]=300000 >300 000</option>
+                <option [ngValue]=500000 >500 000</option>
+                <option [ngValue]=800000 >800 000</option>
+                <option [ngValue]=1000000 >1 000 000</option>
+                <option [ngValue]=1200000 >1 200 000</option>
+                <option [ngValue]=1500000 >1 500 000</option>
+                <option [ngValue]=1750000 >1 750 000</option>
+                <option [ngValue]=2000000 >2 000 000</option>
+                <option [ngValue]=2500000 >2 500 000</option>
+                <option [ngValue]=3000000 >3 000 000</option>
+                <option [ngValue]=4000000 >4 000 000</option>
+                <option [ngValue]=5000000 >5 000 000</option>
+                <option [ngValue]=6000000 >6 000 000</option>
+                <option [ngValue]=7000000 >7 000 000</option>
+                <option [ngValue]=8000000 >8 000 000</option>
+                <option [ngValue]=9000000 >9 000 000</option>
+                <option [ngValue]=10000000 >10 000 000</option>
+                <option [ngValue]=12500000 >12 500 000</option>
+                <option [ngValue]=15000000 >15 000 000</option>
+                <option [ngValue]=17500000 >17 500 000</option>
+                <option [ngValue]=20000000 >20 000 000</option>
+                <option [ngValue]=30000000 >30 000 000</option>
+                <option [ngValue]=50000000 >50 000 000</option>
+                <option [ngValue]=100000000 >100 000 000</option>
+              </select>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col-sm-2">
+              <label>Price To:</label>
+              <select [(ngModel)]="priceto" class ="form-control bgp-smallsearchinput" name="priceTo" id="priceTo">
+                <option [ngValue]=150000 >150 000</option>
+                <option [ngValue]=300000 >300 000</option>
+                <option [ngValue]=500000 >500 000</option>
+                <option [ngValue]=800000 >800 000</option>
+                <option [ngValue]=1000000 >1 000 000</option>
+                <option [ngValue]=1200000 >1 200 000</option>
+                <option [ngValue]=1500000 >1 500 000</option>
+                <option [ngValue]=1750000 >1 750 000</option>
+                <option [ngValue]=2000000 >2 000 000</option>
+                <option [ngValue]=2500000 >2 500 000</option>
+                <option [ngValue]=3000000 >3 000 000</option>
+                <option [ngValue]=4000000 >4 000 000</option>
+                <option [ngValue]=5000000 >5 000 000</option>
+                <option [ngValue]=6000000 >6 000 000</option>
+                <option [ngValue]=7000000 >7 000 000</option>
+                <option [ngValue]=8000000 >8 000 000</option>
+                <option [ngValue]=9000000 >9 000 000</option>
+                <option [ngValue]=10000000 >10 000 000</option>
+                <option [ngValue]=12500000 >12 500 000</option>
+                <option [ngValue]=15000000 >15 000 000</option>
+                <option [ngValue]=17500000 >17 500 000</option>
+                <option [ngValue]=20000000 >20 000 000</option>
+                <option [ngValue]=30000000 >30 000 000</option>
+                <option [ngValue]=50000000 >50 000 000</option>
+                <option [ngValue]=100000000 >100 000 000</option>
+              </select>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col-sm-2">
+              <label>Bedroom:</label>
+              <select [(ngModel)]="bedroom" class ="form-control bgp-smallsearchinput" name="bedroom" id="bedroom">
+                <option [ngValue]=1>1 or more</option>
+                <option [ngValue]=2>2 or more</option>
+                <option [ngValue]=3>3 or more</option>
+                <option [ngValue]=4>4 or more</option>
+                <option [ngValue]=5>5 or more</option>
+              </select>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col-sm-2">
+              <label>Bathroom:</label>
+              <select [(ngModel)]="bathroom" class ="form-control bgp-smallsearchinput" name="bathroom" id="bathroom">
+                <option [ngValue]=1>1 or more</option>
+                <option [ngValue]=2>2 or more</option>
+                <option [ngValue]=3>3 or more</option>
+                <option [ngValue]=4>4 or more</option>
+                <option [ngValue]=5>5 or more</option>
+              </select>
+            </div>
+            <br>
+            <br>
+        </div>
+        <br>
+    </div>
+
+
+          <div class="bgp-buttons-in-cards">
+            <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Click the 'Search' button after providing the necessary filters to start browsing the available results" matTooltipPosition="right">
+              <i class="fas fa-info-circle"></i>
+             </button>
+            <button  type="submit"  class="btn btn-outline-warning my-2 my-sm-0"  title="Search"><i class="fas fa-search-location"></i> Search</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+<!--End of search tile-->
+
+
+
+  <h2 style="text-align: center;">Featured Properties</h2>
+  <br>
+  <div class="container-fluid bgp-background-gray">
+    <div class="row">
+      <!--Start of 1st featured tile-->
+      <div class="col-sm-4" *ngFor="let x of featuredproperties; let i = index">
+        <div class="card animate__animated  animate__slideInRight bg-dark">
+          <a (click)="view(x.PROPERTYID)" title="View this property"><img class="card-img-top img-fluid bgp-image" [src]="photos[i]" alt="Card image cap"></a>
+          <div class="card-block" style="padding: 20px 20px 18px 20px;">
+            <h3 class="card-title bgp-text-gold">R{{x?.Price}}</h3>
+            <h5 class="card-text bgp-text-white">{{x?.PROPERTYTYPEDESCRIPTION}}</h5>
+            <p class="bgp-text-white bg-dark">{{x?.SUBURBNAME}}
+              <br>
+              <i *ngIf="x.Bedrooms" class="fas fa-bed bgp-text-white" title="[Bedrooms]"></i>  {{x?.Bedrooms?.PROPERTYSPACEQUANTITY}}
+              &nbsp;
+              <i *ngIf="x.Bathrooms" class="fas fa-bath bgp-text-white" title="Bathrooms"></i> {{x?.Bathrooms?.PROPERTYSPACEQUANTITY}}
+              &nbsp;
+              <i *ngIf="x.Parking" class="fas fa-car bgp-text-white" title="Parking"></i> {{x?.Parking?.PROPERTYFEATUREQUANTITY}} </p>
+            <h4 class="bgp-text-gold" >{{x?.MARKETTYPEDESCRIPTION}}
+            <button (click)="view(x.PROPERTYID)" class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards"  title="View this property"><i class="far fa-eye"></i> </button>
+            </h4>
+          </div>
+        </div>
+      </div>
+    <!--End of 1st featured tile-->
+    <br>
+
+    </div>
+  </div>
+  <br>
+<app-about-us></app-about-us>
+</div>
+

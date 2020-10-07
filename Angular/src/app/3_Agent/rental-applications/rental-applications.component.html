@@ -1,0 +1,398 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Rental Applications </h1>
+      <h5>View and accept all rental applications </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+    <br>
+  <!------->
+
+
+  <h2>Pending</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of pendingRentalapplication">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Approved</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let y of approvedRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{y.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{y.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{y.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{y.USERNAME}} {{y.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{y.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(y.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Rejected</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of rejectedRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Pending Agent Extension</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of agentExtensionRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Pending Agent Renewal </h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of agentRenewalRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Rejected By Client </h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of clientRejectionRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Approved Extension </h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of approvedExtensionRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <h2>Approved Renewal </h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of approvedRenewalRentalApplications">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle bgp-text-gold">{{x.SUBURBNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALAPPLICATIONID)" title="View this rental application"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br><br>
+
+
+  <!-- Start of Edit/view Modal -->
+    <div id="viewModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-large-modal" >
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Rental Application</h4>
+            <div class="bgp-buttons-in-cards">
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openAccept(rentalid)"  title="Accept this rental application"><i class="fas fa-check-circle"></i></button>
+              &nbsp;
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openReject(rentalid)"  title="Reject this rental application"><i class="fas fa-times-circle"></i></button>
+            </div>
+          </div>
+          <div class="modal-body scrollbar" id="style-3">
+            <div style="text-align: center;"> <h6 class="bgp-text-gold" style="text-align: center;" id="promptInput"></h6>
+
+                <button (click)="getRentalApplication()" id="downloadDocument" title="View rental application" type="submit" class="btn btn-outline-warning my-2 my-sm-0"><i class="far fa-arrow-alt-circle-down"></i> View Rental Application</button>
+
+            </div>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Property Address</p>
+            <input [(ngModel)]="address" class="form-control" name="" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Suburb</p>
+            <input [(ngModel)]="suburb" class="form-control" name="" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold"> Date</p>
+            <input [(ngModel)]="date" class="form-control" name="" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Status</p>
+            <input [(ngModel)]="status" class="form-control" name="" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Term</p>
+            <input [(ngModel)]="term"  class="form-control" name="" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Comment</p>
+            <textarea [(ngModel)]="note" disabled class="form-control" name="commentInput" id="commentsInput" disabled="false"></textarea>
+            <br>
+
+            <!-----Start of one panel-->
+              <div class="panel-group" >
+                <div class="panel panel-default" >
+                  <div class="panel-heading" >
+                    <h4 class="panel-title" >
+                      <a data-toggle="collapse" href="#applicantdetails" class="bgp-text-gold">Applicant details</a>
+                    </h4>
+                  </div>
+                  <div id="applicantdetails" class="panel-collapse collapse hide" >
+                    <p class="bgp-text-bold bgp-text-gold">Name</p>
+                    <input [(ngModel)]="name" class="form-control" name="" disabled = "true">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Surname</p>
+                    <input [(ngModel)]="surname" class="form-control" value="[User Surname]" disabled = "true">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Email Address</p>
+                    <input [(ngModel)]="email" class="form-control" value="[User Email]" disabled = "true" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Contact Number</p>
+                    <input [(ngModel)]="contact" class="form-control" disabled = "true" maxlength="20">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Documents</p>
+                    <div class=""  *ngFor = "let x of clientdocuments">
+                      <span (click)="getClientDocument(x.CLIENTDOCUMENTID)"  class="bgp-text-white fake-link">{{x.CLIENTDOCUMENTTYPEDESCRIPTION}}</span>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+            <!-----End of one panel-->
+          </div>
+          <div class= "modal-footer">
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Edit/view Modal-->
+
+  <!-- Start of Confirm acceptance Modal -->
+    <div id="confirmAcceptanceModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Accept this rental application?</h4>
+          </div>
+          <form ngNativeValidate (ngSubmit)="accept(rentalid)">
+          <div class="modal-body">
+            <p class="bgp-text-white">{{address}}</p>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Term</p>
+            <input [(ngModel)]="term"  class="form-control" name="term" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Comment</p>
+            <textarea [(ngModel)]="note" class="form-control" name="commentInput" id="commentsInput"></textarea>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Rental Agreement (.PDF)</p>
+            <input class="bgp-text-white" id="RentalAgreement" name="RentalAgreement" type="file" accept="application/pdf, application/vnd.ms-word" required (change)="rentalAgreementChangeListener($event)"/>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  >Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Acceptance Modal-->
+
+
+  <!-- Start of Confirm Rejection Modal -->
+    <div id="confirmRejectionModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Reject this rental application?</h4>
+          </div>
+          <form ngNativeValidate (ngSubmit)="reject(rentalid)">
+          <div class="modal-body">
+            <p class="bgp-text-white">{{address}}</p>
+            <p class="bgp-text-bold bgp-text-gold">Comment</p>
+            <textarea [(ngModel)]="note" class="form-control" name="commentInput" id="commentsInput"></textarea>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Rejection Modal-->

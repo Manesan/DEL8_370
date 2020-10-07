@@ -1,0 +1,519 @@
+
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Rental Agreements </h1>
+      <h5>View and maintain rental agreements </h5>
+    </div>
+    <br><br>
+  <!------->
+
+
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+    <br>
+  <!------->
+  <h2>Concluded</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of concludedRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <form method="get" action="file.pdf">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Rented</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of rentedRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <form method="get" action="file.pdf">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+  <h2>Pending Agent Termination</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of cancelRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <form method="get" action="file.pdf">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Pending Client Acceptance</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of pendingClientAcceptanceRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <form method="get" action="file.pdf">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+  <h2>Rental Renewed</h2>
+  <br>
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of rentalRenewedRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <form method="get" action="file.pdf">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Rental Extended</h2>
+  <br>
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3"  *ngFor = "let x of rentalExtendedRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Pending Client Extension Acceptance</h2>
+  <br>
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3"  *ngFor = "let x of pendingClientExtensionRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Pending Client Renewal Acceptance</h2>
+  <br>
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3"  *ngFor = "let x of pendingClientRenewalRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+  <h2>Pending Agent Extension</h2>
+  <br>
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+  <!--Start of one tile-->
+    <div class="col-sm-3"  *ngFor = "let x of pendingAgentExtensionRentalAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+          <br>
+          <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALAPPLICATIONID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+  <!------>
+    </div>
+  <!----End of Rows-->
+  <br>  <br>
+
+
+
+
+  <!-- Start of Edit/view Modal -->
+    <div id="viewModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-large-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Rental Agreement</h4>
+          </div>
+          <div class="modal-body scrollbar" id="style-3">
+            <div style="text-align: center;">
+              <h6 class="bgp-text-gold" style="text-align: center;" id="promptInput"></h6>
+              <button (click)="getRentalAgreement()" id="downloadDocument" title="View rental agreement"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " >
+                <i class="far fa-arrow-alt-circle-down"> </i> Rental Agreement
+              </button>
+            </div>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Property Address</p>
+              <input [(ngModel)]="address" class="form-control" id="address" name="address" disabled = "true">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Starting Date</p>
+              <input [(ngModel)]="startdate"  class="form-control" id="startdate" name="startdate" disabled = "true">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Ending Date</p>
+              <input [(ngModel)]="enddate"  class="form-control" id="enddate" name="enddate" disabled = "true">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Rental Status</p>
+              <input [(ngModel)]="status"  class="form-control" id="status" name="status" disabled = "true">
+              <br>
+              <!-----Start of one panel-->
+              <div class="panel-group" >
+                <div class="panel panel-default" >
+                  <div class="panel-heading" >
+                    <h4 class="panel-title" >
+                      <a data-toggle="collapse" href="#clientdetails" class="bgp-text-gold">Client details</a>
+                    </h4>
+                  </div>
+                  <div id="clientdetails" class="panel-collapse collapse hide" >
+                    <p class="bgp-text-bold bgp-text-gold">Client Name</p>
+                    <input [(ngModel)]="name" class="form-control" name="name " id="name" disabled = "true">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Client Surname</p>
+                    <input [(ngModel)]="surname" class="form-control" id="surname" name="surname " disabled = "true">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Client Contact Number</p>
+                    <input  [(ngModel)]="contact" class="form-control"  name="contact " id="contact" disabled = "true" maxlength="20" pattern="\+([0-9]{1,})">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Client Email</p>
+                    <input [(ngModel)]="email"  class="form-control" name="email " id="email" disabled = "true">
+                  </div>
+                </div>
+              </div>
+              <br>
+            <!-----End of one panel-->
+          </div>
+          <div class= "modal-footer">
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Edit/view Modal-->
+
+
+
+
+   <!-- RENTAL AGREEMENT EXTENSIONS -->
+  <!-- Start of Edit/view Modal -->
+  <div id="extendModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold" id="title">View Rental Agreement</h4>
+          <div class="bgp-buttons-in-cards">
+            <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openAccept(rentalid)"  title="Accept this rental agreement extension"><i class="fas fa-check-circle"></i></button>
+              &nbsp;
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openReject(rentalid)"  title="Reject this rental rental agreement extension"><i class="fas fa-times-circle"></i></button>
+          </div>
+        </div>
+        <div class="modal-body scrollbar" id="style-3">
+          <div style="text-align: center;">
+            <h6 class="bgp-text-gold" style="text-align: center;" id="promptInput"></h6>
+            <button id="downloadDocument" title="View rental agreement"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " >
+              <a href="{{rentalAgreementDocument}}" target="_blank"><i class="far fa-arrow-alt-circle-down"> </i>Rental Agreement </a>
+            </button>
+          </div>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Property Address</p>
+            <input [(ngModel)]="address"  class="form-control" id="address" name="address" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Client</p>
+            <input  [(ngModel)]="user" class="form-control" id="user" name="user" disabled = "true">
+            <br>
+        </div>
+        <div class= "modal-footer">
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-----End of Edit/view Modal-->
+
+  <!-- Start of Confirm extension Modal -->
+  <div id="confirmAcceptExtendModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Extend rental agreement?</h4>
+        </div>
+        <form ngNativeValidate (ngSubmit)="accept(rentalid)">
+        <div class="modal-body">
+          <p class="bgp-text-white">{{address}}</p>
+          <br>
+          <p class="bgp-text-bold bgp-text-gold">Comment</p>
+          <textarea [(ngModel)]="note"  class="form-control" name="commentInput" id="commentsInput"></textarea>
+          <br>
+          <p class="bgp-text-bold bgp-text-gold">Rental Agreement (.PDF)</p>
+          <input class="bgp-text-white" name="RentalAgreement" type="file" accept="application/pdf" required/>
+        </div>
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit">Yes</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+<!-----End of Confirm Extension Modal-->
+
+
+<!-- Start of Confirm extension Modal -->
+  <div id="confirmRejectExtendModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Reject rental agreement extension?</h4>
+          </div>
+          <form ngNativeValidate (ngSubmit)="reject(rentalid)">
+          <div class="modal-body">
+            <p class="bgp-text-white">{{address}}</p>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Comment</p>
+            <textarea [(ngModel)]="note"  class="form-control"  name="note" id="note"></textarea>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+          </div>
+        </form>
+        </div>
+      </div>
+  </div>
+<!-----End of Confirm Extension Modal-->
+
+
+
+
+  <!-- Start of Cancel Modal -->
+    <div id="viewCancelModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-large-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Rental Agreement</h4>
+            <div class="bgp-buttons-in-cards">
+            </div>
+          </div>
+          <div class="modal-body scrollbar" id="style-3">
+            <div style="text-align: center;"> <h6 class="bgp-text-gold" style="text-align: center;" id="promptInput"></h6>
+              <button (click)="getRentalAgreement()" id="downloadDocument" title="View rental agreement"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " >
+                <i class="far fa-arrow-alt-circle-down"> </i> Rental Agreement
+              </button>
+            </div>
+            <p class="bgp-text-bold bgp-text-gold">Property Address</p>
+            <input [(ngModel)]="address" class="form-control" id="address" name="address" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Starting Date</p>
+            <input [(ngModel)]="startdate"  class="form-control" id="startdate" name="startdate" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Ending Date</p>
+            <input [(ngModel)]="enddate"  class="form-control" id="enddate" name="enddate" disabled = "true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Rental Status</p>
+            <input [(ngModel)]="status"  class="form-control" id="status" name="status" disabled = "true">
+              <br>
+                <!-----Start of one panel-->
+                          <div class="panel-group" >
+                            <div class="panel panel-default" >
+                              <div class="panel-heading" >
+                                <h4 class="panel-title" >
+                                  <a data-toggle="collapse" href="#clientdetails" class="bgp-text-gold">Client details</a>
+                                </h4>
+                              </div>
+                              <div id="clientdetails" class="panel-collapse collapse hide" >
+                                <p class="bgp-text-bold bgp-text-gold">Client Name</p>
+                                <input [(ngModel)]="name" class="form-control" name="name " id="name" disabled = "true">
+                                <br>
+                                <p class="bgp-text-bold bgp-text-gold">Client Surname</p>
+                                <input [(ngModel)]="surname" class="form-control" id="surname" name="surname " disabled = "true">
+                                <br>
+                                <p class="bgp-text-bold bgp-text-gold">Client Contact Number</p>
+                                <input [(ngModel)]="contact" class="form-control"  name="contact " id="contact" disabled = "true" maxlength="20">
+                                <br>
+                                <p class="bgp-text-bold bgp-text-gold">Client Email</p>
+                                <input [(ngModel)]="email"  class="form-control" name="email " id="email" disabled = "true">
+                              </div>
+                            </div>
+                          </div>
+                          <br>
+                 <!-----End of one panel-->
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" data-target="#confirmCancelModal" title="Cancel this rental agreement">Cancel rental agreement</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Cancel Modal-->
+
+  <!-- Start of Confirm cancellation Modal -->
+    <div id="confirmCancelModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Cancel rental agreement?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{address}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="delete(cancelRentalAgreements[0].RENTALID)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Cancellation Modal-->

@@ -1,0 +1,157 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+  <!------->
+  <div class="header">
+    <h1>Provinces </h1>
+    <h5>View and maintain provinces </h5>
+  </div>
+  <br><br>
+  <!------->
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5" >
+    <button title="Add a province" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"   ></i></button>
+    <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+  </div>
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+      <div class="col-sm-3" *ngFor = "let x of provinces">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+        <div class="card-body">
+        <h5 class="card-title bgp-text-gold">{{x.PROVINCENAME}}</h5>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.PROVINCEID)" data-toggle="modal" data-target="#editModal" title="View this province"><i class="far fa-eye"></i></button>
+              &nbsp;
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#deleteModal" title="Delete this province" (click)="deleteBinding(x.PROVINCEID)"><i class="far fa-trash-alt"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+  </div>
+  <!----End of Rows-->
+
+    <!-- Start of Edit Modal -->    
+      <div id="editModal" class="modal fade" role="dialog" [style.display]="showViewModal ? 'block' : 'none'" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold" id="title">View Province</h4>
+              <div class="bgp-buttons-in-cards">
+                <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this province" onclick="editSingleAttributeCRUD('Province')"><i class="fas fa-pencil-alt"></i></button>
+              </div>
+            </div>
+            <div id="prompt" style="display: none;">
+              <br >
+              <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated province details</h6>
+            </div>
+            <form  ngNativeValidate (ngSubmit)="submitUpdate()">
+            <div class="modal-body">
+              <p class="bgp-text-bold bgp-text-gold">Name</p>
+              <input [(ngModel)]="nameInput" disabled id="descriptionInput" name="descriptionInput" class="form-control" required  maxlength="50">
+            </div>
+            <div class= "modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Update</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+          </div>
+        </form>
+          </div>
+        </div>
+      </div>      
+  <!-----End of Edit Modal-->
+
+  <!-- Start of Confirm Edit Modal -->
+    <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Update this province?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="update(provinceid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Edit Modal-->
+
+  <!-- Start of Add Modal -->
+    <div id="addModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal" >
+          <div class="modal-header"  >
+            <h4 class="modal-title bgp-text-gold">Add Province</h4>
+          </div>
+          <br>
+          <h6 class="bgp-text-gold" style="text-align: center;" id="prompt">Please provide the province details</h6>
+          <form  ngNativeValidate (ngSubmit)="submitAdd()">
+          <div class="modal-body">
+              <p class="bgp-text-bold bgp-text-gold">Name</p>
+              <input [(ngModel)]="nameInput" class="form-control" id="nameInput" name="nameInput" class="form-control" value=""  required maxlength="50">
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Add</button>
+            &nbsp;
+            <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-----End of Add Modal-->
+
+  <!-- Start of Confirm Add Modal -->
+    <div id="confirmAddModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal ">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Add this province?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{nameInput}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="add()">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Add Modal-->  
+
+
+  <!-- Start of Delete Modal -->
+  <div id="deleteModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header modal-dialog-centered">
+          <h4 class="modal-title bgp-text-gold">Are you sure you want to delete this province?</h4>
+        </div>
+        <div class="modal-body">
+          <p class="bgp-text-white">{{nameInput}}</p>
+        </div>
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="delete(provinceid)">Yes</button>
+          &nbsp;  
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!-----End of Delete Modal-->
+</div>
+

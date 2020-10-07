@@ -1,0 +1,128 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Purchase Offers </h1>
+      <h5>View and accept all purchase offers </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+    </div>
+    <br>
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of purchaseOffers">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <br>
+          <h6 class="card-subtitle">{{x.OFFERDATE}}</h6>
+          <br>
+          <h6 class="card-subtitle">R {{x.OFFERAMOUNT}}</h6>
+
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.PURCHASEOFFERID)" title="View this employee"><i class="far fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of Edit/view Modal -->
+  <div id="viewModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Purchase Offer</h4>
+            <div class="bgp-buttons-in-cards">
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openAccept(purchaseofferid)"  title="Accept this purchase offer"><i class="fas fa-check-circle"></i></button>
+              &nbsp;
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openReject(purchaseofferid)"  title="Reject this purchase offer"><i class="fas fa-times-circle"></i></button>
+            </div>
+          </div>
+          <div class="modal-body">
+              <p class="bgp-text-bold bgp-text-gold">Property Address</p>
+              <input  [(ngModel)]="address" disabled class="form-control bgp-disabled"  disabled = "true" id="address" name="address">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Purchase Offer Date</p>
+              <input [(ngModel)]="date" class="form-control" id="date" name="date" disabled = "true">
+              <br>
+              <p  class="bgp-text-bold bgp-text-gold" >Purchase Offer Amount (R)</p>
+                <input style="float: left;" type="number" disabled id="amount" name="amount" class="form-control" style="width: 250px;" [(ngModel)]="amount">
+
+          </div>
+          <div class= "modal-footer">
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Edit/view Modal-->
+
+    <!-- Start of Confirm acceptance Modal -->
+      <div id="confirmAcceptanceModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+            <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Accept purchase offer?</h4>
+            </div>
+            <form ngNativeValidate (ngSubmit)="accept(purchaseofferid)">
+            <div class="modal-body">
+              <p class="bgp-text-white">{{address}}</p>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Purchase offer acceptance description</p>
+              <textarea [(ngModel)]="note"  class="form-control"  id="note" name="note" maxlength="500"></textarea>
+              <br>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Sale Agreement (.PDF)</p>
+              <input class="bgp-text-white" id="saleagreementdocument" name="SaleAgreement" type="file" accept="application/pdf" required (change)="saleAgreementChangeListener($event)"/>
+            </div>
+            <div class= "modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  >Yes</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    <!-----End of Confirm Acceptance Modal-->
+
+
+  <!-- Start of Confirm Rejection Modal -->
+    <div id="confirmRejectionModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Reject purchase offer?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{address}}</p>
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Purchase offer rejection description</p>
+            <textarea [(ngModel)]="note" class="form-control" name="note" id="note" maxlength="500"></textarea>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="reject(purchaseofferid)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Rejection Modal-->

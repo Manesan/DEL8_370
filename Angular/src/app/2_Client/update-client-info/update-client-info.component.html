@@ -1,0 +1,178 @@
+<div class="container-fluid bgp-background-gray bgp-padding" >
+  <div  class="header">
+    <h2 class="h1-responsive font-weight-bold text-center my-4 bgp-text-gold " >My Profile</h2>
+
+    <div>
+      <label class="bgp-text-bold bgp-text-gold">Email </label>
+      <div><input [(ngModel)]="email" placeholder="Email Address" type="text" id="email" name="email" class="form-control" disabled="true" required pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"></div>
+    </div>
+    <br>
+    <form  ngNativeValidate (ngSubmit)="update()">
+    <div >
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Name </label>
+        <div><input [(ngModel)]="name" placeholder="First Name" type="text" id="name" name="name" class="form-control" required maxlength="50"></div>
+      </div>
+      <br>
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Surname </label>
+        <div><input [(ngModel)]="surname" placeholder="Last Name" type="text" id="surname" name="surname" class="form-control" required maxlength="50"></div>
+      </div>
+      <br>
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Contact Number (e.g +27123456789) </label>
+        <div><input [(ngModel)]="number" placeholder="Contact Number" type="text" id="number" name="number" class="form-control" maxlength="20" required pattern="\+([0-9]{1,})"></div>
+      </div>
+      <br>
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Alternative Contact Number (e.g +27123456789) </label>
+        <div><input [(ngModel)]="altnumber" placeholder="Alternative Contact Number" type="text" id="altnumber" name="altnumber" class="form-control" maxlength="20" pattern="\+([0-9]{1,})"></div>
+      </div>
+      <br>
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Address </label>
+        <div><input [(ngModel)]="address" placeholder="Address" type="text" id="address" name="address" class="form-control" required maxlength="150"></div>
+      </div>
+      <br>
+
+      <!-- <div>
+        <label class="bgp-text-bold bgp-text-gold">ID Number </label>
+        <div><input [(ngModel)]="idnumber" type="text" id="idnumber" name="idnumber" class="form-control" minlength="13"  maxlength="13"></div>
+      </div>
+      <br>
+      <div>
+        <label class="bgp-text-bold bgp-text-gold">Passport Number </label>
+        <div><input [(ngModel)]="passportnumber" type="text" id="passportnumber" name="passportnumber" class="form-control" minlength="20"  maxlength="20"></div>
+      </div> -->
+
+      
+      <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
+        <label class="bgp-text-bold bgp-text-gold"> ID Number</label>
+        <input id="idnumber" name="idnumber"class="form-control" ngDefaultControl [(ngModel)]="idnumber" minlength="13" maxlength="13" required >
+        </div>
+        <div class="southAfricanNoDiv" *ngIf="SouthAfrican == 'No'">
+        <label class="bgp-text-bold bgp-text-gold"> Passport Number</label>
+        <input id="passportnumber" name="passportnumber"class="form-control" ngDefaultControl [(ngModel)]="passportnumber" minlength="8" maxlength="20" required >
+      </div>
+
+      <br>
+      <div>
+        <div ><button class="btn btn-dark bgp-text-gold" style="width: 100%" data-toggle="modal" data-target="#documentsModal" type="button">View My Documents</button></div>
+      </div>
+    </div>
+  </form>
+    <br>
+    <br>
+
+    <div class="text-center text-md-left" style="float:right;">
+      <button class="btn btn-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmUpdateModal" >Save</button>
+    </div>
+    <br>
+  </div>
+
+</div>
+
+
+<!-- Start of Confirm Update Modal -->
+    <div id="confirmUpdateModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Update your profile?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{name}} {{surname}}</p>
+            <p class="bgp-text-white">{{number}}</p>
+            <p class="bgp-text-white">{{address}}</p>
+          </div>
+          <div class= "modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="update()" >Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-----End of Confirm Update Modal-->
+
+
+<!-- Start of Documents Modal -->
+  <div id="documentsModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Your Documents</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-3 ">
+            <div class="card text-white bg-dark mb-3 animate__animated  animate__slideInRight bgp-card-large bgp-card" >
+              <div class="card-body scrollbar bgp-card-textbox-medium" id="style-3">
+                <h5 class="card-title bgp-text-gold">{{name}} {{surname}} </h5>
+                <div class=""  *ngFor = "let x of clientdocuments">
+                  <span (click)="getClientDocument(x.CLIENTDOCUMENTID)"  class="bgp-text-white fake-link">{{x.CLIENTDOCUMENTTYPEDESCRIPTION}}</span>
+              </div>
+
+              </div>
+              <div class="bgp-buttons-in-cards">
+                <button  style="float: right;" class="btn  btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-dismiss="modal"  data-target="#uploadDocsModal" title="Upload personal document"><i class="material-icons" >vertical_align_top</i></button>
+              &nbsp;
+              </div>
+            </div>
+            <br>
+          </div>
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"   >OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-----End of Documents Modal-->
+
+
+<!-- Start of Upload Client Document Modal -->
+  <div id="uploadDocsModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Upload Personal Document</h4>
+        </div>
+        <form ngNativeValidate (ngSubmit)="upload()">
+        <div class="modal-body">
+          <p class="bgp-text-bold bgp-text-gold">Document: (.PDF)</p>
+          <input class="bgp-text-white" id="clientdocument" [(ngModel)]="clientdocument" name="clientdocument" type="file" accept="application/pdf, application/vnd.ms-word" required  (change)="clientDocumentChangeListener($event)"/>
+          <br><br>
+          <p class="bgp-text-bold bgp-text-gold">Document Type</p>
+          <select [(ngModel)]="documenttypeid" class ="form-control" name="properties" id="properties">
+            <option required  *ngFor = "let x of documenttypes" [ngValue]= "x.CLIENTDOCUMENTTYPEID">{{x.CLIENTDOCUMENTTYPEDESCRIPTION}}</option>
+          </select>
+        </div>
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Upload</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+      </div>
+    </div>
+  </div>
+<!-----End of Upload Client Document Modal-->
+
+<!-- Start of Confirm Upload Modal -->
+    <div id="confirmUploadModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bgp-modal">
+              <div class="modal-header">
+                  <h4 class="modal-title bgp-text-gold">Upload this document?</h4>
+              </div>
+              <div class="modal-body">
+                  <p class="bgp-text-white">{{clientdocumenttypedescription}}</p>
+              </div>
+              <div class= "modal-footer">
+                  <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="showUploadSuccess()">Yes</button>
+                  &nbsp;
+                  <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">No</button>
+              </div>
+          </div>
+      </div>
+  </div>
+<!-----End of Confirm Upload Modal-->
+

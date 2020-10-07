@@ -1,0 +1,1166 @@
+
+
+
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Properties </h1>
+      <h5>View and maintain properties </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5" >
+    <button  class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal" title="Add a property"><i class="fas fa-plus "   ></i></button>
+    &nbsp;
+    <button id="generate" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-dismiss="modal" data-target="#propertyreportModal" title="Generate property report"><i class="fas fa-chart-pie"></i></button>
+    <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+  </div>
+  <!------->
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+      <div class="col-sm-3" *ngFor = "let x of properties">
+        <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+          <div class="card-body">
+            <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+            <h6 class="card-subtitle">{{x.SUBURBNAME}}</h6>
+            <div class="bgp-buttons-in-cards">
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.PROPERTYID)" data-toggle="modal" data-target="#editModal" title="View this property"><i class="far fa-eye"></i></button>
+                &nbsp;
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#deleteModal" title="Delete this property" (click)="deleteBinding(x.PROPERTYID)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        </div>
+    </div>
+  <!--End of one tile-->
+
+
+  <!------>
+  </div>
+  <!----End of Rows-->
+
+ <!-- Start of View Modal -->
+ <div id="editModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bgp-large-modal">
+      <div class="modal-header">
+        <h4 class="modal-title bgp-text-gold" id="title">View Property</h4>
+          <div class="bgp-buttons-in-cards">
+            <button id="editProperty" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this property" data-dismiss="modal" data-toggle="modal" data-target="#updateModal"><i class="fas fa-pencil-alt"></i></button>
+          </div>
+      </div>
+      <!-- <div id="prompt" style="display: none;">
+        <br >
+        <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated property details</h6>
+    </div> -->
+    <form class="scrollbar" id="style-3">
+    <div class="modal-body">
+      <p class="bgp-ref bgp-text-gold">Property #{{ propertyID }}</p>
+      <img class="card-img-top img-fluid"  alt="Card image cap">
+      <br><br><br>
+
+
+
+        <!-----Start of one panel-->
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#ownerView" class="bgp-text-gold">Owner</a>
+              </h4>
+            </div>
+            <div id="ownerView" class="panel-collapse collapse hide">
+              <p class="bgp-text-bold bgp-text-gold"> Name</p>
+              <input id="OwnerNameInput" name="OwnerNameInput" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerNameInput" disabled = "true" required maxlength="50">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold"> Surname</p>
+              <input id="OwnerSurnameInput" name="OwnerSurnameInput" class="form-control"  ngDefaultControl [(ngModel)]="propertyOwnerSurnameInput" disabled = "true" required maxlength="50">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold"> Email</p>
+              <input id="OwnerEmailInput" name="OwnerEmailInput" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerEmailInput" disabled = "true" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+              <br>
+
+              <div class="southAfricanYesDiv" *ngIf="propertyOwnerIdNumberInput">
+                <p class="bgp-text-bold bgp-text-gold"> ID Number (South African)</p>
+                <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" disabled>
+              </div>
+              <div class="southAfricanNoDiv" *ngIf="propertyOwnerPassportNumberInput">
+                <p class="bgp-text-bold bgp-text-gold"> Passport Number (Non-South African)</p>
+                <input id="OwnerPassportInput" name="OwnerPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerPassportNumberInput" minlength="8" maxlength="20" disabled>
+              </div>
+              <br>
+
+
+              <!-- <p class="bgp-text-bold bgp-text-gold"> ID/Passport Number</p>
+              <input id="OwnerIDorPassportInput" name="OwnerIDorPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdOrPassportNumberInput" disabled = "true" required maxlength="20">
+              <br> -->
+              <p class="bgp-text-bold bgp-text-gold"> Address</p>
+              <input id="OwnerAddressInput" name="OwnerAddressInput" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerAddressInput" disabled = "true" required maxlength="150">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold"> Contact Number</p>
+              <input id="OwnerContactNumberInput" name="OwnerContactNumberInput" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerContactNumberInput" disabled = "true" required maxlength="20">
+
+              <div *ngIf="propertyOwnerAltContactNumberInput
+              ">
+              <br>
+                <p class="bgp-text-bold bgp-text-gold"> Alt Contact number</p>
+              <input disabled id="OwnerAltContactNumberInput" name="OwnerAltContactNumberInput" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerAltContactNumberInput" required maxlength="20">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      <!-----End of one panel-->
+
+      <br>
+
+
+        <!-----Start of one panel-->
+        <div class="panel-group" >
+          <div class="panel panel-default" >
+            <div class="panel-heading" >
+              <h4 class="panel-title" >
+                <a data-toggle="collapse" href="#MandateView" class="bgp-text-gold">Agent and Mandate</a>
+              </h4>
+            </div>
+            <div id="MandateView" class="panel-collapse collapse hide" >
+              <p class="bgp-text-bold bgp-text-gold">Agent</p>
+                <select ngDefaultControl [(ngModel)]="agentid" class ="form-control" name="agent" id="agent">
+                  <option *ngFor="let x of agents" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                </select>
+                <br>
+              &nbsp;
+              <div *ngFor="let x of mandates">
+                <div style="text-align: center;">
+                  <h6 class="bgp-text-gold" style="text-align: center;" id="promptInput"></h6>
+                  <button (click)="getMandateDocument()" id="downloadDocument" title="Download mandate" type="submit" class="btn btn-outline-warning my-2 my-sm-0"><i class="far fa-arrow-alt-circle-down"></i> View Mandate</button>
+                </div>
+                <p class="bgp-text-bold bgp-text-gold">Mandate Date</p>
+                <input id="mandateDateInput" name="mandateDateInput" class="form-control" ngDefaultControl [(ngModel)]="x.MANDATEDATE" disabled = "true" type="date">
+                <br>
+                  <p class="bgp-text-bold bgp-text-gold">Mandate Type</p>
+                  <input disabled class="form-control" ngDefaultControl [(ngModel)]="x.MANDATETYPEDESCRIPTION" disabled="true" id="mandateTypeDescriptionInput" name="mandateTypeDescriptionInput">
+                  <!-- <select ngDefaultControl [(ngModel)]="mandateTypeID" class ="form-control" name="mandateTypeInput" id="mandateTypeInput" style="visibility: hidden;">
+                    <option *ngFor="let y of mandateTypes" [value]="y.MANDATETYPEID">{{y.MANDATETYPEDESCRIPTION}}</option>
+                  </select> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-----End of one panel-->
+
+      <br>
+
+
+
+
+      <!-----Start of one panel-->
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#detailsView" class="bgp-text-gold">Details</a>
+              </h4>
+            </div>
+            <div id="detailsView" class="panel-collapse collapse hide">
+              <p class="bgp-text-bold bgp-text-gold">Market Type</p>
+              <input [(ngModel)]="marketTypeDescription" disabled class="form-control" disabled="true" id="marketTypeDescriptionInput" name="marketTypeDescriptionInput">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Price</p>
+              <input currencyMask id="priceInput" name="priceInput" class="form-control " [(ngModel)]="priceInput" disabled [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+
+              <!-- <select ngDefaultControl [(ngModel)]="marketTypeID" class ="form-control" name="properties" id="marketTypeInput" style="visibility: hidden;">
+                <option *ngFor="let x of marketTypes" [value]="x.MARKETTYPEID">{{x.MARKETTYPEDESCRIPTION}}</option>
+              </select> -->
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Property Type</p>
+              <input disabled class="form-control" [(ngModel)]="propertyTypeDescription" disabled="true" id="propertyTypeDescriptionInput" name="propertyTypeDescriptionInput">
+              <!-- <select ngDefaultControl [(ngModel)]="propertyTypeID" class ="form-control" id="propertyTypeInput" name="propertyTypeInput" style="visibility: hidden;">
+                <option *ngFor="let x of propertyTypes" [value]="x.PROPERTYTYPEID">{{x.PROPERTYTYPEDESCRIPTION}}</option>
+              </select> -->
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Building Condition</p>
+              <input disabled class="form-control" [(ngModel)]="buildingConditionInput" disabled="true" id="BuildingConditionDescriptionInput" name="BuildingConditionDescriptionInput">
+              <!-- <select ngDefaultControl [(ngModel)]="buildingConditionID" class ="form-control" name="properties" id="propertyTypeInput" style="visibility: hidden;">
+                <option *ngFor="let x of buildingConditions" [value]="x.BUILDINGCONDITIONID">{{x.BUILDINGCONDITIONDESCRIPTION}}</option>
+              </select> -->
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
+              <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" disabled />
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
+                <div *ngFor="let x of propertyTerms">
+                  <label class="form-check-label bgp-text-white" for="accept">{{x.TERMDESCRIPTION}} Months</label>
+                </div>
+            </div>
+          </div>
+        </div>
+      <!-----End of one panel-->
+      <br>
+
+      <!-----Start of one panel-->
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#locationView" class="bgp-text-gold">Location</a>
+              </h4>
+            </div>
+            <div id="locationView" class="panel-collapse collapse hide">
+              <p class="bgp-text-bold bgp-text-gold">Address</p>
+              <input class="form-control" ngDefaultControl [(ngModel)]="propertyAddressInput" disabled = "true" id="addressInput" name="addressInput" required maxlength="150">
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Suburb</p>
+              <input ngDefaultControl [(ngModel)]="suburbID" disabled class="form-control" ngDefaultControl [(ngModel)]="suburbName" disabled="true" id="suburbNameInput" name="suburbNameInput">
+              <select ngDefaultControl [(ngModel)]="suburbID" class ="form-control" name="properties" id="suburbInput" disabled = "true" style="display: none;">
+                <option *ngFor="let x of suburbs" [value]="x.SUBURBID">{{x.SUBURBNAME}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      <!-----End of one panel-->
+      <br>
+
+
+      <!-----Start of one panel-->
+        <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" href="#featuresView" class="bgp-text-gold">Features</a>
+              </h4>
+            </div>
+            <div id="featuresView" class="panel-collapse collapse hide">
+              <p class="bgp-text-bold bgp-text-gold">Features</p>
+              <div *ngFor="let x of propertyFeatures" >
+                <label class="form-check-label bgp-text-white" for="acceptInput">{{x[0].FEATUREDESCRIPTION}} - {{x[1]}}</label>
+              </div>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Other Building Details</p>
+              <div *ngFor="let x of propertyOtherBuildingDetails">
+                <label class="form-check-label bgp-text-white" for="acceptInput">{{x.OTHERBUILDINGDETAILDESCRIPTION}}</label>
+              </div>
+              <br>
+              <p class="bgp-text-bold bgp-text-gold">Points of Interest<p>
+              <div *ngFor="let x of pointsOfInterest">
+                <label class="form-check-label bgp-text-white" for="acceptInput">{{x.POINTOFINTERESTNAME}}</label>
+              </div>
+              <br>
+              <div>
+                <div class="firstHalf">
+                  <p class="bgp-text-bold bgp-text-gold">Number of Bedrooms</p>
+                  <input type="number" class="form-control" id="numberofbed" name="numberofbed" ngDefaultControl [(ngModel)]="bedroomCount" required min="0">
+                </div>
+                <div class="lastHalf">
+                  <p class="bgp-text-bold bgp-text-gold">Number of Bathrooms</p>
+                  <input type="number" type="number" class="form-control" id="numberofbath" name="numberofbath" ngDefaultControl [(ngModel)]="bathroomCount" required min="0">
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-----End of one panel-->
+      <br>
+          <!-----Start of one panel-->
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" href="#zoningView" class="bgp-text-gold">Zoning and Rates</a>
+                </h4>
+              </div>
+              <div id="zoningView" class="panel-collapse collapse hide">
+                <p class="bgp-text-bold bgp-text-gold">Municipal Valuation</p>
+                <input currencyMask id="MunicipalValuationInput" name="MunicipalValuationInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningMunicipalValuation" disabled [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                <br>
+
+                <div class="firstYoV ">
+                  <p class="bgp-text-bold bgp-text-gold">Year of Valuation</p>
+                  <input id="YearOfValuationInput" name="YearOfValuationInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningYearOfValuation" disabled type="number" minlength="4" maxlength="4">
+                </div>
+                <div class="lastYoV">
+                  <p class="bgp-text-bold bgp-text-gold">Rating Period</p>
+                  <input id="RatingPeriodInput" name="RatingPeriodInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningRatingPeriod" disabled = "true" type="number" max="4" min="1">
+                </div>
+                <br><br>
+                <br><br>
+
+                <p class="bgp-text-bold bgp-text-gold">Usage Category</p>
+                <input id="UsageCategoryInput" name="UsageCategoryInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsageCategory" disabled = "true" maxlength="50">
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Usage</p>
+                <input id="UsageInput" name="UsageInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsage" disabled = "true" maxlength="50">
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Estimated Monthly Rates</p>
+                <input currencyMask id="EstimatedMonthlyRates" name="EstimatedMonthlyRates" class="form-control " ngDefaultControl [(ngModel)]="propertyZonintEstimatedMonthlyRates" disabled [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Rates and Taxes</p>
+                <input currencyMask id="RatesAndTaxesInput" name="RatesAndTaxesInput" class="form-control " [(ngModel)]="ratesAndTaxesInput" disabled [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Levies</p>
+                <input currencyMask id="LeviesInput" name="LeviesInput" class="form-control"  ngDefaultControl [(ngModel)]="leviesInput" disabled [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left' }"/>
+              </div>
+            </div>
+          </div>
+        <!-----End of one panel-->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmEditModal"id="OKButton" style="visibility: hidden;" >Update</button>
+      &nbsp;
+      <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+    </div>
+  </form>
+  </div>
+</div>
+</div>
+
+<!-----End of View Modal-->
+
+
+ <!-- Start of Update Modal -->
+  <div id="updateModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-large-modal" >
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Update Property #{{ propertyID }}</h4>
+        </div>
+          <form autocomplete="off" ngNativeValidate (ngSubmit)="submitUpdate()" class="scrollbar" id="style-3">
+            <div class="modal-body">
+              <p style="text-align: center;" class="bgp-text-bold bgp-text-gold">Please provide the updated property details</p>
+
+               <!-----Start of one panel-->
+               <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#ownerUpdate" class="bgp-text-gold">Owner</a>
+                    </h4>
+                  </div>
+                  <div id="ownerUpdate" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold"> Name</p>
+                    <input  id="OwnerName" name="OwnerName" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerNameInput" required  maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Surname</p>
+                    <input id="OwnerSurname" name="OwnerSurname"  ngDefaultControl [(ngModel)]="propertyOwnerSurnameInput" class="form-control" required maxlength="50" >
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Email</p>
+                    <input id="OwnerEmail" name="OwnerEmail" ngDefaultControl [(ngModel)]="propertyOwnerEmailInput" class="form-control" value="" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                    <br>
+                   
+                    <div class="southAfricanYesDiv" *ngIf="propertyOwnerIdNumberInput">
+                      <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+                      <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" required>
+                    </div>
+                    <div class="southAfricanNoDiv" *ngIf="propertyOwnerPassportNumberInput">
+                      <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
+                      <input id="OwnerPassportInput" name="OwnerPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerPassportNumberInput" maxlength="20" required>
+                    </div>
+
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Address</p>
+                    <input id="PropertyOwnerAddress" name="PropertyOwnerAddress" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerAddressInput" required maxlength="150">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Contact Number</p>
+                    <div class="contactNumberWrapper">
+                      <input placeholder="e.g. +27123456789" id="propertyOwnerContactNumber" name="propertyOwnerContactNumber" ngDefaultControl [(ngModel)]="propertyOwnerContactNumberInput" class="form-control" required maxlength="20" type="tel" pattern="\+([0-9]{1,})">
+                    </div>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Alt Contact number</p>
+                    <div class="contactNumberWrapper">
+                      <input placeholder="e.g. +27123456789"  id="propertyOwnerAltContactNumber" name="propertyOwnerAltContactNumber" ngDefaultControl [(ngModel)]="propertyOwnerAltContactNumberInput" class="form-control" maxlength="20" type="tel" pattern="\+([0-9]{1,})">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+
+              <!-----Start of one panel-->
+              <div class="panel-group" >
+                <div class="panel panel-default" >
+                  <div class="panel-heading" >
+                    <h4 class="panel-title" >
+                      <a data-toggle="collapse" href="#MandateUpdate" class="bgp-text-gold">Agent and Mandate</a>
+                    </h4>
+                  </div>
+                  <div id="MandateUpdate" class="panel-collapse collapse hide" >
+                    <p class="bgp-text-bold bgp-text-gold">Agent</p>
+                    <select ngDefaultControl [(ngModel)]="agentid" class ="form-control" name="agent" id="agent" required>
+                      <option *ngFor="let x of agents" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Type</p>
+                    <select ngDefaultControl [(ngModel)]="mandateTypeID" class ="form-control" name="mandateTypeDescriptionInput" id="mandateTypeDescriptionInput">
+                      <option *ngFor="let x of mandateTypes" [ngValue]="x.MANDATETYPEID">{{x.MANDATETYPEDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Date</p>
+                    <input id="mandateDateInput" name="mandateDateInput" class="form-control" [(ngModel)]="mandateDateInput" type="date">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Document (.PDF)</p>
+                    <input class="bgp-text-white"  name="Mandatedocument" type="file" accept="application/pdf" (change)="mandateDocumentChangeListener($event)"/>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#detailsUpdate" class="bgp-text-gold">Details</a>
+                    </h4>
+                  </div>
+                  <div id="detailsUpdate" class="panel-collapse collapse hide">
+                  <p class="bgp-text-bold bgp-text-gold">Market Type</p>
+                    <!--Start of new for markettype-->
+                    <input (change)="fn(marketTypeDescription)" [(ngModel)]="marketTypeDescription" id="marketTypeForSale" name="marketType" type="radio" title="For Sale" value="For Sale" required>
+                    <label class="bgp-text-white" for="marketTypeForSale">&nbsp; For Sale</label>
+                    <br>
+                    <input (change)="fn(marketTypeDescription)" [(ngModel)]="marketTypeDescription" id="marketTypeToLet" name="marketType" type="radio" value="To Let">
+                    <label class="bgp-text-white" for="marketTypeToLet">&nbsp; To Let</label>
+
+                    <!-- <p class="bgp-text-bold bgp-text-gold">Market Type</p>
+                    <select ngDefaultControl [(ngModel)]="marketTypeID" class ="form-control" name="properties" id="type" required>
+                      <option *ngFor="let x of marketTypes" [value]="x.MARKETTYPEID">{{x.MARKETTYPEDESCRIPTION}}</option>
+                    </select> -->
+                    <!--End of new for markettype-->
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold" >Price</p>
+                    <input currencyMask id="priceInput" name="priceInput" class="form-control " [(ngModel)]="priceInput" required [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Property Type</p>
+                    <select ngDefaultControl [(ngModel)]="propertyTypeID" class ="form-control" name="propertytype" id="type" required>
+                      <option *ngFor="let x of propertyTypes" [value]="x.PROPERTYTYPEID">{{x.PROPERTYTYPEDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Building Condition</p>
+                    <select ngDefaultControl [(ngModel)]="buildingConditionID" class ="form-control" name="buildingCondition" id="type" required>
+                      <option *ngFor="let x of buildingConditions" [value]="x.BUILDINGCONDITIONID">{{x.BUILDINGCONDITIONDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
+                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{this.dateToday}}"/>
+                    <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">
+                      <br>
+                      <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
+                      <div style="padding: 20px;">
+
+                        <div class="custom-slider">
+                          <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#locationUpdate" class="bgp-text-gold">Location</a>
+                    </h4>
+                  </div>
+                  <div id="locationUpdate" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold">Address</p>
+                    <input id="propertyAddressInput" name="propertyAddressInput" class="form-control" ngDefaultControl [(ngModel)]="propertyAddressInput" maxlength="150" required>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Suburb</p>
+                    <select ngDefaultControl [(ngModel)]="suburbID" class ="form-control" name="properties" id="suburb" required>
+                      <option *ngFor="let x of suburbs" [value]="x.SUBURBID">{{x.SUBURBNAME}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#featuresUpdate" class="bgp-text-gold">Features</a>
+                    </h4>
+                  </div>
+                  <div id="featuresUpdate" class="panel-collapse collapse hide">
+                  <div class="featureWrapper">
+                    <div class="firstHalf">
+                      <p class="bgp-text-bold bgp-text-gold">Feature Description</p>
+                    </div>
+                    <div class="middleFeature">
+                      <p class="bgp-text-bold bgp-text-gold">Feature Quantity</p>
+                    </div>
+                    <div class="lastFeature">
+                    </div>
+                    <div class="first">
+                      <select [(ngModel)]="propertyFeatureDescriptionInput" id="featureDescriptionInput" name="featureDescriptionInput"  class ="form-control" required>
+                        <option *ngFor="let xx of features" [ngValue]="xx"> {{xx.FEATUREDESCRIPTION}}</option>
+                      </select>
+                    </div>
+                    <div class="middleFeature">
+                      <input type="number" ngDefaultControl [(ngModel)]="propertyFeatureQuantityInput" id="featureDescriptionQuantityInput" name="featureDescriptionQuantityInput"  class ="form-control" required min="1">
+                    </div>
+                    <div class="lastFeature">
+                      <button type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addFeature()" title="Add feature"><i class="fas fa-plus "  ></i></button>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="featureWrapper" *ngFor="let x of propertyFeatures, let i = index">
+                    <div class="firstItem">
+                      <label style="white-space: nowrap;" class="form-check-label bgp-text-white" for="acceptInput">{{x[0].FEATUREDESCRIPTION}} - {{x[1]}}</label>
+                    </div>
+                    <div class="lineItem">
+                      <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this feature" (click)="deleteFeature(i)"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <br><br>
+                  </div>
+
+                    <!-- <p class="bgp-text-bold bgp-text-gold">Total Feature Quantity</p>
+                      <input [(ngModel)]="counter1" type="number" class="form-control"  id="propertyFeatureTotalQuantityInput" name="propertyFeatureTotalQuantityInput" style="width: 100%;" min="1">
+                      <br>
+                      <div class="defectWrapper">
+                        <div *ngFor="let i of ' '.repeat(counter1).split(''), let x = index">
+                          <div class="first">
+                            <p class="bgp-text-bold bgp-text-gold">Feature Description</p>
+                            <select [(ngModel)]="propertyFeatures[x]" id="featureDescriptionInput" name="featureDescriptionInput"  class ="form-control" required >
+                              <option *ngFor="let xx of features" [ngValue]="xx.FEATUREID"> {{xx.FEATUREDESCRIPTION}}</option>
+                            </select>
+                            <br>
+                          </div>
+                          <div class="last">
+                            <p class="bgp-text-bold bgp-text-gold">Feature Quantity</p>
+                            <input type="number" ngDefaultControl [(ngModel)]="propertyFeatureQuantities[x]" id="featureDescriptionQuantityInput" name="featureDescriptionQuantityInput"  class ="form-control" required>
+                            <br>
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <p class="bgp-text-bold bgp-text-gold">Other Building Detail Description</p>
+                      <div class="totalOBDFirst">
+                        <select id="otherBuildingDetailInput" name="otherBuildingDetailInput" ngDefaultControl [(ngModel)]="propertyOtherBuildingDetailInput"  class ="form-control" required>
+                          <option *ngFor="let yy of otherBuildingDetails" [ngValue]="yy">{{yy.OTHERBUILDINGDETAILDESCRIPTION}}</option>
+                        </select>
+                      </div>
+                      <div class="totalOBDLast">
+                        <button type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addOtherBuildingDetail()" title="Add other building detail"><i class="fas fa-plus "   ></i></button>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <div class="featureWrapper" *ngFor="let x of propertyOtherBuildingDetails, let i = index">
+                        <div class="firstItem">
+                          <label style="white-space: nowrap;" class="form-check-label bgp-text-white" for="acceptInput">{{x.OTHERBUILDINGDETAILDESCRIPTION}}</label>
+                        </div>
+                        <div class="lineItem">
+                          <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this other building detail" (click)="deleteOtherBuildingDetail(i)"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <br><br>
+                      </div>
+
+
+                      <!-- <p class="bgp-text-bold bgp-text-gold">Total Other Building Details Quantity</p>
+                      <input [(ngModel)]="counter2" type="number" class="form-control"   id="propertyOtherBuildingDetailTotalQuantityInput" name="propertyOtherBuildingDetailTotalQuantityInput" style="width: 100%;" min="1">
+                      <br>
+                      <div class="defectWrapper">
+                        <div *ngFor="let i of ' '.repeat(counter2).split(''), let y = index">
+                          <p class="bgp-text-bold bgp-text-gold">Other Building Details Description</p>
+                          <select id="otherBuildingDetailInput" name="otherBuildingDetailInput" ngDefaultControl [(ngModel)]="propertyOtherBuildingDetails[y]"  class ="form-control" required>
+                            <option *ngFor="let yy of otherBuildingDetails" [ngValue]="yy.OTHERBUILDINGDETAILID">{{yy.OTHERBUILDINGDETAILDESCRIPTION}}</option>
+                          </select>
+                          <br>
+                        </div>
+                      </div> -->
+                      <div>
+                        <div class="firstHalf">
+                          <p class="bgp-text-bold bgp-text-gold">Number of Bedrooms</p>
+                          <input type="number" class="form-control" id="numberofbed" name="numberofbed" ngDefaultControl [(ngModel)]="bedroomCount" required min="0">
+                          </div>
+                          <div class="lastHalf">
+                          <p class="bgp-text-bold bgp-text-gold">Number of Bathrooms</p>
+                          <input type="number" type="number" class="form-control" id="numberofbath" name="numberofbath" ngDefaultControl [(ngModel)]="bathroomCount" required min="0">
+                          <br>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#zoningUpdate" class="bgp-text-gold">Zoning and Rates</a>
+                    </h4>
+                  </div>
+                  <div id="zoningUpdate" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold">Municipal Valuation</p>
+                    <input currencyMask id="MunicipalValuationInput" name="MunicipalValuationInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningMunicipalValuation" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+
+                    <br>
+
+                    <div class="firstYoV ">
+                    <p class="bgp-text-bold bgp-text-gold">Year of Valuation</p>
+                      <input id="YearOfValuationInput" name="YearOfValuationInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningYearOfValuation" type="number" minlength="4" maxlength="4">
+                    </div>
+                    <div class="lastYoV">
+                      <p class="bgp-text-bold bgp-text-gold">Rating Period</p>
+                      <input id="RatingPeriodInput" name="RatingPeriodInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningRatingPeriod"  type="number" max="4" min="1">
+                    </div>
+
+                    <br><br>
+                    <br><br>
+
+                    <p class="bgp-text-bold bgp-text-gold">Usage Category</p>
+                    <input id="UsageCategoryInput" name="UsageCategoryInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsageCategory" maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Usage</p>
+                    <input id="UsageInput" name="UsageInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsage" maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Estimated Monthly Rates</p>
+                    <input currencyMask id="EstimatedMonthlyRates" name="EstimatedMonthlyRates" class="form-control " ngDefaultControl [(ngModel)]="propertyZonintEstimatedMonthlyRates" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Rates and Taxes</p>
+                    <input currencyMask id="RatesAndTaxesInput" name="RatesAndTaxesInput" class="form-control " [(ngModel)]="ratesAndTaxesInput" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }" required/>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Levies</p>
+                    <input currencyMask id="LeviesInput" name="LeviesInput" class="form-control"  ngDefaultControl [(ngModel)]="leviesInput" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left' }"/>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#imagesUpdate" class="bgp-text-gold">Images</a>
+                    </h4>
+                  </div>
+                  <div id="imagesUpdate" class="panel-collapse collapse hide">
+                    <input #file1 class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file1.files)"/>
+              <br><br>
+              <img [src]="imgURL" height="200" *ngIf="imgURL">
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+
+            <div class="modal-footer">
+              <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton" >Update</button>
+              &nbsp;
+              <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-----End of Update Modal -->
+
+
+  <!-- Start of Confirm Edit Modal -->
+  <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Update this Property?</h4>
+        </div>
+        <div class="modal-body">
+          <p class="bgp-text-white">{{propertyAddressInput}}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="update(propertyID)">Yes</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-----End of Confirm Edit Modal-->
+
+
+  <!-- Start of Add Modal -->
+    <div id="addModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-large-modal" >
+          <div class="modal-header"  >
+            <h4 class="modal-title bgp-text-gold">Add Property</h4>
+          </div>
+
+          <form autocomplete="off" ngNativeValidate (ngSubmit)="submitAdd()" class="scrollbar" id="style-3">
+            <div class="modal-body">
+              <p style="text-align: center;" class="bgp-text-bold bgp-text-gold">Please provide the property details</p>
+
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#ownerAdd" class="bgp-text-gold">Owner</a>
+                    </h4>
+                  </div>
+                  <div id="ownerAdd" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold"> Name</p>
+                    <input  id="OwnerName" name="OwnerName" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerNameInput" required  maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Surname</p>
+                    <input id="OwnerSurname" name="OwnerSurname"  ngDefaultControl [(ngModel)]="propertyOwnerSurnameInput" class="form-control" required maxlength="50" >
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Email</p>
+                    <input id="OwnerEmail" name="OwnerEmail" ngDefaultControl [(ngModel)]="propertyOwnerEmailInput" class="form-control" value="" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                    <br>
+
+                    <p class="bgp-text-bold bgp-text-gold">South African?</p>
+                    <input required id="southAfricanYes" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="Yes" value="Yes">
+                    <label class="bgp-text-white" for="southAfricanYes">&nbsp; Yes</label>
+                    <br>
+                    <input id="southAfricanNo" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="No" value="No">
+                    <label class="bgp-text-white" for="southAfricanNo">&nbsp; No</label>
+                    <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
+                      <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+                      <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" required pattern="(?<Year>[4-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][0-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])">
+                    </div>
+                    <div class="southAfricanNoDiv" *ngIf="SouthAfrican == 'No'">
+                      <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
+                      <input id="OwnerPassportInput" name="OwnerPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerPassportNumberInput" minlength="8" maxlength="20" required>
+                    </div>
+                    <br>
+
+                    <p class="bgp-text-bold bgp-text-gold"> Address</p>
+                    <input id="PropertyOwnerAddress" name="PropertyOwnerAddress" class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerAddressInput" required maxlength="150">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold"> Contact Number</p>
+                    <div class="contactNumberWrapper">
+                      <select class ="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="countryCode" required>
+                        <option ngDefaultControl *ngFor="let x of countryCodes" [ngValue]="x.dial_code">{{x.dial_code}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{x.name}}</option>
+                      </select>
+                      <input placeholder="e.g. 0823568735" style=" width: 78%; float: right;" id="propertyOwnerContactNumber" name="propertyOwnerContactNumber" ngDefaultControl [(ngModel)]="propertyOwnerContactNumberInput" class="form-control" required maxlength="15" type="tel" pattern="[0-9]{0,}">
+                    </div>
+                    <br><br><br>
+                    <p class="bgp-text-bold bgp-text-gold"> Alt Contact number</p>
+                    <div class="contactNumberWrapper">
+                      <select class ="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="altCountryCode">
+                        <option ngDefaultControl *ngFor="let x of countryCodes" [value]="x.dial_code">{{x.dial_code}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{x.name}}</option>
+                      </select>
+                      <input placeholder="e.g. 0823568735" style=" width: 78%; float: right;" id="propertyOwnerAltContactNumber" name="propertyOwnerAltContactNumber" ngDefaultControl [(ngModel)]="propertyOwnerAltContactNumberInput" class="form-control" value="eg. 0725437685" maxlength="15" type="tel" pattern="[0-9]{0,}">
+                    </div>
+                    <br><br>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group" >
+                <div class="panel panel-default" >
+                  <div class="panel-heading" >
+                    <h4 class="panel-title" >
+                      <a data-toggle="collapse" href="#MandateAdd" class="bgp-text-gold">Agent and Mandate</a>
+                    </h4>
+                  </div>
+                  <div id="MandateAdd" class="panel-collapse collapse hide" >
+                    <p class="bgp-text-bold bgp-text-gold">Agent</p>
+                    <select ngDefaultControl [(ngModel)]="agentid" class ="form-control" name="agent" id="agent" required>
+                      <option *ngFor="let x of agents" [ngValue]="x.USERID">{{x.USERNAME}} {{x.USERSURNAME}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Type</p>
+                    <select ngDefaultControl [(ngModel)]="mandateTypeID" class ="form-control" name="mandateTypeDescriptionInput" id="mandateTypeDescriptionInput" required>
+                      <option *ngFor="let x of mandateTypes" [ngValue]="x.MANDATETYPEID">{{x.MANDATETYPEDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Date</p>
+                    <input id="mandateDateInput" name="mandateDateInput" class="form-control" [(ngModel)]="mandateDateInput" type="date" required>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Mandate Document (.PDF)</p>
+                    <input class="bgp-text-white" id="Mandatedocument" name="Mandatedocument" type="file"  accept="application/pdf" required (change)="mandateDocumentChangeListener($event)"/>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#detailsAdd" class="bgp-text-gold">Details</a>
+                    </h4>
+                  </div>
+                  <div id="detailsAdd" class="panel-collapse collapse hide">
+                    <!--Start of new for markettype-->
+                    <p class="bgp-text-bold bgp-text-gold">Market Type</p>
+                    <input (change)="fn(marketTypeDescription)" [(ngModel)]="marketTypeDescription" id="marketTypeForSale" name="marketType" type="radio" title="For Sale" value="For Sale" required>
+                    <label class="bgp-text-white" for="marketTypeForSale">&nbsp; For Sale</label>
+                    <br>
+                    <input (change)="fn(marketTypeDescription)" [(ngModel)]="marketTypeDescription" id="marketTypeToLet" name="marketType" type="radio" value="To Let">
+                    <label class="bgp-text-white" for="marketTypeToLet">&nbsp; To Let</label>
+
+                    <!-- <select ngDefaultControl [(ngModel)]="marketTypeID" class ="form-control" name="properties" id="type" required>
+                      <option *ngFor="let x of marketTypes" [value]="x.MARKETTYPEID">{{x.MARKETTYPEDESCRIPTION}}</option>
+                    </select> -->
+                    <!--End of new for markettype-->
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold" >Price</p>
+                    <input currencyMask id="priceInput" name="priceInput" class="form-control " [(ngModel)]="priceInput" required [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Property Type</p>
+                    <select ngDefaultControl [(ngModel)]="propertyTypeID" class ="form-control" name="propertytype" id="type" required>
+                      <option *ngFor="let x of propertyTypes" [value]="x.PROPERTYTYPEID">{{x.PROPERTYTYPEDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Building Condition</p>
+                    <select ngDefaultControl [(ngModel)]="buildingConditionID" class ="form-control" name="buildingCondition" id="type" required>
+                      <option *ngFor="let x of buildingConditions" [value]="x.BUILDINGCONDITIONID">{{x.BUILDINGCONDITIONDESCRIPTION}}</option>
+                    </select>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
+                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{this.dateToday}}"/>
+                    <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">                      
+                    <br>
+                      <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
+                      <div style="padding: 20px;">
+
+                        <div class="custom-slider">
+                          <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"></ng5-slider>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#locationAdd" class="bgp-text-gold">Location</a>
+                    </h4>
+                  </div>
+                  <div id="locationAdd" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold">Address</p>
+                    <input id="propertyAddressInput" name="propertyAddressInput" class="form-control" ngDefaultControl [(ngModel)]="propertyAddressInput" maxlength="150" required>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Suburb</p>
+                    <select ngDefaultControl [(ngModel)]="suburbID" class ="form-control" name="properties" id="suburb" required>
+                      <option *ngFor="let x of suburbs" [value]="x.SUBURBID">{{x.SUBURBNAME}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#featuresAdd" class="bgp-text-gold">Features</a>
+                    </h4>
+                  </div>
+                  <div id="featuresAdd" class="panel-collapse collapse hide">
+                    <div class="featureWrapper">
+                      <div class="firstHalf">
+                        <p class="bgp-text-bold bgp-text-gold">Feature Description</p>
+                      </div>
+                      <div class="middleFeature">
+                        <p class="bgp-text-bold bgp-text-gold">Feature Quantity</p>
+                      </div>
+                      <div class="lastFeature">
+                      </div>
+                      <div class="first">
+                        <select [(ngModel)]="propertyFeatureDescriptionInput" id="featureDescriptionInput" name="featureDescriptionInput"  class ="form-control" required>
+                          <option *ngFor="let xx of features" [ngValue]="xx"> {{xx.FEATUREDESCRIPTION}}</option>
+                        </select>
+                      </div>
+                      <div class="middleFeature">
+                        <input type="number" ngDefaultControl [(ngModel)]="propertyFeatureQuantityInput" id="featureDescriptionQuantityInput" name="featureDescriptionQuantityInput"  class ="form-control" required min="1">
+                      </div>
+                      <div class="lastFeature">
+                        <button title="Add feature" type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addFeature()"><i class="fas fa-plus "  ></i></button>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="featureWrapper" *ngFor="let x of propertyFeatures, let i = index">
+                      <div class="firstItem">
+                        <label style="white-space: nowrap;" class="form-check-label bgp-text-white" for="acceptInput">{{x[0].FEATUREDESCRIPTION}} - {{x[1]}}</label>
+                      </div>
+                      <div class="lineItem">
+                        <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this feature" (click)="deleteFeature(i)"><i class="fas fa-trash-alt"></i></button>
+                      </div>
+                      <br><br>
+                    </div>
+
+
+
+
+
+                        <!-- <p class="bgp-text-bold bgp-text-gold">Total Feature Quantity</p>
+                      <input [(ngModel)]="counter1" type="number" class="form-control"  id="propertyFeatureTotalQuantityInput" name="propertyFeatureTotalQuantityInput" style="width: 100%;" min="1" required>
+                      <br>
+                      <div class="defectWrapper">
+                        <div *ngFor="let i of ' '.repeat(counter1).split(''), let x = index">
+                          <div class="first">
+                            <p class="bgp-text-bold bgp-text-gold">Feature Description</p>
+                            <select [(ngModel)]="propertyFeatures[x]" id="featureDescriptionInput" name="featureDescriptionInput"  class ="form-control" required>
+                              <option *ngFor="let xx of features" [ngValue]="xx.FEATUREID"> {{xx.FEATUREDESCRIPTION}}</option>
+                            </select>
+                            <br>
+                          </div>
+                          <div class="last">
+                            <p class="bgp-text-bold bgp-text-gold">Feature Quantity</p>
+                            <input type="number" ngDefaultControl [(ngModel)]="propertyFeatureQuantities[x]" id="featureDescriptionQuantityInput" name="featureDescriptionQuantityInput"  class ="form-control" required>
+                          </div>
+                        </div>
+                      </div> -->
+
+
+
+
+
+
+                  <p class="bgp-text-bold bgp-text-gold">Other Building Detail Description</p>
+                  <div class="totalOBDFirst">
+                    <select id="otherBuildingDetailInput" name="otherBuildingDetailInput" ngDefaultControl [(ngModel)]="propertyOtherBuildingDetailInput"  class ="form-control" required>
+                      <option *ngFor="let yy of otherBuildingDetails" [ngValue]="yy">{{yy.OTHERBUILDINGDETAILDESCRIPTION}}</option>
+                    </select>
+                  </div>
+                  <div class="totalOBDLast">
+                    <button title="Add other building detail" type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addOtherBuildingDetail()"><i class="fas fa-plus "  ></i></button>
+                  </div>
+                  <br>
+                  <br>
+                  <br>
+                  <div class="featureWrapper" *ngFor="let x of propertyOtherBuildingDetails, let i = index">
+                    <div class="firstItem">
+                      <label style="white-space: nowrap;" class="bgp-text-white">{{x.OTHERBUILDINGDETAILDESCRIPTION}}</label>
+                    </div>
+                    <div class="lineItem">
+                      <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this other building detail" (click)="deleteOtherBuildingDetail(i)"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <br><br>
+                  </div>
+
+                  <!-- <div>
+                    <div *ngFor="let i of ' '.repeat(counter2).split(''), let y = index">
+                      <br>
+                      <p class="bgp-text-bold bgp-text-gold">Other Building Details Description</p>
+                      <select id="otherBuildingDetailInput" name="otherBuildingDetailInput" ngDefaultControl [(ngModel)]="propertyOtherBuildingDetails[y]"  class ="form-control" required>
+                        <option *ngFor="let yy of otherBuildingDetails" [ngValue]="yy.OTHERBUILDINGDETAILID">{{yy.OTHERBUILDINGDETAILDESCRIPTION}}</option>
+                      </select>
+                    </div>
+                  </div> -->
+                  <div>
+                    <div class="firstHalf">
+                      <p class="bgp-text-bold bgp-text-gold">Number of Bedrooms</p>
+                      <input type="number" class="form-control" id="numberofbed" name="numberofbed" ngDefaultControl [(ngModel)]="bedroomCount" required min="0">
+                    </div>
+                    <div class="lastHalf">
+                      <p class="bgp-text-bold bgp-text-gold">Number of Bathrooms</p>
+                      <input type="number" type="number" class="form-control" id="numberofbath" name="numberofbath" ngDefaultControl [(ngModel)]="bathroomCount" required min="0">
+                      <br>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+              <!-----Start of one panel-->
+              <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#zoningAdd" class="bgp-text-gold">Zoning and Rates</a>
+                    </h4>
+                  </div>
+                  <div id="zoningAdd" class="panel-collapse collapse hide">
+                    <p class="bgp-text-bold bgp-text-gold">Municipal Valuation</p>
+                    <input currencyMask id="MunicipalValuationInput" name="MunicipalValuationInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningMunicipalValuation" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                    <br>
+
+                    <div class="firstYoV ">
+                    <p class="bgp-text-bold bgp-text-gold">Year of Valuation</p>
+                      <input id="YearOfValuationInput" name="YearOfValuationInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningYearOfValuation" type="number" minlength="4" maxlength="4">
+                    </div>
+                    <div class="lastYoV">
+                      <p class="bgp-text-bold bgp-text-gold">Rating Period</p>
+                      <input id="RatingPeriodInput" name="RatingPeriodInput" class="form-control " ngDefaultControl [(ngModel)]="propertyZoningRatingPeriod"  type="number" min="1" max="4">
+                    </div>
+
+                    <br><br>
+                    <br><br>
+                    <p class="bgp-text-bold bgp-text-gold">Usage Category</p>
+                    <input id="UsageCategoryInput" name="UsageCategoryInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsageCategory" maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Usage</p>
+                    <input id="UsageInput" name="UsageInput" class="form-control" ngDefaultControl [(ngModel)]="propertyZoningUsage" maxlength="50">
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Estimated Monthly Rates</p>
+                    <input currencyMask id="EstimatedMonthlyRates" name="EstimatedMonthlyRates" class="form-control " ngDefaultControl [(ngModel)]="propertyZonintEstimatedMonthlyRates" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }"/>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Rates and Taxes</p>
+                    <input currencyMask id="RatesAndTaxesInput" name="RatesAndTaxesInput" class="form-control " [(ngModel)]="ratesAndTaxesInput" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }" required/>
+                    <br>
+                    <p class="bgp-text-bold bgp-text-gold">Levies</p>
+                    <input currencyMask id="LeviesInput" name="LeviesInput" class="form-control"  ngDefaultControl [(ngModel)]="leviesInput" [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left' }"/>
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+              <br>
+
+               <!-----Start of one panel-->
+               <div class="panel-group">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" href="#imagesAdd" class="bgp-text-gold">Images</a>
+                    </h4>
+                  </div>
+                  <div id="imagesAdd" class="panel-collapse collapse hide">
+                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" required/>
+              <br><br>
+              <img [src]="imgURL" height="200" *ngIf="imgURL">
+                  </div>
+                </div>
+              </div>
+              <!-----End of one panel-->
+
+
+
+              <div class="modal-footer">
+                <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit">Add</button>
+                &nbsp;
+                <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  <!-----End of Add Modal-->
+
+
+  <!-- Start of Confirm Add Modal -->
+    <div id="confirmAddModal" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal ">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">Add this Property?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{propertyAddressInput}}</p>
+            <p class="bgp-text-white">{{price}}</p>
+            <!--I removed the market type description, as it is difficult to retrieve. Might this need to be updated in the narratives?-->
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="add()">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Confirm Add Modal-->
+
+
+
+  <!-- Start of Delete Modal -->
+    <div id="deleteModal" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header modal-dialog-centered">
+            <h4 class="modal-title bgp-text-gold">Are you sure you want to delete this property?</h4>
+          </div>
+          <div class="modal-body">
+            <p class="bgp-text-white">{{propertyAddress}}</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="delete(propertyID)">Yes</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Delete Modal-->
+
+
+  <!-- Start of Property Report Modal -->
+  <div id="propertyreportModal" class="modal fade" role="dialog"  data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+              <h4 class="modal-title bgp-text-gold">Generate Property Report</h4>
+          </div>
+          <form autocomplete="off" ngNativeValidate (ngSubmit)="generateReport()">
+            <div class="modal-body">
+                <p style="text-align: center;" class="bgp-text-bold bgp-text-gold">Please provide property report details</p>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+                <input class ="form-control" type="date" id="startDate" name="startDate" [(ngModel)]="startDate" required>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">End Date</p>
+                <input class ="form-control" type="date" id="endDate" name="endDate" [(ngModel)]="endDate" required>
+                <br>
+
+              </div>
+              <div class="modal-footer">
+
+                <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit">Generate Report</button>
+                &nbsp;
+                <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+<!-----End of Property Report Modal-->
+</div>
+

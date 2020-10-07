@@ -1,0 +1,214 @@
+//Makes all html background gray
+html {
+    background-color: rgb(237, 237, 237);
+  }
+  
+  //edit/delete/upload buttons
+  .bgp-buttons-in-cards{
+    float: right;
+  }
+  
+  //header jumbotron
+  .bgp-jumbotron{
+    background-color: #b3b0aa;
+  }
+  
+  //make text white
+  .bgp-text-white{
+  color:white;
+  }
+  
+  //make text gold
+  .bgp-text-gold{
+    color:#ffc000;
+    }
+  
+  
+  //padding for all screens
+  // .bgp-padding{
+  //   padding: 10px 10px 20px;
+  // }
+  
+  
+  
+  //Assign this class to any div to make the background gray
+  .bgp-background-gray{
+    background-color:rgb(237, 237, 237);
+  }
+  
+  //styling for the nav bar
+  .bgp-nav-bar{
+    height: 100px;
+    background-color:rgb(237, 237, 237);
+  }
+  
+  //make any text bold
+  .bgp-text-bold{
+  font-weight: bold;
+  }
+  
+  //Styling for the scrolling bar in cards
+  #style-3::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: lightgray;
+    background-color: rgb(237, 237, 237);
+  }
+  
+  #style-3::-webkit-scrollbar
+  {
+      width: 4px;
+      background-color: #F5F5F5;
+  }
+  
+  #style-3::-webkit-scrollbar-thumb
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    box-shadow: lightgray;
+      background-color: #ffc000
+  }
+  
+  .scrollbar
+  {
+    overflow-y: scroll;
+    overflow-y: auto;
+  }
+  
+  .force-overflow
+  {
+      min-height: 450px;
+  }
+  
+  #wrapper
+  {
+      text-align: center;
+      width: 500px;
+      margin: auto;
+  }
+  
+  
+  
+  
+  
+  
+  //SIZE OF CARDS
+  //Large
+  .bgp-card-large{
+    width: 100%; height: 16rem;
+    border-radius: 10px;
+    background-color: rgb(198, 198, 198);
+  }
+  
+  //medium
+  .bgp-card-medium{
+    width: 18rem;
+    height: 12rem;
+    border-radius: 10px;
+    background-color: rgb(198, 198, 198);
+  }
+  
+  //small
+  .bgp-card-small{
+    width: 18rem;
+    height: 7.5rem;
+    border-radius: 10px;
+    background-color: rgb(198, 198, 198);
+  }
+  
+  
+  
+  .bgp-card-textbox-large{
+    width: 100%;
+     height: 7.5rem;
+     line-height: 1rem;
+  }
+  
+  .bgp-card-textbox-medium{
+    width: 100%;
+     height: 2.5rem;
+     line-height: 1rem;
+  }
+  
+  .bgp-card-textbox-small{
+    width: 100%;
+     height: 2.5rem;
+     line-height: 1rem;
+  }
+  
+  .header{
+    padding: 40px;
+    text-align: center;
+    background: lightgray;
+    color: black;
+    font-size: 30px;
+    border-radius: 10px;
+    height: auto;
+  }
+  
+  .bgp-card{
+    width:100%
+  }
+  
+  
+  .bgp-modal{
+    background-color:#292b2c;
+  }
+  
+  
+  
+  .bgp-large-modal{
+    background-color:#292b2c;
+    width: 40rem;
+    height: 40rem;
+  }
+  
+  
+  .modal-footer{
+    border-top: 0 none;
+  }
+  
+  
+  
+  .bgp-searchbox{
+    width: 200px;
+    float: right;
+  }
+  .bgp-add-button{
+    font-size: 30px;
+    font-weight:bolder;
+  }
+
+$defaultColor: #ffc000;
+$tableColor1: #E6E6FA;
+$tableColor2: #D8BFD8;
+$size: 100;
+
+div{
+    padding: 20px;
+}
+
+tr:nth-child(even){background-color: $tableColor1}
+
+th{
+    background-color: $defaultColor;
+    color: white;
+    padding: 12px;
+}
+
+td{
+    padding: 8px;
+}
+
+.categoryTable{
+    //border: 1px solid $tableColor2;
+    width: 75%;
+    border-collapse: collapse;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+#Details
+{
+  width: 35%;
+}
+

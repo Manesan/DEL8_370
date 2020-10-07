@@ -1,0 +1,269 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Purchases </h1>
+      <h5>View and maintain your purchase offers and sale agreements </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+      <div class="col-sm-12 mb-5">
+        <input type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      </div>
+      <br>
+  <!------->
+
+  <h2>Purchase Offers</h2>
+  <br>
+
+  <!----Start of Rows-->
+  <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of purchases">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+        <div class="card-body">
+          <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+          <h6 class="card-subtitle">{{x.OFFERDATE}}</h6>
+        <br>
+        <div class="scrollbar bgp-card-textbox-medium" id="style-3">
+          <p class="card-subtitle">{{x.PURCHASEOFFERSTATUSDESCRIPTION}}</p>
+        </div>
+          <div class="bgp-buttons-in-cards">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="view(x.PURCHASEOFFERID)" title="View this purchase offer"><i class="far fa-eye"></i> </button>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+  <br><br>
+
+  <h2>Sale Agreements</h2>
+  <br>
+
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+    <div class="col-sm-3" *ngFor = "let x of saleAgreements">
+      <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small bgp-card"  >
+      <div class="card-body">
+        <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+        <!-- <a href="" class="bgp-text-white">Sale Agreement Document</a> -->
+        <p>{{x.SALEDATECONCLUDED}}</p>
+        <div class="bgp-buttons-in-cards">
+          <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="viewsale(x.SALEID) " title="View this sale agreement"><i class="far fa-eye"></i> </button>
+        </div>
+      </div>
+      </div>
+      <br>
+    </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->
+
+
+  <!-- Start of Purchase Offer Modal -->
+    <div id="purchaseOfferModal" class="modal fade" role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal  bgp-large-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold">View Purchase Offer</h4>
+          </div>
+          <br>
+          <!-- <a href="" style="text-align: center;" class="bgp-text-gold"> {{propertyaddress}}</a> -->
+          <p style="text-align: center;" class="bgp-text-gold">{{propertyaddress}}</p>
+          <!-- <br> -->
+          <!-- <a href="" style="text-align: center;" class="bgp-text-gold" data-dismiss="modal" data-toggle="modal" data-target="#saleAgreementModal">Sale Agreement</a> -->
+          <div class="modal-body scrollbar" id="style-3">
+            <p class="bgp-text-bold bgp-text-gold">Date of Offer</p>
+            <input class="form-control"  [(ngModel)]="offerdate" name="offerdate" id="offerdate" disabled="true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Amount (R)</p>
+            <input class="form-control"  [(ngModel)]="offeramount" name="offeramount" id="offeramount" disabled="true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Status</p>
+            <input class="form-control"  [(ngModel)]="offerstatus" name="offerstatus" id="offerstatus" disabled="true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Description</p>
+            <input class="form-control"  [(ngModel)]="offerdescription" name="offerdescription" id="offerdescription" disabled="true">
+            <br>
+            <p class="bgp-text-bold bgp-text-gold">Comment</p>
+            <input class="form-control"  [(ngModel)]="offercomment" name="offercomment" id="offercomment" disabled="true">
+            <br>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" onClick="window.location.reload();" >OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Purchase Offer Modal-->
+
+
+  <!-- Start of Sale Agreement Modal -->
+    <div id="saleAgreementModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bgp-modal">
+          <div class="modal-header">
+            <h4 class="modal-title bgp-text-gold" id="title">View Sale Agreement</h4>
+            <div class="bgp-buttons-in-cards">
+              <button *ngIf="toBeMaintained" id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Accept/Reject this sale agreement"  data-dismiss="modal" data-toggle="modal" data-target="#saleAgreementMaintainModal" ><i class="fas fa-file-signature"></i>Maintain</button>
+            </div>
+          </div>
+          <br>
+          <!-- <a href="" style="text-align: center;" class="bgp-text-gold">{{propertyaddress}}</a> -->
+          <p style="text-align: center;" class="bgp-text-gold">{{propertyaddress}}</p>
+          <br>
+          <form method="get" action="file.doc" style="text-align: center;">
+            <button (click)="getSaleAgreement()" title="Download sale agreement" type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> &nbsp;Sale Agreement</button>
+          </form>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton" style="visibility: hidden;" >OK</button>
+            &nbsp;
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-----End of Sale Agreement Modal-->
+
+  <!-- Start of Sale Agreement Maintain Modal -->
+        <div id="saleAgreementMaintainModal" class="modal fade" role="dialog" data-backdrop="static">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bgp-modal">
+              <div class="modal-header">
+                <h4 class="modal-title bgp-text-gold" id="title">Accept/Reject</h4>
+                <div class="bgp-buttons-in-cards">
+                </div>
+                <form method="get" action="file.doc">
+                  <button (click)="getSaleAgreement()" title="Download sale agreement"type="submit" class="btn btn-outline-warning my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Sale Agreement</button>
+               </form>
+              </div>
+              <br>
+              <!-- <a href="" style="text-align: center;" class="bgp-text-gold">{{propertyaddress}}</a> -->
+              <p style="text-align: center;" class="bgp-text-gold">{{propertyaddress}}</p>
+              <div class="modal-body">
+                <p class="bgp-text-bold bgp-text-gold">Please download and sign the sale agreement document before accepting.</p>
+                <br>
+                <p class="bgp-text-bold bgp-text-gold">Sale Amount (R)</p>
+                <input class="form-control"  [(ngModel)]="offeramount" id="offeramount" name="offeramount" disabled="true">
+                <br>
+                <form method="get" action="file.doc" style="text-align: center;">
+                  <button (click)="getSaleAgreement()" title="Download sale agreement" type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> &nbsp;Sale Agreement</button>
+                </form>
+                <div class="bgp-center-check">
+                  <div class="bgp-buttons-in-cards">
+                    <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openAccept(purchaseofferid)"  title="Accept this sale agreement"><i class="fas fa-check-circle"></i></button>
+                    &nbsp;
+                    <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="openReject(purchaseofferid)"  title="Reject this sale agreement"><i class="fas fa-times-circle"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <!-- <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton"  >Submit</button> -->
+                &nbsp;
+                <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  <!-----End of Sale Agreement Maintain Modal-->
+
+  <!-- Start of Accepted Modal -->
+        <div id="acceptedModal" class="modal fade" role="dialog" data-backdrop="static">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bgp-modal">
+              <div class="modal-header">
+                <h4 class="modal-title bgp-text-gold">You have accepted your sale agreement!</h4>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  <!-----End of Accepted Modal-->
+
+  <!-- Start of Declined Modal -->
+                <div id="declinedModal" class="modal fade" role="dialog" >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bgp-modal">
+                      <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">You have declined your sale agreement.</h4>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal">OK</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  <!-----End of Declined Modal-->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Start of Confirm acceptance Modal -->
+<div id="confirmAcceptanceModal" class="modal fade" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bgp-modal">
+      <div class="modal-header">
+        <h4 class="modal-title bgp-text-gold">Accept this rental agreement?</h4>
+      </div>
+      <form ngNativeValidate (ngSubmit)="accept(saleid)">
+      <div class="modal-body">
+        <p class="bgp-text-white"></p>
+        <p class="bgp-text-bold bgp-text-gold">Sale Agreement (.PDF)</p>
+        <input class="bgp-text-white" id="SaleAgreement" name="SaleAgreement" type="file" accept="application/pdf" required (change)="saleAgreementChangeListener($event)"/>
+      </div>
+      <div class= "modal-footer">
+        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit">Yes</button>
+        &nbsp;
+        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!-----End of Confirm Acceptance Modal-->
+
+
+  <!-- Start of Confirm Rejection Modal -->
+  <div id="confirmRejectionModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bgp-modal">
+        <div class="modal-header">
+          <h4 class="modal-title bgp-text-gold">Reject this rental application?</h4>
+        </div>
+        <div class="modal-body">
+          <p class="bgp-text-white">{{propertyaddress}}</p>
+        </div>
+        <div class= "modal-footer">
+          <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" (click)="reject(saleid)">Yes</button>
+          &nbsp;
+          <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-----End of Confirm Rejection Modal-->

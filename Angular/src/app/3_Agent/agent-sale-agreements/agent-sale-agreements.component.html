@@ -1,0 +1,43 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+
+  <!------->
+    <div class="header">
+      <h1>Sale Agreements </h1>
+      <h5>View all sale agreements </h5>
+    </div>
+    <br><br>
+  <!------->
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+  </div>
+  <br>
+  <!------->
+
+  <!----Start of Rows-->
+    <div class="row" id="myCards">
+  <!------>
+
+  <!--Start of one tile-->
+  <div class="col-sm-3" *ngFor="let x of saleAgreements">
+    <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-medium bgp-card"  >
+      <div class="card-body">
+        <h5 class="card-title bgp-text-gold">{{x.PROPERTYADDRESS}}</h5>
+        <br>
+        <h6 class="card-subtitle">{{x.USERNAME}} {{x.USERSURNAME}}</h6>
+        <br>
+        <div class="bgp-buttons-in-cards">
+          <!-- <form method="get" action="file.pdf">
+            <button type="submit"  title="View this rental agreement" class="btn btn-outline-warning my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i></button>
+          </form> -->
+          <button (click)="getSaleAgreement(x.SALEID)" id="downloadDocument" title="View this sale agreement "type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End of one tile-->
+
+  <!------>
+    </div>
+  <!----End of Rows-->

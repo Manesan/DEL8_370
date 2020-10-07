@@ -1,0 +1,268 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$black-gold-properties-primary: mat-palette($mat-indigo);
+$black-gold-properties-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$black-gold-properties-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$black-gold-properties-theme: mat-light-theme($black-gold-properties-primary, $black-gold-properties-accent, $black-gold-properties-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($black-gold-properties-theme);
+
+@import 'themes';
+
+//Makes all html background gray
+html {
+  background-color: rgb(237, 237, 237);
+}
+
+//edit/delete/upload buttons
+.bgp-buttons-in-cards{
+  float: right;
+}
+
+//header jumbotron
+.bgp-jumbotron{
+  background-color: #b3b0aa;
+}
+
+//make text white
+.bgp-text-white{
+color:white;
+}
+
+//make text gold
+.bgp-text-gold{
+  color:#ffc000;
+  }
+
+
+//padding for all screens
+.bgp-padding{
+ padding: 10px 100px 20px;
+}
+
+
+
+//Assign this class to any div to make the background gray
+.bgp-background-gray{
+  background-color:rgb(237, 237, 237);
+}
+
+//styling for the nav bar
+.bgp-nav-bar{
+  height: 100px;
+  background-color:rgb(237, 237, 237);
+}
+
+//make any text bold
+.bgp-text-bold{
+font-weight: bold;
+}
+
+//Styling for the scrolling bar in cards
+#style-3::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: lightgray;
+  background-color: rgb(237, 237, 237);
+}
+
+#style-3::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  box-shadow: lightgray;
+	background-color: #ffc000
+}
+
+.scrollbar
+{
+  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.force-overflow
+{
+	min-height: 450px;
+}
+
+#wrapper
+{
+	text-align: center;
+	width: 500px;
+	margin: auto;
+}
+
+
+
+
+
+
+//SIZE OF CARDS
+//Large
+.bgp-card-large{
+  width: 18rem; height: 15rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+//medium
+.bgp-card-medium{
+  width: 18rem;
+  height: 12rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+//small
+.bgp-card-small{
+  width: 18rem;
+  height: 7.5rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+
+
+.bgp-card-textbox-large{
+  width: 17.3rem;
+   height: 7.5rem;
+}
+
+.bgp-card-textbox-medium{
+  width: 17.3rem;
+   height: 2.5rem;
+}
+
+.bgp-card-textbox-small{
+  width: 17.3rem;
+   height: 2.5rem;
+}
+
+.header{
+  padding: 40px;
+  text-align: left;
+  background: lightgray;
+  color: black;
+  font-size: 30px;
+  border-radius: 10px;
+  height: 160px;
+}
+
+.bgp-card{
+  width:300px
+}
+
+
+.bgp-modal{
+  background-color:#292b2c;
+}
+
+
+
+.bgp-large-modal{
+  background-color:#292b2c;
+  width: 40rem;
+  height: 40rem;
+}
+
+
+.modal-footer{
+  border-top: 0 none;
+}
+
+
+
+.bgp-searchbox{
+  width: 295px;
+  float: right;
+}
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+}
+
+.bgp-clickable{
+  cursor: pointer;
+}
+
+.card-title
+{
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 1; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+
+body{
+  background:#C0C0C0;
+  }
+  .main{
+  height:1200px;
+  width:1000px;}
+  body::-webkit-scrollbar {
+    width: 4px;
+
+  }
+  body::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+  border-radius: 20px;
+  }
+  body::-webkit-scrollbar-thumb {
+  background-color: #ffc000;
+  border-radius: 20px;
+  }
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+    border: 4px solid #F5F5F5;
+  }
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+
+
+// toast styles for the pop ups
+@import '~ngx-toastr/toastr';
+
+#toast-container > .toast-success {
+  //background-image: none !important;
+  background-color:#292b2c;
+  color:#ffc000;
+}
+
+// #toast-container > .toast-error {
+//   //background-image: none !important;
+//   background-color:#292b2c;
+//   color:#ffc000;
+// }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

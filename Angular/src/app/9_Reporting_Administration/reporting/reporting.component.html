@@ -1,0 +1,125 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+    <!------->
+        <div class="header">
+            <h1>Reports </h1>
+            <h5>Generate system reports </h5>
+        </div>
+        <br>
+        <br>
+    <!------->
+
+    <!----Search cards-->
+        <div class="col-sm-12 mb-5" >
+            <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+        </div>
+    <!------->
+
+
+    <!----Start of Rows-->
+        <div class="row" id="myCards">
+    <!------>
+
+    <!--Start of one tile-->
+        <div class="col-sm-3">
+            <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+                <div class="card-body">
+                    <h5 class="card-title bgp-text-gold">Audit Report</h5>
+                    <div class="bgp-buttons-in-cards">
+                        <button class="btn btn-outline-warning my-2 my-sm-0" (click)="submitGenerateAudit()" type="submit" title="Generate an audit report"><i class="fas fa-chart-pie"></i></button>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    <!--End of one tile-->
+
+    <div class="col-sm-3">
+        <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-small  bgp-card"  >
+            <div class="card-body">
+                <h5 class="card-title bgp-text-gold">Agent Report</h5>
+                <div class="bgp-buttons-in-cards">
+                    <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#agentreportModal" title="Generate an agent report"><i class="fas fa-chart-pie"></i></button>
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <!------>
+        </div>
+    <!----End of Rows-->
+
+    <!-- Start of Audit Report Modal -->
+        <div id="auditreportModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Generate Audit Report</h4>
+                    </div>
+                    <form  ngNativeValidate (ngSubmit)="submitGenerateAudit()">
+                        <div class="modal-body">
+                            <h6 class="modal-title bgp-text-gold" style="text-align: center;">Please provide the audit report details</h6>
+                            <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+                            <input [(ngModel)]="startDate" class ="form-control" type="date" id="startDate" name="startDate" required>
+                            <br>
+                            <p class="bgp-text-bold bgp-text-gold">End Date</p>
+                            <input [(ngModel)]="endDate" class ="form-control" type="date" id="endDate" name="endDate" required>
+                        </div>
+                        <div class= "modal-footer ">
+                            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Generate Report</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal"  onClick="window.location.reload();">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+  <!-----End of Audit Report Modal-->
+
+     <!-- Start of Confirm Save Modal -->
+        <div id="confirmSaveReportModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Save this document?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="bgp-text-white">Audit Report</p>
+                        <br>
+                        <p class="bgp-text-white">[Report Generation Date]</p>
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal"  onClick="window.location.reload();">No</button>
+                        &nbsp;
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="showSaveSuccess()" (click)="save()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-----End of Confirm Save Modal-->
+
+    <!-- Start of Agent Report Modal -->
+        <div id="agentreportModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Generate Agent Report</h4>
+                    </div>
+                    <form  ngNativeValidate (ngSubmit)="submitGenerateAgent()">
+                        <div class="modal-body">
+                            <h6 class="modal-title bgp-text-gold" style="text-align: center;">Please provide the agent report details</h6>
+                            <p class="bgp-text-bold bgp-text-gold">Start Date</p>
+                            <input [(ngModel)]="startDate" class ="form-control" type="date" id="startDate" name="startDate" required>
+                            <br>
+                            <p class="bgp-text-bold bgp-text-gold">End Date</p>
+                            <input [(ngModel)]="endDate" class ="form-control" type="date" id="endDate" name="endDate" required>
+                        </div>
+                        <div class= "modal-footer ">
+                            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Generate Report</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-----End of Agent Report Modal-->
+</div>

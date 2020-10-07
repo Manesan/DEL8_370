@@ -1,0 +1,101 @@
+<div   class="bgp-background-gray">
+    <!-- <button mat-flat-button (click)="DownloadReport()">
+        Download PDF
+    </button>
+    <br> <br> -->
+
+    <div style="width: 75; padding-left: 10px;">
+        <div style="background-color: rgb(22, 21, 21);" >
+            <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
+            <div style="background-color:lightgray; float: right; ">
+                <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
+                <h4><i class="fas fa-phone-square"></i> Contact Number: +27 (0)72 322 9774</h4>
+                <h4><i class="far fa-envelope"></i> Email: info@bgprop.co.za</h4>
+            </div>
+        </div>
+
+        <br>
+         <div >
+            <div>
+                <h1 class="bgp-text-gold" >Audit Report</h1>
+                <br>
+                <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
+                <h4><i class="fas fa-user"></i> Prepared By: {{name}} {{surname}}</h4>
+            </div>
+
+            <div  id="Details" >
+                <table class="container" >
+                    <tr >
+                        <th>Report Date Range:</th>
+                        <th></th>
+                    </tr>
+                    <tr >
+                        <td>Start date</td> 
+                        <td>End Date</td>
+                    </tr>
+                    <tr >
+                        <td>{{startDate}}</td> 
+                        <td>{{endDate}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="categoryTable" *ngFor="let property of Properties; let y = index">
+                <table  > 
+                    <tr>
+                        <th class="headingRows">Ref:</th>
+                        <td class="dataRow">{{property.PROPERTYID}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Address:</th> 
+                        <td class="dataRow">{{property.PROPERTYADDRESS}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Property Type:</th> 
+                        <td class="dataRow">{{property.PROPERTYTYPEDESCRIPTION}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Market Type:</th> 
+                        <td class="dataRow">{{property.MARKETTYPEDESCRIPTION}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Property Owner:</th> 
+                        <td class="dataRow">{{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Defects:</th> 
+                        <td class="dataRow"><p *ngFor="let defect of property.Defects">{{defect[y]?.DEFECTDESCRIPTION}} </p></td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Points of Interest:</th> 
+                        <td class="dataRow"><p *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}} </p></td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Title Deed:</th> 
+                        <td class="dataRow">{{this.houses[0].TitleDeed?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Municipality Report:</th> 
+                        <td class="dataRow">{{this.houses[0].MunicipalReport?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Valuation Document:</th> 
+                        <td class="dataRow">{{this.houses[0].Valuation?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Lights & Water Report:</th> 
+                        <td class="dataRow">{{this.houses[0].LightsWater?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Municipality Valuation and Rates & Taxes:</th> 
+                        <td class="dataRow">{{this.houses[0].Municipal?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Levies:</th> 
+                        <td class="dataRow">{{this.houses[0].Levies?.PROPERTYDOCUMENT1}}</td> 
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

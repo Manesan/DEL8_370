@@ -1,0 +1,134 @@
+User
+1. Login
+2. Logout
+3. Reset password
+
+
+Client
+1. Register client
+2. Update client info#
+3. Contact agent
+4. Browse properties
+5. Apply to rent
+6. View client rental application
+7. Accept/Reject rental agreement
+8. View rental agreement details
+9. Make purchase offer
+10. View client purchase offer
+11. Accept/Reject sale agreement
+12. View sale agreement
+13. Request to extend rental agreement
+14. Give notice of rental agreement termination
+
+
+Agent
+1. Add property
+2. View property
+3. Update property
+4. Delete property
+5. View property owner
+6. Update property owner
+7. View agent rental applications
+8. Accept/Reject rental application
+9. Accept/Reject rental agreement extension
+10. View agent purchase offers
+11. Accept/Reject purchase offers
+12. View agent rental agreements
+13. Cancel rental agreement
+14. View agent sale agreements
+15. Generate property report
+16. Assign valuer to valuation
+17. View valuation report
+18. Assign inspector to inspection
+19. Send rental agreement extension reminder
+20. Update rental agreement status to complete
+
+
+Inspection Administration
+1. View inspections
+2. Capture inspection
+3. Follow-up on inspection
+4. Generate inspection report
+
+
+Valuation Administration
+1. View valuations
+2. Capture valuation
+3. Generate valuation report
+
+
+Property Administration
+1. Add property type
+2. View property type
+3. Update property type
+4. Delete property type
+5. Add defect
+6. View defect
+7. Update defect
+8. Delete defect
+9. Add space
+10. View space
+11. Update space
+12. Delete space
+13. Add space type#
+14. Update space type#
+15. View space type#
+16. Delete space type#
+17. Add market type#
+18. View market type#
+19. Update market type#
+20. Delete market type#
+21. Add feature#
+22. View feature#
+23. Update feature#
+24. Delete feature (db restricting this from working)
+25. Add other building detail
+26. View other building detail
+27. Update other building detail
+28. Delete other building detail
+29. Add point of interest
+30. View point of interest#
+31. Update point of interest
+32. Delete point of interest
+33. Upload property documentation
+
+
+Client Administration
+1. View client
+2. Upload credit check report
+3. View credit check report
+
+
+Employee Administration
+1. Add employee
+2. View employee
+3. Update employee
+4. Delete employee
+5. Add employee type
+6. View employee type
+7. Update employee type
+8. Delete employee type
+9. Add action
+10. View action
+11. Update action
+12. Delete action
+
+
+Reporting Administration
+1. Generate audit report
+2. Generate agent report
+
+
+Location#
+1. Add province#
+2. View province#
+3. Update province#
+4. Delete province#
+5. Add city#
+6. View city#
+7. Update city#
+8. Delete city#
+9. Add suburb#
+10. View suburb#
+11. Update suburb#
+12. Delete suburb#

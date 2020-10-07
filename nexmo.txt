@@ -1,0 +1,10 @@
+Manesanpillay28@gmail.com
+Manesan28
+
+Install-Package Nexmo.Csharp.Client
+
+Test numbers:
+27767674103
+27765689758
+27606652309
+27671517050

@@ -1,0 +1,127 @@
+.bgp-buttons-in-cards{
+  float: right;
+}
+
+.bgp-jumbotron{
+  background-color: #b3b0aa;
+}
+
+.bgp-text-white{
+  color:white;
+  }
+
+// .bgp-padding{
+//   padding: 10px 10px 10px;
+//   }
+
+
+.container {
+  padding: 10px;
+}
+
+ul li {
+  list-style: none;
+
+}
+
+
+//SIZE OF CARDS
+//Large
+.bgp-card-large{
+  width: 18rem; height: 15rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+//medium
+.bgp-card-medium{
+  width: 18rem;
+  height: 12rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+//small
+.bgp-card-small{
+  width: 18rem;
+  height: 10rem;
+  border-radius: 10px;
+  background-color: rgb(198, 198, 198);
+}
+
+
+.bgp-card-textbox-large{
+  width: 100%;
+   height: 7.5rem;
+}
+.bgp-card-textbox-medium{
+  width: 100%;
+   height: 2.5rem;
+}
+.bgp-card-textbox-small{
+  width: 100%;
+   height: 2.5rem;
+}
+
+
+.bgp-searchbox{
+  width: 200px;
+  float: right;
+}
+
+
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+}
+
+
+.header{
+  padding: 40px;
+  text-align: center;
+  background: lightgray;
+  color: black;
+  font-size: 30px;
+  border-radius: 10px;
+  height: auto;
+}
+
+
+.bgp-card{
+  width: 100%;
+}
+
+
+.bgp-modal{
+  background-color:#292b2c;
+}
+
+.bgp-add-button{
+  font-size: 30px;
+  font-weight:bolder;
+  right: 10px;
+}
+.bgp-center-check{
+  text-align: center;
+}
+
+
+//Required for large modals that need a scrollbar
+.bgp-large-modal{
+  background-color:#292b2c;
+  width: 40rem;
+  height: 40rem;
+}
+
+
+.modal-footer{
+  border-top: 0 none;
+}
+.card-title
+{
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 1; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}

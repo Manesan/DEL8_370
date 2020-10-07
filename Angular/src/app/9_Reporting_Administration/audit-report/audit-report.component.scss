@@ -1,0 +1,85 @@
+//Makes all html background gray
+html {
+    background-color: rgb(237, 237, 237);
+  }
+  
+  //make text white
+  .bgp-text-white{
+  color:white;
+  }
+  
+  //make text gold
+  .bgp-text-gold{
+    color:#ffc000;
+    }
+  
+  //Assign this class to any div to make the background gray
+  .bgp-background-gray{
+    background-color:rgb(237, 237, 237);
+  }
+  
+  //styling for the nav bar
+  .bgp-nav-bar{
+    height: 100px;
+    background-color:rgb(237, 237, 237);
+  }
+  
+  //make any text bold
+  .bgp-text-bold{
+  font-weight: bold;
+  }
+   
+  .modal-footer{
+    border-top: 0 none;
+  }
+
+  
+  $defaultColor: #ffc000;
+  $tableColor1: #E6E6FA;
+  $tableColor2: #D8BFD8;
+  $size: 100;
+  
+  div{
+      padding: 20px;
+  }
+  
+  tr:nth-child(even){background-color: $tableColor1}
+  
+  th{
+      background-color: $defaultColor;
+      color: white;
+      padding: 12px;
+  }
+  
+  td{
+      padding: 8px;
+  }
+  
+  .categoryTable{
+      //border: 1px solid $tableColor2;
+      width: 75%;
+      border-collapse: collapse;
+      margin-left:auto; 
+      margin-right:auto;
+  }
+  
+  #Details
+  {
+    width: 30%;
+  }
+  
+  //Align the table 
+  .categoryTable {
+    margin-left: 2px;
+    margin-right: auto;
+  }
+
+  .headingRows {
+      width: 250px;
+      background-color: $defaultColor;
+  }
+
+  .dataRow {
+      width: 550px; 
+      background-color: $tableColor1;
+  }

@@ -1,0 +1,200 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+    <!------->
+        <div class="header" >
+        <h1 >Clients </h1>
+        <h5>View and maintain clients </h5>
+        </div>
+        <br><br>
+    <!------->
+
+    <!----Search cards-->
+      <div class="col-sm-12 mb-5">
+        <input type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      </div>
+      <br>
+    <!------->
+
+    <!----Start of Rows-->
+        <div class="row" id="myCards">
+    <!------>
+
+    <!--Start of one tile-->
+        <div class="col-sm-3" *ngFor = "let x of clients">
+            <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large bgp-card"  >
+                <div class="card-body">
+                    <h5 class="card-title bgp-text-gold">{{x.USERNAME}} {{x.USERSURNAME}}</h5>
+                    <br>
+                    <h6 class="bgp-text-white">{{x.USERCONTACTNUMBER}}</h6>
+                    <h6 class="bgp-text-white">{{x.USEREMAIL}}</h6>
+                    <h6 class="bgp-text-white">{{x.CLIENTTYPEDESCRIPTION}}</h6>
+                    <br>
+                    <div class="bgp-buttons-in-cards">
+                        <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.USERID)" title="View this client"><i class="far fa-eye"></i></button>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    <!--End of one tile-->
+
+    <!------>
+        </div>
+    <!----End of Rows-->
+
+
+    <!-- Start of Edit Modal -->
+        <div id="editModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-large-modal">
+                    <div class="modal-header">
+                        <h3 class="modal-title bgp-text-gold">View Client Profile</h3>
+                    </div>
+
+                    <div class="modal-body scrollbar" id="style-3">
+                        <!-----Start of one panel-->
+                            <div class="panel-group" >
+                                <div class="panel panel-default" >
+                                <div class="panel-heading" >
+                                    <h4 class="panel-title" >
+                                    <a data-toggle="collapse" href="#personalDetails" class="bgp-text-gold">Personal Details</a>
+                                    </h4>
+                                </div>
+                                <br>
+                                <div id="personalDetails">
+                                    <label class="bgp-text-bold bgp-text-gold">Name </label>
+                                    <input [(ngModel)]="nameInput" disabled class="form-control bgp-disabled"  disabled = "true" id="nameInput" name="nameInput" >
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Surname </label>
+                                    <input [(ngModel)]="surnameInput" class="form-control" id="surnameInput" name="surnameInput" disabled="true"   >
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Contact Number </label>
+                                    <input  [(ngModel)]="contactNumberInput" class="form-control" id="contactNumberInput" name="contactNumberInput" disabled="true" maxlength="20" pattern="\+([0-9]{1,})">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Alternative Contact Number </label>
+                                    <input [(ngModel)]="alternativeContactNumberInput"  class="form-control" id="alternativeContactNumberInput" name="alternativeContactNumberInput" disabled="true" required maxlength="20" pattern="\+([0-9]{1,})">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Email </label>
+                                    <input [(ngModel)]="emailInput" type="email" class="form-control" id="emailInput" name="emailInput" disabled="true"  required  maxlength="50">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">ID Number</label>
+                                    <input [(ngModel)]="idNumberInput" class="form-control" id="idNumberInput" name="idNumberInput"disabled="true"  required  maxlength="13">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Passport Number </label>
+                                    <input [(ngModel)]="passportNumberInput" class="form-control" id="passportNumberInput" name="passportNumberInput" disabled="true" required minlength="8" maxlength="20">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Address </label>
+                                    <input [(ngModel)]="addressInput" class="form-control" id="addressInput" name="addressInput" disabled="true" required  maxlength="150">
+                                    <br>
+                                    <!-- <label class="bgp-text-bold bgp-text-gold">Password </label>
+                                    <input [(ngModel)]="passwordInput" class="form-control" id="passwordInput" name="passwordInput" disabled="true" required minlength="8" maxlength="256">
+                                    <br> -->
+                                    <label class="bgp-text-bold bgp-text-gold">Client Type </label>
+                                    <input [(ngModel)]="clientTypeInput" class="form-control" id="clientTypeInput" name="clientTypeInput" disabled="true" required minlength="2" maxlength="50">
+                                </div>
+                            </div>
+                        </div>
+                          <br><br>
+                        <!-----End of one panel-->
+
+
+                        <div class="panel-group" >
+                            <div class="panel panel-default" >
+                                <div class="panel-heading" >
+                                    <h4 class="panel-title" >
+                                    <a data-toggle="collapse" href="#clientDocuments" class="bgp-text-gold">Client Documents</a>
+                                    </h4>
+                                </div>
+                                <br>
+                                <div id="clientDocuments" class="panel-collapse collapse " >
+                                    <div class="bgp-buttons" >
+                                        <button (click)="getClientCreditDocument(creditCheckReportID)" id="downloadDocument" title="View credit check report "type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> View Credit Check Report</button>
+                                        <button class="btn  btn-outline-warning my-2 my-sm-0" type="submit"  data-toggle="modal" data-dismiss="modal" data-target="#uploadModal" title="Upload credit check report" style="float: right;"><i class="fas fa-arrow-circle-up"></i></button>
+                                        <br>
+                                        <label class="bgp-text-gray">Upload Date: {{credituploaddate}}</label>
+                                        <br>
+                                        <label class="bgp-text-gray">Expiry Date: {{creditexpirydate}}</label>
+                                    </div>
+                                    <br>
+                                    <div class="bgp-buttons">
+                                        <button (click)="getClientIDDocument(copyOfIdDocumentID)" id="downloadDocument" title="View copy of id/passport "type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i>  View Copy of ID/Passport</button>
+                                        <br>
+                                        <label class="bgp-text-gray">Upload Date: {{iduploaddate}}</label>
+                                    </div>
+                                    <br>
+                                    <!-- <div class="bgp-buttons">
+                                        <button id="downloadDocument" title="View copy of passport "type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><a href="{{copyOfPassportDocument}}" target="_blank"><i class="far fa-arrow-alt-circle-down"></i> </a>&nbsp; View Copy of Passport</button>
+                                        <br>
+                                        <label class="bgp-text-gray">Upload Date: {{passportuploaddate}}</label>
+                                    </div>
+                                    <br> -->
+                                    <div class="bgp-buttons">
+                                        <button (click)="getClientResidenceDocument(proofOfResidenceID)" id="downloadDocument" title="View proof of residence "type="submit" class="btn btn-outline-warning my-2 my-sm-0 " ><i class="far fa-arrow-alt-circle-down"></i> View Proof of Residence</button>
+                                        <br>
+                                        <label class="bgp-text-gray">Upload Date: {{residenceuploaddate}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+
+                    <div class= "modal-footer ">
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()"  >Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-----End of Edit Modal-->
+
+    <!-- Start of Credit Check Report Upload Modal -->
+        <div id="uploadModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Upload Credit Check Report</h4>
+                    </div>
+                    <form  ngNativeValidate (ngSubmit)="submitUpload()">
+                    <div class="modal-body scrollbar">
+                        <p class="bgp-text-bold bgp-text-gold">Client</p>
+                        <input  [(ngModel)]="users" class="form-control" id="users" name="users" disabled = "true">
+                        <br>
+                        <br>
+                        <p class="bgp-text-bold bgp-text-gold">Credit Check Report Document (.PDF)</p>
+                        <input class="bgp-text-white" id="creditCheckReportDocument" name="creditCheckReportDocument" type="file" accept="application/pdf" required (change)="creditCheckChangeListener($event)" />
+                        <br>
+                        <br><br>
+                        <p class="bgp-text-bold bgp-text-gold">Document Type</p>
+                        <input class ="form-control" type="text" id="property" name="property" disabled="true" value = "Credit Check Report">
+                    </div>
+                    <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Save</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    <!-----End of Credit Check Report Upload Modal-->
+
+    <!-- Start of Confirm Upload Modal -->
+        <div id="confirmUploadModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Upload this document?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="bgp-text-white">Credit Check Report</p>
+                    </div>
+                    <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="upload()">Yes</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()" >No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-----End of Confirm Upload Modal-->
+
+</div>

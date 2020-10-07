@@ -1,0 +1,402 @@
+<div class="container-fluid bgp-background-gray bgp-padding">
+    <!------->
+      <div class="header">
+          <h1>Employees </h1>
+          <h5>View and maintain employees </h5>
+      </div>
+      <br><br>
+    <!------->
+
+
+      <!----Search cards-->
+      <div class="col-sm-12 mb-5" >
+          <button  class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus" title="Add an employee"  ></i></button>
+          <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      </div>
+      <!------->
+
+
+      <!----Start of Rows-->
+          <div class="row" id="myCards">
+      <!------>
+
+      <!--Start of one tile-->
+      <div class="col-sm-3" *ngFor = "let x of employees">
+        <div class="card text-white bg-dark mb-3  animate__animated  animate__slideInRight bgp-card-large  bgp-card"  >
+            <div class="card-body">
+                    <h5 class="card-title bgp-text-gold">{{x.USERNAME}} {{x.USERSURNAME}}</h5>
+                    <br>
+                    <div class="scrollbar bgp-card-textbox-large" id="style-3">
+                        <h6 class="card-title bgp-text-white">{{x.USERCONTACTNUMBER}}</h6>
+                        <h6 class="card-title bgp-text-white">{{x.USEREMAIL}}</h6>
+                        <div *ngFor="let y of x.EmployeeType">
+                            <h6 class="card-title bgp-text-white">{{y.EMPLOYEETYPEDESCRIPTION}}</h6>
+                        </div>
+                    </div>
+                    <br>
+                      <div class="bgp-buttons-in-cards">
+                        <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.USERID)" title="View this employee"><i class="far fa-eye"></i></button>
+                          &nbsp;
+                        <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#deleteModal" (click)="deleteBinding(x.USERID)" title="Delete this feature"><i class="far fa-trash-alt"></i></button>
+                    </div>
+                  </div>
+              </div>
+              <br>
+          </div>
+      <!--End of one tile-->
+
+      <!------>
+          </div>
+      <!----End of Rows-->
+
+
+      <!-- Start of Edit Modal -->
+        <div id="editModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-large-modal">
+                    <div class="modal-header" >
+                          <h3 class="modal-title bgp-text-gold" id="title">View Employee Profile</h3>
+                          <div class="bgp-buttons-in-cards">
+                              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this employee" onclick="editEmployee()"><i class="fas fa-pencil-alt"></i></button>
+                          </div>
+                      </div>
+                      <div id="prompt" style="display: none;">
+                        <br>
+                        <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated employee details</h6>
+                      </div>
+                      <form class="scrollbar" id="style-3" ngNativeValidate (ngSubmit)="submitUpdate()">
+                        <div class="modal-body " >
+                          <!-----Start of one panel-->
+                              <div class="panel-group" >
+                                  <div class="panel panel-default" >
+                                      <div class="panel-heading" >
+                                          <h4 class="panel-title" >
+                                          <a data-toggle="collapse" href="#personalDetails" class="bgp-text-gold">Personal Details</a>
+                                          </h4>
+                                      </div>
+                                      <div id="personalDetails" class="panel-collapse collapse">
+                                          <label class="bgp-text-bold bgp-text-gold">Name </label>
+                                          <input [(ngModel)]="name" class="form-control bgp-disabled" disabled="true" id="name" name="name"  required maxlength="50" >
+                                          <br>
+                                          <label  class="bgp-text-bold bgp-text-gold">Surname </label>
+                                          <input [(ngModel)]="surname" disabled class="form-control bgp-disabled"  id="surname" name="surname" disabled="true"  required maxlength="50">
+                                          <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Contact Number </label>
+                                          <br>
+                                          <input placeholder="e.g. +27123456789"  [(ngModel)]="contactnumber" disabled class="form-control bgp-disabled"  id="contactnumber" name="contactnumber" disabled="true"  required  maxlength="20" type="tel" pattern="\+([0-9]{1,})">
+                                          <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Alternative Contact Number </label>
+                                          <br>
+                                          <input placeholder="e.g. +27123456789"  [(ngModel)]="altcontactnumber" disabled class="form-control bgp-disabled"  id="altcontactnumber" name="altcontactnumber"  maxlength="20"  type="tel" pattern="\+([0-9]{1,})">
+                                            <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Email </label>
+                                          <input [(ngModel)]="email" disabled class="form-control bgp-disabled" type="email"  id="email" name="email" disabled="true"  required  maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                                          <br>
+                                          
+                                          <!-- <div class="idpassport" id="idpassport" name="idpassport">
+                                          <label class="bgp-text-bold bgp-text-gold">ID Number </label>
+                                          <input [(ngModel)]="idnumber" disabled class="form-control bgp-disabled"  disabled="true" id="idnumber" name="idnumber" disabled="true"   minlength="13" maxlength="13">
+                                          <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Passport Number  </label>
+                                          <input [(ngModel)]="passportnumber" disabled class="form-control bgp-disabled"  disabled="true" id="passportnumber" name="passportnumber" disabled="true"   minlength="20" maxlength="20">
+                                         </div> -->
+
+                                         <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
+                                            <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+                                            <input id="idnumber" name="idnumber"class="form-control" ngDefaultControl [(ngModel)]="idnumber" minlength="13" maxlength="13" required disabled="true">
+                                            </div>
+                                            <div class="southAfricanNoDiv" *ngIf="SouthAfrican == 'No'">
+                                            <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
+                                            <input id="passportnumber" name="passportnumber"class="form-control" ngDefaultControl [(ngModel)]="passportnumber" minlength="8" maxlength="20" required disabled="true">
+                                        </div>
+                                         
+
+                                          <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Address </label>
+                                          <input [(ngModel)]="address" disabled class="form-control bgp-disabled"  id="address" name="address" disabled="true"  required maxlength="150">
+                                          <br>
+                                          <label class="bgp-text-bold bgp-text-gold">Banking Details </label>
+                                          <input [(ngModel)]="banking" disabled class="form-control bgp-disabled"  id="banking" name="banking" disabled="true" required minlength="20" maxlength="100">
+                                      </div>
+                                  </div>
+                              </div>
+                          <!-----End of one panel-->
+                          <br>
+
+                          <div class="panel-group" >
+                              <div class="panel panel-default" >
+                                  <div class="panel-heading" >
+                                      <h4 class="panel-title" >
+                                      <a data-toggle="collapse" href="#employmentDetails" class="bgp-text-gold">Employment Details</a>
+                                      </h4>
+                                  </div>
+                                  <br>
+                                  <div id="employmentDetails" class="panel-collapse collapse " >
+                                    <p class="bgp-text-bold bgp-text-gold">Employee Types</p>
+
+                                    <div id="EmployeeTypeWrapper1" hidden>
+                                     <div class="employeeTypeFirst">
+                                        <select id="employeeTypeDescriptionInput" name="employeeTypeDescriptionInput" ngDefaultControl [(ngModel)]="employeeTypeDescriptionInput"  class ="form-control" required>
+                                          <option *ngFor="let yy of employeetypes" [ngValue]="yy">{{yy.EMPLOYEETYPEDESCRIPTION}}</option>
+                                        </select>
+                                      </div>
+                                      <div class="employeeTypeLast">
+                                        <button type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addEmployeeType()" title="Add employee type"><i class="fas fa-plus "   ></i></button>
+                                      </div>
+                                      <br>
+                                      <br>
+                                      <br>
+                                    </div>
+                                    <div id="noPointer" style="pointer-events: none;">
+                                        <div class="employeeTypeWrapper" *ngFor="let x of employeeTypeDescriptions, let i = index">
+                                            <div class="first">
+                                                <label class="bgp-text-white">{{x.EMPLOYEETYPEDESCRIPTION}}</label>
+                                            </div>
+                                            <div class="lineItem">
+                                                <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this other building detail" (click)="deleteEmployeeType(i)"><i class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                            <br><br>
+                                        </div>
+                                    </div>
+
+                                        <!-- <div *ngFor="let x of employeetypes; let i = index" id="employeeTypeInput" name="employeeTypeInput" >
+                                            <input  type="checkbox" [ngModel]="employeeTypeDescriptionInput[i+1]" id="employeeTypeDescriptionInput" name="employeeTypeDescriptionInput" >
+                                            <label class="bgp-text-white">&nbsp;{{x.EMPLOYEETYPEDESCRIPTION}} </label>
+                                        </div> -->
+
+                                        <!-- <div *ngFor="let x of employeetypes; let i = index" >
+                                            <input type="checkbox" ngDefaultControl [(ngModel)]="employeeTypeDescriptionInput[i]" id="employeeTypeDescriptionInput" name="employeeTypeDescriptionInput">
+                                            <label  class="bgp-text-white">&nbsp;{{x.EMPLOYEETYPEDESCRIPTION}}</label>
+                                        </div> -->
+
+                                      <label class="bgp-text-bold bgp-text-gold">Date Employed </label>
+                                      <input [(ngModel)]="dateemployed" disabled class="form-control bgp-disabled" type="date"  id="dateemployed" name="dateemployed" disabled="true" required>
+                                      <br>
+                                      <label class="bgp-text-bold bgp-text-gold">Renumeration</label>
+                                      <input currencyMask [(ngModel)]="renumeration" disabled class="form-control bgp-disabled" type="money"  id="renumeration" name="renumeration" disabled="true" required [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Update</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
+                        <!-- this cancel button above needs to still refresh page -->
+                    </div>
+                </form>
+                  </div>
+              </div>
+          </div>
+      <!-----End of Edit Modal-->
+
+      <!-- Start of Confirm Edit Modal -->
+          <div id="confirmEditModal" class="modal fade" role="dialog" data-backdrop="static">
+              <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content bgp-modal">
+                      <div class="modal-header">
+                          <h4 class="modal-title bgp-text-gold">Update this employee?</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p class="bgp-text-white">{{name}} {{surname}}</p>
+                      </div>
+                      <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="update(userid)" >Yes</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();"  >No</button>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      <!-----End of Confirm Edit Modal-->
+
+    <!-- Start of Delete Modal -->
+          <div id="deleteModal" class="modal fade" role="dialog" data-backdrop="static">
+              <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content bgp-modal">
+                      <div class="modal-header modal-dialog-centered">
+                          <h4 class="modal-title bgp-text-gold">Are you sure you want to delete this employee?</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p class="bgp-text-white">{{name}} {{surname}}</p>
+                      </div>
+                      <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="delete(userid)">Yes</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();">No</button>
+                    </div>
+                  </div>
+              </div>
+          </div>
+    <!-----End of Delete Modal-->
+
+    <!-- Start of Add Modal -->
+    <div id="addModal" class="modal fade" role="dialog" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bgp-large-modal" >
+                <div class="modal-header"  >
+                    <h4 class="modal-title bgp-text-gold">Add Employee</h4>
+                </div>
+                <form autocomplete="off" class="scrollbar"  id="style-3" ngNativeValidate (ngSubmit)="submitAdd()">
+                    <div class="modal-body ">
+                        <div id="prompt">
+                            <h6 class="bgp-text-gold" style="text-align: center;">Please provide the employeee details</h6>
+                        </div>
+                        <br>
+
+                        <!-----Start of one panel-->
+                            <div class="panel-group" >
+                                <div class="panel panel-default" >
+                                    <div class="panel-heading" >
+                                        <h4 class="panel-title" >
+                                        <a data-toggle="collapse" href="#personalDetails" class="bgp-text-gold">Personal Details</a>
+                                        </h4>
+                                    </div>
+                                    <div id="personalDetails" class="panel-collapse collapse">
+                                        <label class="bgp-text-bold bgp-text-gold">Name </label>
+                                        <input [(ngModel)]="name" class="form-control" id ="name" name="name"  required  maxlength="50">
+                                        <br>
+                                        <label class="bgp-text-bold bgp-text-gold">Surname </label>
+                                        <input [(ngModel)]="surname" class="form-control" id ="surname" name="surname"  required  maxlength="50">
+                                        <br>
+
+                                        <label class="bgp-text-bold bgp-text-gold">Contact Number </label>
+                                        <br>
+                                        <div class="contactNumberWrapper">
+                                            <select class="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="countryCode" required>
+                                                <option ngDefaultControl *ngFor="let x of countryCodes" [value]="x.dial_code" >{{x.dial_code}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{x.name}}</option>
+                                            </select>
+                                            <input placeholder="e.g. 0823568735" [(ngModel)]="contactnumber" class="form-control bgp-disabled"  id="contactnumber" name="contactnumber" value="eg. 0725437685" required  maxlength="15" style="width: 78%; float: right ;" type="tel" pattern="[0-9]{0,}" maxlength="15">
+                                        </div>
+
+                                        <br><br><br>
+                                        <label class="bgp-text-bold bgp-text-gold">Alternative Contact Number </label>
+                                        <div class="contactNumberWrapper">
+                                            <select class="form-control" name="properties" id="type" style="width: 21%; float: left;" ngDefaultControl [(ngModel)]="altCountryCode">
+                                                <option ngDefaultControl *ngFor="let x of countryCodes" [value]="x.dial_code" >{{x.dial_code}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {{x.name}}</option>
+                                            </select>
+                                            <input placeholder="e.g. 0823568735" [(ngModel)]="altcontactnumber" class="form-control bgp-disabled"  id="altcontactnumber" name="altcontactnumber"   value="eg. 0725437685" maxlength="15" style="width: 78%; float: right ;" type="text" pattern="[0-9]{0,}">
+                                        </div>
+                                        <br><br><br>
+
+                                        <label class="bgp-text-bold bgp-text-gold">Email</label>
+                                        <input hidden name="email" > <!--To prevent email autofill-->
+                                        <input [(ngModel)]="email" class="form-control" type="text" name="email" id="email" required  maxlength="50" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
+                                        <br>
+
+
+
+
+                                        <p class="bgp-text-bold bgp-text-gold">South African?</p>
+                                        <input required id="southAfricanYes" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="Yes" value="Yes">
+                                        <label class="bgp-text-white" for="southAfricanYes">&nbsp; Yes</label>
+                                        <br>
+                                        <input id="southAfricanNo" [(ngModel)]="SouthAfrican" name="southAfrican" type="radio" title="No" value="No">
+                                        <label class="bgp-text-white" for="southAfricanNo">&nbsp; No</label>
+                                        <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
+                                        <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+                                        <input id="idnumber" name="idnumber"class="form-control" ngDefaultControl [(ngModel)]="idnumber" minlength="13" maxlength="13" required pattern="(?<Year>[4-9][0-9])(?<Month>([0][1-9])|([1][0-2]))(?<Day>([0-2][0-9])|([3][0-1]))(?<Gender>[0-9])(?<Series>[0-9]{3})(?<Citizenship>[0-9])(?<Uniform>[0-9])(?<Control>[0-9])" >
+                                        </div>
+                                        <div class="southAfricanNoDiv" *ngIf="SouthAfrican == 'No'">
+                                        <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
+                                        <input id="passportnumber" name="passportnumber"class="form-control" ngDefaultControl [(ngModel)]="passportnumber" minlength="8" maxlength="20" required >
+                                        </div>
+
+
+
+
+
+
+                                        <!-- <label class="bgp-text-bold bgp-text-gold">ID Number/Passport Number</label> -->
+                                        <!-- <div>
+                                            <input [(ngModel)]="idorpassportnumber" type="text" id="idorpassportnumber" name="idorpassportnumber" class="form-control"  required minlength="13" maxlength="20" >
+                                        </div> -->
+                                        <br>
+                                        <label class="bgp-text-bold bgp-text-gold">Address </label>
+                                        <input [(ngModel)]="address" class="form-control" id="address" name="address" required  maxlength="150">
+                                        <br>
+                                        <label class="bgp-text-bold bgp-text-gold">Banking Details </label>
+                                        <input [(ngModel)]="banking" class="form-control" id="banking" name="banking" required maxlength="100">
+                                    </div>
+                                </div>
+                            </div><br>
+                        <!-----End of one panel-->
+
+                        <div class="panel-group" >
+                            <div class="panel panel-default" >
+                                <div class="panel-heading" >
+                                    <h4 class="panel-title" >
+                                    <a data-toggle="collapse" href="#employmentDetails" class="bgp-text-gold">Employment Details</a>
+                                    </h4>
+                                </div>
+                                <br>
+                                <div id="employmentDetails" class="panel-collapse collapse " >
+                                    <label class="bgp-text-bold bgp-text-gold">Employee Types</label>
+                                    <div class="employeeTypeFirst">
+                                        <select id="employeeTypeDescriptionInput" name="employeeTypeDescriptionInput" ngDefaultControl [(ngModel)]="employeeTypeDescriptionInput"  class ="form-control" required>
+                                            <option *ngFor="let yy of employeetypes" [ngValue]="yy">{{yy.EMPLOYEETYPEDESCRIPTION}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="employeeTypeLast">
+                                        <button type="button" class="btn btn-outline-light my-2 my-sm-0" (click)="addEmployeeType()" title="Add employee type"><i class="fas fa-plus "   ></i></button>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="employeeTypeWrapper" *ngFor="let x of employeeTypeDescriptions, let i = index">
+                                        <div class="first">
+                                            <label class="bgp-text-white">{{x.EMPLOYEETYPEDESCRIPTION}}</label>
+                                        </div>
+                                        <div class="lineItem">
+                                            <button class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this other building detail" (click)="deleteEmployeeType(i)"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                        <br><br>
+                                    </div>
+                                    <label class="bgp-text-bold bgp-text-gold">Date Employed </label> &nbsp;
+                                    <input [(ngModel)]="dateemployed" class ="form-control" type="date" id="dateemployed" name="dateemployed" required >
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Renumeration</label>
+                                    <input currencyMask [(ngModel)]="renumeration" class="form-control" name="renumeration" id="renumeration" required [options]="{ prefix: 'R', thousands: ' ', decimal: ',', align: 'left'  }">
+                                    <br>
+                                    <label class="bgp-text-bold bgp-text-gold">Password </label>
+                                    <input value="BlackGoldProperties" [(ngModel)]="password" type="password" class="form-control" id="password" name="password" required minlength="8" maxlength="20">
+                                    
+                   <password-strength-meter [password]="password" [enableFeedback]="true"></password-strength-meter>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Add</button>
+                        &nbsp;
+                        <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    <!-----End of Add Modal-->
+
+    <!-- Start of Confirm Add Modal -->
+        <div id="confirmAddModal" class="modal fade" role="dialog" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bgp-modal">
+                    <div class="modal-header">
+                        <h4 class="modal-title bgp-text-gold">Add this employee?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="bgp-text-white">{{name}} {{surname}}</p>
+                    </div>
+                    <div class= "modal-footer">
+                        <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal"  (click)="add()">Yes</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-----End of Confirm Add Modal-->
+</div>
+

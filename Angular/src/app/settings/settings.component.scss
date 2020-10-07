@@ -1,0 +1,47 @@
+//make text white
+.timerDiv{
+  //width: 500px;
+  // height: auto;
+  background-color:#292b2c;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  border-radius: 20px;
+
+  width: 450px;
+  height: auto;
+  top: 20%;
+  margin: 0 auto;
+  position: relative;
+
+
+  margin-top: 5%;
+
+
+  // position: fixed;
+  // top: 50%;
+  // left: 50%;
+
+  /* bring your own prefixes */
+  // transform: translate(-50%, -50%);
+}
+
+html, body {
+  height: 100%;
+}
+
+
+.container-fluid {
+  background-color: white;
+}
+
+.header{
+  padding: 40px;
+  text-align: center;
+  background: lightgray;
+  color: black;
+  font-size: 30px;
+  border-radius: 10px;
+  height: auto;
+}
