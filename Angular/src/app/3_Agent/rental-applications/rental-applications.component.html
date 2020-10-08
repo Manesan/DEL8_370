@@ -10,7 +10,7 @@
 
   <!----Search cards-->
     <div class="col-sm-12 mb-5">
-      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search Pending">
     </div>
     <br>
   <!------->
@@ -47,10 +47,17 @@
   <br><br>
 
 
+  <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterRAapproved" class="form-control bgp-searchbox" onkeyup="searchRAapproved()" placeholder="Search Approved">
+    </div>
+    <br>
+  <!------->
+
   <h2>Approved</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsApproved">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let y of approvedRentalApplications">
@@ -77,11 +84,17 @@
   <!----End of Rows-->
   <br><br>
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterRArejected" class="form-control bgp-searchbox" onkeyup="searchRArejected()" placeholder="Search Rejected">
+  </div>
+  <br>
+<!------->
 
   <h2>Rejected</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsRejected">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of rejectedRentalApplications">
@@ -108,11 +121,17 @@
   <!----End of Rows-->
   <br><br>
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterRAextension" class="form-control bgp-searchbox" onkeyup="searchRAextension()" placeholder="Search Pending Extension">
+  </div>
+  <br>
+<!------->
 
   <h2>Pending Agent Extension</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsExtension">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of agentExtensionRentalApplications">
@@ -139,11 +158,17 @@
   <!----End of Rows-->
   <br><br>
 
+    <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterRArenewal" class="form-control bgp-searchbox" onkeyup="searchRArenewal()" placeholder="Search Pending Renewal">
+    </div>
+    <br>
+  <!------->
 
   <h2>Pending Agent Renewal </h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsRenewal">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of agentRenewalRentalApplications">
@@ -170,11 +195,17 @@
   <!----End of Rows-->
   <br><br>
 
+      <!----Search cards-->
+      <div class="col-sm-12 mb-5">
+        <input  type="text" id="myFilterRArejected" class="form-control bgp-searchbox" onkeyup="searchRArejected()" placeholder="Search Client Rejects">
+      </div>
+      <br>
+    <!------->
 
   <h2>Rejected By Client </h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsRejected">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of clientRejectionRentalApplications">
@@ -201,11 +232,17 @@
   <!----End of Rows-->
   <br><br>
 
+    <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterRAapprovede" class="form-control bgp-searchbox" onkeyup="searchRAapprovede()" placeholder="Search Approved Extension">
+    </div>
+    <br>
+  <!------->
 
   <h2>Approved Extension </h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsApprovedE">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of approvedExtensionRentalApplications">
@@ -232,11 +269,18 @@
   <!----End of Rows-->
   <br><br>
 
+      <!----Search cards-->
+      <div class="col-sm-12 mb-5">
+        <input  type="text" id="myFilterRAapprovedr" class="form-control bgp-searchbox" onkeyup="searchRAapprovedr()" placeholder="Search Approved Renewal">
+      </div>
+      <br>
+    <!------->
+
 
   <h2>Approved Renewal </h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsApprovedR">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of approvedRenewalRentalApplications">

@@ -15,6 +15,119 @@ function searchCards() {
   }
 }
 
+function searchRAapproved() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRAapproved");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsApproved");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchRArejected() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRArejected");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRejected");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchRAextension() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRAextension");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsExtension");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchRArenewal() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRArenewal");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRenewal");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+
+function searchRArejected() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRArejected");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRejected");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchRAapprovede() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRAapprovede");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsApprovedE");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchRAapprovedr() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRAapprovedr");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsApprovedR");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
 
 $(document).ready(function () {
   if (!$.browser.webkit) {
