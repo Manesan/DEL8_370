@@ -72,13 +72,37 @@ export class RentalApplicationsComponent implements OnInit {
   async ngOnInit() {
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.pendingRentalapplication = await this.service.Get('/agentrentalapplication?token=' + this.token.token);
+    this.pendingRentalapplication.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.approvedRentalApplications = await this.service.Get('/agentrentalapplication2?token=' + this.token.token);
+    this.approvedRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.rejectedRentalApplications = await this.service.Get('/agentrentalapplication3?token=' + this.token.token);
+    this.rejectedRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.agentExtensionRentalApplications = await this.service.Get('/agentrentalapplication4?token=' + this.token.token);
+    this.agentExtensionRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.agentRenewalRentalApplications = await this.service.Get('/agentrentalapplication5?token=' + this.token.token);
+    this.agentRenewalRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.clientRejectionRentalApplications = await this.service.Get('/agentrentalapplication6?token=' + this.token.token);
+    this.clientRejectionRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.approvedExtensionRentalApplications = await this.service.Get('/agentrentalapplication7?token=' + this.token.token);
+    this.approvedExtensionRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     this.approvedRenewalRentalApplications = await this.service.Get('/agentrentalapplication8?token=' + this.token.token);
+    this.approvedRenewalRentalApplications.forEach(e => {
+      e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
+    });
     
     console.log(this.pendingRentalapplication,this.approvedRentalApplications, this.rejectedRentalApplications, this.agentExtensionRentalApplications,
       this.agentRenewalRentalApplications, this.clientRejectionRentalApplications, this.approvedExtensionRentalApplications, this.approvedRenewalRentalApplications  );

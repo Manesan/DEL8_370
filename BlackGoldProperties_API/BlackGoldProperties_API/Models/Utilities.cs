@@ -66,37 +66,81 @@ namespace BlackGoldProperties_API.Models
         /// </summary>
         /// <param name="mailBody">Text to be sent</param>
         /// <param name="to">Recipient of the email</param>
-        public static void SendMail(string mailBody, string mailSubject, string to)
+        public static bool SendMail(string mailBody, string mailSubject, MailAddress toAddress, MailAddress ccAddress)
         {
-            using (var smtpClient = new SmtpClient())
+            try
             {
-                var basicCredential = new NetworkCredential("noreply@ryanpixie.co.za", "cNbB5J8ajGub9t6");
-                using (var message = new MailMessage())
+                var fromAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
+                var ePassword1 = "odchhgrbpjqcvmqi";
+                var smtp = new SmtpClient
                 {
-                    var fromAddress = new MailAddress("noreply@ryanpixie.co.za");
-
-                    smtpClient.Host = "mail.ryanpixie.co.za";
-                    smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = basicCredential;
-
-                    message.From = fromAddress;
-                    message.Subject = mailSubject;
-                    message.IsBodyHtml = true;
-
-                    string fileName = "~/Content/RyanPixieLogo.PNG";
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, ePassword1)
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = mailSubject,
+                    Body = mailBody
+                })
+                {
+                    if (ccAddress != null)
+                        message.CC.Add(ccAddress);
+                    string fileName = "~/Content/BGPropEmail.jpg";
                     fileName = HttpContext.Current.Server.MapPath(fileName);
-
-                    AlternateView imgview = AlternateView.CreateAlternateViewFromString(mailBody + "<br/><br/>" + "<img src=cid:imgpath height=150 width=200>", null, "text/html");
+                    //message.Attachments.Add(new Attachment(fileName));
+                    message.IsBodyHtml = true;
+                    AlternateView imgview = AlternateView.CreateAlternateViewFromString(mailBody + "<br/><br/>" + "<img src=cid:imgpath height=312 width=820>", null, "text/html");
                     LinkedResource lr = new LinkedResource(fileName);
                     lr.ContentId = "imgpath";
                     imgview.LinkedResources.Add(lr);
                     message.AlternateViews.Add(imgview);
-
-                    message.Body = lr.ContentId;
-                    message.To.Add(to);
-
-                    smtpClient.Send(message);
+                    //message.Body = lr.ContentId;
+                    smtp.Send(message);
                 }
+                return true;
+                    
+
+                /*using (var smtpClient = new SmtpClient())
+                {
+                    var basicCredential = new NetworkCredential("u18320997@tuks.co.za", "odchhgrbpjqcvmqi");
+                    var fromAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
+                    using (var message = new MailMessage(fromAddress, toAddress))
+                    {        
+                        smtpClient.Host = "mail.gmail.co.za";
+                        smtpClient.UseDefaultCredentials = false;
+                        smtpClient.Credentials = basicCredential;
+                        smtpClient.Port = 587;
+                        smtpClient.EnableSsl = true;
+                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        message.Subject = mailSubject;
+
+                        message.IsBodyHtml = true;
+
+                        string fileName = "~/Content/BGPropEmail.jpg";
+                        fileName = HttpContext.Current.Server.MapPath(fileName);
+
+                        AlternateView imgview = AlternateView.CreateAlternateViewFromString(mailBody + "<br/><br/>" + "<img src=cid:imgpath height=150 width=200>", null, "text/html");
+                        LinkedResource lr = new LinkedResource(fileName);
+                        lr.ContentId = "imgpath";
+                        imgview.LinkedResources.Add(lr);
+                        message.AlternateViews.Add(imgview);
+
+                        message.Body = lr.ContentId;
+                        message.To.Add(fromAddress);
+
+                        smtpClient.Send(message);
+
+                        return true;
+                    }
+                }*/
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 

@@ -58,8 +58,11 @@ async sendmessage()
   this.phoneNumberJoiner();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(this.descriptionInput);
-  await this.service.Post(`/contactagent?token=${this.token.token}&name=${this.name}&surname=${this.surname}&email=${this.email}&subject=${this.subject}&message=${this.message}&contactnumber=${this.newContact}`);
-  this.showMessageSentSuccess ();
+  let response = await this.service.Post(`/contactagent?token=${this.token.token}&name=${this.name}&surname=${this.surname}&email=${this.email}&subject=${this.subject}&message=${this.message}&contactnumber=${this.newContact}`);
+  console.log(response)
+  if (response == true){
+    this.showMessageSentSuccess ();
+  }
 }
 
   phoneNumberJoiner()

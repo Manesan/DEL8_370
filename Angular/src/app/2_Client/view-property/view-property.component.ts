@@ -296,7 +296,7 @@ export class ViewPropertyComponent implements OnInit {
     // console.log(term)
     // this.termid = this.terms.TERMID;
 
-    await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.term}&start=${this.startdate}&termid=${this.termid}`, documents);
+    await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.termid}&start=${this.startdate}`, documents);
     this.showRentApplySuccess();
 
   }

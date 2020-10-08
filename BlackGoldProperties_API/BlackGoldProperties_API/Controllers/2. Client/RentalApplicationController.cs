@@ -8,6 +8,8 @@ using System.Web;
 using Microsoft.Owin.Logging;
 using System.Data;
 using System.Data.Entity;
+using System.Net.Mail;
+using System.Collections.Generic;
 
 namespace BlackGoldProperties_API.Controllers._2._Client
 {
@@ -144,6 +146,12 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 var email = TokenManager.ValidateToken(token);
                 var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
                 var uid = user.USERID;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == propertyid).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME,
+                    y.EMPLOYEE.USER.USEREMAIL
+                }).FirstOrDefault();
 
 
                 DocumentController.UploadClass application = new DocumentController.UploadClass();
@@ -204,10 +212,16 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 //Save DB changes
                 db.SaveChanges();
 
+                string newSubject = user.USERNAME + " " + user.USERSURNAME + ": New rental application for property #" + propertyid;
+                var infoAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
+                var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
+                string mailBody = user.USERNAME + " " + user.USERSURNAME + " has made a new rental application for your property, #" + propertyid+ ".<br/><br/>" + user.USERCONTACTNUMBER + "<br/>" + user.USEREMAIL;
+                bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, infoAddress);
+
                 //Return Ok
-                return Ok();
+                return Ok(mailSent);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest();
             }

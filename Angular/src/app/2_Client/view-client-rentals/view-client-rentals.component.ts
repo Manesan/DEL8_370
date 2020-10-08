@@ -199,9 +199,9 @@ rentalAgreementChangeListener($event){
     this.rentalid = rentalAgreements.RENTALID;
     this.propertyid = rentalAgreements.PROPERTYID;
     this.propertyaddress = rentalAgreements.PROPERTYADDRESS;
-    this.rentalstart = rentalAgreements.RENTALDATESTART;
+    this.rentalstart = rentalAgreements.RENTALDATESTART.split("T")[0];
     // .split("T")[0];
-    this.rentalend = rentalAgreements.RENTALDATEEND;
+    this.rentalend = rentalAgreements.RENTALDATEEND.split("T")[0];
     // .split("T")[0];
     this.rentalstatus = rentalAgreements.RENTALSTATUSDESCRIPTION;
     if(this.rentalstatus == "Pending Client Acceptance"){
