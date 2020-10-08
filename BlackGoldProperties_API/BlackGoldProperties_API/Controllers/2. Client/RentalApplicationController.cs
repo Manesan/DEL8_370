@@ -213,10 +213,9 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 db.SaveChanges();
 
                 string newSubject = user.USERNAME + " " + user.USERSURNAME + ": New rental application for property #" + propertyid;
-                var infoAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
                 var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
                 string mailBody = user.USERNAME + " " + user.USERSURNAME + " has made a new rental application for your property, #" + propertyid+ ".<br/><br/>" + user.USERCONTACTNUMBER + "<br/>" + user.USEREMAIL;
-                bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, infoAddress);
+                bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
 
                 //Return Ok
                 return Ok(mailSent);

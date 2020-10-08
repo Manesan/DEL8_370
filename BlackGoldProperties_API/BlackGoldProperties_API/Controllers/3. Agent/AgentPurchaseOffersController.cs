@@ -8,7 +8,7 @@ using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
 using System.Data;
 using System.Data.Entity;
-
+using System.Net.Mail;
 
 namespace BlackGoldProperties_API.Controllers._3._Agent
 {
@@ -18,13 +18,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/agentpurchaseoffer")]
         public IHttpActionResult Get([FromUri] string token)
-        { /*
+        { 
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                return BadRequest(); // Returns as user is not logged in
+            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
             {
                 try
                 {
@@ -66,13 +66,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/agentpurchaseoffer")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        { /*
+        { 
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                return BadRequest(); // Returns as user is not logged in
+            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
             {
                 try
                 {
@@ -126,18 +126,27 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
-                var purchaseoffer = db.PURCHASEOFFERs.Include(x => x.SALEs).FirstOrDefault(Y => Y.PURCHASEOFFERID == id);
+                var purchaseoffer = db.PURCHASEOFFERs.Include(x => x.SALEs).Include(y => y.CLIENT).Include(z => z.CLIENT.USER).FirstOrDefault(Y => Y.PURCHASEOFFERID == id);
+                var propertyid = purchaseoffer.PROPERTYID;
+                var user = purchaseoffer.CLIENT.USER;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == propertyid).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME,
+                    y.EMPLOYEE.USER.USEREMAIL,
+                    y.EMPLOYEE.USER.USERCONTACTNUMBER
+                }).FirstOrDefault();
 
-                    //Null checks
-                    // if (string.IsNullOrEmpty(cityname))
-                    // return BadRequest();
+                //Null checks
+                // if (string.IsNullOrEmpty(cityname))
+                // return BadRequest();
 
-                    //Upload property document
-                    var documenturi = DocumentController.UploadFile(DocumentController.Containers.saleAgreementDocumentsContainer, saleagreement);
+                //Upload property document
+                var documenturi = DocumentController.UploadFile(DocumentController.Containers.saleAgreementDocumentsContainer, saleagreement);
 
-                    //Accept specified purchase offer
-                    if (accepted == true)
-                    {
+                //Accept specified purchase offer
+                if (accepted == true)
+                {
                     purchaseoffer.PURCHASEOFFERSTATUSID = 4; //Sets to 'Pending Agent Acceptance'
                     purchaseoffer.OFFERDESCRIPTION = note;
 
@@ -149,11 +158,32 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         SALEAGREEMENTDOCUMENT = documenturi,
                         PURCHASEOFFERID = purchaseoffer.PURCHASEOFFERID
                     });
+
+                    string newSubject = "Purchase offer for property #" + propertyid + " accepted. Please accept your sale agreement";
+                    var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
+                    string mailBody = "Dear " + user.USERNAME + " " + user.USERSURNAME + "<br/><br/>We are pleased to inform you that your purchase offer for property #" + propertyid + " has been accepted. Please login to the Black Gold Properties website to accept your sale agreement.<br/><br/>Kind regards<br/>The Black Gold Properties Team<br/><br/>Your property agent: " + agent.USERNAME + " " + agent.USERSURNAME + "<br/>" + agent.USEREMAIL + "<br/>" + agent.USERCONTACTNUMBER;
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, userAddress, null);
+
+
+                        //Save DB changes
+                        db.SaveChanges();
+
+                        return Ok(mailSent);
                 }
                 else
                 {
                     purchaseoffer.PURCHASEOFFERSTATUSID = 2; //Sets to 'Rejected'
                     purchaseoffer.OFFERDESCRIPTION = note;
+
+                    string newSubject = "Purchase offer for property #" + propertyid + " rejected";
+                    var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
+                    string mailBody = "Dear " + user.USERNAME + " " + user.USERSURNAME + "<br/><br/>We regret to inform you that your purchase offer for property #" + propertyid + " has been rejected. Please login to the Black Gold Properties website to view further details. For queries, please contact your property agent.<br/><br/>Kind regards<br/>The Black Gold Properties Team<br/><br/>Your property agent: " + agent.USERNAME + " " + agent.USERSURNAME + "<br/>" + agent.USEREMAIL + "<br/>" + agent.USERCONTACTNUMBER;
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, userAddress, null);
+
+                        //Save DB changes
+                        db.SaveChanges();
+
+                        return Ok(mailSent);
                 }
 
                 //Save DB changes

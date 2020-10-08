@@ -8,6 +8,7 @@ using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
 using System.Data;
 using System.Data.Entity;
+using System.Net.Mail;
 
 namespace BlackGoldProperties_API.Controllers._2._Client
 {
@@ -123,7 +124,15 @@ namespace BlackGoldProperties_API.Controllers._2._Client
             {
                 //DB context
                 var db = LinkToDBController.db;
-                var sale = db.SALEs.Include(x => x.PURCHASEOFFER).FirstOrDefault(x => x.SALEID == id);
+                var sale = db.SALEs.Include(x => x.PURCHASEOFFER).Include(y => y.PURCHASEOFFER.CLIENT).Include(z => z.PURCHASEOFFER.CLIENT.USER).FirstOrDefault(xx => xx.SALEID == id);
+                var user = sale.PURCHASEOFFER.CLIENT.USER;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == sale.PROPERTYID).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USEREMAIL,
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME
+                }).FirstOrDefault();
+                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
 
                 //Null checks                             --Finish this
                 //if (string.IsNullOrEmpty(description))
@@ -136,11 +145,29 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     var documenturi = DocumentController.UploadFile(DocumentController.Containers.saleAgreementDocumentsContainer, signedagreement);
 
                     sale.PURCHASEOFFER.PURCHASEOFFERSTATUSID = 1; //Sets to 'Approved'
-                    sale.SALEAGREEMENTDOCUMENT = documenturi; 
+                    sale.SALEAGREEMENTDOCUMENT = documenturi;
+
+                    string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Sale agreement acceptance";
+                    string mailBody = user.USERNAME + " " + user.USERSURNAME + " has accepted their sale agreement for property #" + sale.PROPERTYID + ".";
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
+
+                    //Save DB changes
+                    db.SaveChanges();
+
+                    return Ok(mailSent);
                 }
                 else
                 {
                     db.SALEs.Remove(sale);
+
+                    string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Sale agreement rejection";
+                    string mailBody = user.USERNAME + " " + user.USERSURNAME + " has rejected their sale agreement for property #" + sale.PROPERTYID + ".";
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
+
+                    //Save DB changes
+                    db.SaveChanges();
+
+                    return Ok(mailSent);
                 }
 
                 //Save DB changes

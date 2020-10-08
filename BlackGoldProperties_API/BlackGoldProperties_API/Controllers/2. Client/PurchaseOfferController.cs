@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
+using System.Net.Mail;
 
 namespace BlackGoldProperties_API.Controllers._2._Client
 {
@@ -132,6 +133,12 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 var email = TokenManager.ValidateToken(token);
                 var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
                 var uid = user.USERID;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == propertyid).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME,
+                    y.EMPLOYEE.USER.USEREMAIL
+                }).FirstOrDefault();
 
                 DocumentController.UploadClass bankstatement = new DocumentController.UploadClass();
                 bankstatement.FileBase64 = documents[0].FileBase64;
@@ -181,6 +188,11 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     CLIENTDOCUMENTUPLOADDATE = DateTime.Now,
                     CLIENTDOCUMENTUPLOADEXPIRY = DateTime.Now.AddMonths(12)
                 });
+
+                string newSubject = user.USERNAME + " " + user.USERSURNAME + ": New purchase offer for property #" + propertyid;
+                var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
+                string mailBody = user.USERNAME + " " + user.USERSURNAME + " has made a new purchase offer for your property, #" + propertyid + ".<br/><br/>" + user.USERCONTACTNUMBER + "<br/>" + user.USEREMAIL;
+                bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
 
                 //Save DB changes
                 db.SaveChanges();

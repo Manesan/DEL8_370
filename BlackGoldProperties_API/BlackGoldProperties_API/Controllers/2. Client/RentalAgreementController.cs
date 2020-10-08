@@ -8,6 +8,7 @@ using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
 using System.Data;
 using System.Data.Entity;
+using System.Net.Mail;
 
 namespace BlackGoldProperties_API.Controllers._2._Client
 {
@@ -133,14 +134,22 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 //DB context
                 var db = LinkToDBController.db;
                 var rental = db.RENTALs.FirstOrDefault(x => x.RENTALID == id);
-                var rentalapplication = db.RENTALAPPLICATIONs.Include(x => x.PROPERTY).FirstOrDefault(x => x.RENTALID == id);                
+                var rentalapplication = db.RENTALAPPLICATIONs.Include(x => x.PROPERTY).Include(y => y.CLIENT).Include(y => y.CLIENT.USER).FirstOrDefault(x => x.RENTALID == id);
+                var user = rentalapplication.CLIENT.USER;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == rentalapplication.PROPERTYID).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USEREMAIL,
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME
+                }).FirstOrDefault();
+                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
 
                 //Null checks                             --Finish this
                 //if (string.IsNullOrEmpty(description))
                 //    return BadRequest();
 
                 //Update specified rental
-                if(accepted == true)   //---- LINK RENTALID TO RENTALAPPLICATION
+                if (accepted == true)   //---- LINK RENTALID TO RENTALAPPLICATION
                 {
                     rentalapplication.PROPERTY.PROPERTYSTATUSID = 3; //Sets to 'In Progress'
 
@@ -175,6 +184,13 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                             INSPECTIONDATE = DateTime.Now
                         });
                     }
+
+                    string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Rental agreement acceptance";
+                    string mailBody = user.USERNAME + " " + user.USERSURNAME + " has accepted their rental agreement for property #" + rentalapplication.PROPERTYID + ".";
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
+
+                    //Return Ok
+                    return Ok(mailSent);
                 }
 
                 else if(accepted == false)
@@ -182,6 +198,13 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     db.RENTALs.Remove(rental);
                     rentalapplication.RENTALAPPLICATIONSTATUSID = 6; //Sets to 'Rejected By Client'
                     rentalapplication.PROPERTY.PROPERTYSTATUSID = 1; //Sets to 'Available'
+
+                    string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Rental agreement rejection";
+                    string mailBody = user.USERNAME + " " + user.USERSURNAME + " has rejected their rental agreement for property #" + rentalapplication.PROPERTYID + ".";
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
+
+                    //Return Ok
+                    return Ok(mailSent);
                 }
 
                 //Save DB changes
@@ -213,7 +236,15 @@ namespace BlackGoldProperties_API.Controllers._2._Client
             {
                 //DB context
                 var db = LinkToDBController.db;
-                var rental = db.RENTALs.Include(x => x.TERM).FirstOrDefault(x => x.RENTALID == rentalid);
+                var rental = db.RENTALs.Include(x => x.TERM).Include(y => y.PROPERTY).Include(z => z.CLIENT).Include(xx => xx.CLIENT.USER).FirstOrDefault(x => x.RENTALID == rentalid);
+                var user = rental.CLIENT.USER;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == rental.PROPERTYID).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USEREMAIL,
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME
+                }).FirstOrDefault();
+                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
 
 
                 //Null checks
@@ -238,12 +269,15 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     RENTALID = rentalid
                 });
 
+                string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Rental agreement renewal/extension";
+                string mailBody = user.USERNAME + " " + user.USERSURNAME + " has requested to renew/extend their rental agreement for property #" + rental.PROPERTYID + ".";
+                bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
 
                 //Save DB changes
                 db.SaveChanges();
 
                 //Return Ok
-                return Ok();
+                return Ok(mailSent);
             }
             catch (Exception)
             {
@@ -268,7 +302,15 @@ namespace BlackGoldProperties_API.Controllers._2._Client
             {
                 //DB context
                 var db = LinkToDBController.db;
-                var rental = db.RENTALs.Include(x => x.RENTALSTATU).FirstOrDefault(x => x.RENTALID == rentalid);
+                var rental = db.RENTALs.Include(x => x.RENTALSTATU).Include(y => y.PROPERTY).Include(z => z.CLIENT).Include(xx => xx.CLIENT.USER).FirstOrDefault(x => x.RENTALID == rentalid);
+                var user = rental.CLIENT.USER;
+                var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == rental.PROPERTYID).Select(y => new
+                {
+                    y.EMPLOYEE.USER.USEREMAIL,
+                    y.EMPLOYEE.USER.USERNAME,
+                    y.EMPLOYEE.USER.USERSURNAME
+                }).FirstOrDefault();
+                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
 
 
                 //Null checks
@@ -280,6 +322,13 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 if (terminate == true)
                 {
                     rental.RENTALSTATUSID = 3; //Sets to 'Pending Agent Termination'
+
+                    string newSubject = user.USERNAME + " " + user.USERSURNAME + ": Rental agreement termination";
+                    string mailBody = user.USERNAME + " " + user.USERSURNAME + " has requested to terminate their rental agreement for property #" + rental.PROPERTYID + ".";
+                    bool mailSent = Utilities.SendMail(mailBody, newSubject, agentAddress, Utilities.bgpInfoAddress);
+
+                    //Return Ok
+                    return Ok(mailSent);
                 }
 
                 //Save DB changes

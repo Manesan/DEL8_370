@@ -66,6 +66,7 @@ namespace BlackGoldProperties_API.Models
         /// </summary>
         /// <param name="mailBody">Text to be sent</param>
         /// <param name="to">Recipient of the email</param>
+        public static MailAddress bgpInfoAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
         public static bool SendMail(string mailBody, string mailSubject, MailAddress toAddress, MailAddress ccAddress)
         {
             try

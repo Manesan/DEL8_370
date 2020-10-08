@@ -98,9 +98,8 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 //string mMessage = message;
                 //string mContactnumber = contactnumber;
                 string newSubject = name + " " + surname + ": " + subject;
-                var toAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
                 string mailBody = "You have recieved a message from " + name + " " + surname + ":" + "<br/><br/>" + message + "<br/><br/>" + contactnumber + "<br/>" + email;
-                bool mailSent = Utilities.SendMail(mailBody, newSubject, toAddress, null);
+                bool mailSent = Utilities.SendMail(mailBody, newSubject, Utilities.bgpInfoAddress, null);
 
                 /*char[] Alphabet1 = "qazxswedcvfrtgbnhyujmkilop".ToCharArray();
                 string pw;

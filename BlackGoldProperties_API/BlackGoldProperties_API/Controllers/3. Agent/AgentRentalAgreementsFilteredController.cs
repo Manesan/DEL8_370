@@ -17,12 +17,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Get([FromUri] string token)
-        { /*
+        { 
             //Check valid token, logged in
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
+                return BadRequest(); // Returns as user is not logged in 
 
             try
             {
@@ -71,13 +71,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        { /*
+        { 
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                return BadRequest(); // Returns as user is not logged in
+            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
             {
                 try
                 {
@@ -123,13 +123,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpDelete]
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
-        { /*
+        { 
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
                 return BadRequest(); // Returns as user is invalid
             if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                return BadRequest(); // Returns as user is not logged in
+            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
             {
                 try
                 {

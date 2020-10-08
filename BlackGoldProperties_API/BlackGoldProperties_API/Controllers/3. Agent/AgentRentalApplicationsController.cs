@@ -214,7 +214,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                             rentalapplication.RENTALID = lastrentalid;
 
                             string newSubject = "Rental application for property #" + propertyid + " accepted. Please accept your rental agreement";
-                            var infoAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
                             var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
                             string mailBody = "Dear " + user.USERNAME + " " + user.USERSURNAME + "<br/><br/>We are pleased to inform you that your rental application for property #" + propertyid + " has been accepted. Please login to the Black Gold Properties website to accept your rental agreement.<br/><br/>Kind regards<br/>The Black Gold Properties Team<br/><br/>Your property agent: " + agent.USERNAME + " " + agent.USERSURNAME + "<br/>" + agent.USEREMAIL +"<br/>" + agent.USERCONTACTNUMBER;
                             bool mailSent = Utilities.SendMail(mailBody, newSubject, userAddress, null);
@@ -253,7 +252,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         rentalapplication.RENTALAPPLICATIONNOTE = note;  //---check if screen exists 
 
                         string newSubject = "Rental application for property #" + propertyid + " rejected";
-                        var infoAddress = new MailAddress("u18320997@tuks.co.za", "Black Gold Properties");
                         var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
                         string mailBody = "Dear " + user.USERNAME + " " + user.USERSURNAME + "<br/><br/>We regret to inform you that your rental application for property #" + propertyid + " has been rejected. Please login to the Black Gold Properties website to view further details. For queries, please contact your property agent.<br/><br/>Kind regards<br/>The Black Gold Properties Team<br/><br/>Your property agent: " + agent.USERNAME + " " + agent.USERSURNAME + "<br/>" + agent.USEREMAIL + "<br/>" + agent.USERCONTACTNUMBER;
                         bool mailSent = Utilities.SendMail(mailBody, newSubject, userAddress, null);
