@@ -130,6 +130,13 @@ namespace BlackGoldProperties_API.Controllers._10._Location._10._Province
                         var db = LinkToDBController.db;
                         db.Configuration.ProxyCreationEnabled = false;
 
+                        var check = db.PROVINCEs.Where(x => x.PROVINCENAME == provincename).Select(x => x.PROVINCENAME).FirstOrDefault();
+
+                        if (check != null)
+                        {
+                            return BadRequest();
+                        }
+
                         //Add a province
                         db.PROVINCEs.Add(new PROVINCE
                         {

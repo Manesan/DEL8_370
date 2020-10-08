@@ -138,8 +138,15 @@ namespace BlackGoldProperties_API.Controllers._10._Location._10._City
                         var db = LinkToDBController.db;
                         db.Configuration.ProxyCreationEnabled = false;
 
-                        //Add a city
-                        db.CITies.Add(new CITY
+                        var check = db.CITies.Where(x => x.CITYNAME == cityname).Select(x => x.CITYNAME).FirstOrDefault();
+
+                        if (check != null)
+                        {
+                            return BadRequest();
+                        }
+
+                    //Add a city
+                    db.CITies.Add(new CITY
                         {
                             CITYNAME = cityname,
                             PROVINCEID = provinceid

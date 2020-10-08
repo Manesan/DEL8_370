@@ -8,8 +8,9 @@
   <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
       <div class="navbar-nav">
           <a href="#" routerLink="" style="color:gold; font-weight: bold;" class="nav-item nav-link active">Home <span class="sr-only">(current)</span></a>
-          <a href="#" class="nav-item nav-link" routerLink="/contactagent">Contact</a>
+          <a href="#" class="nav-item nav-link" routerLink="/contactagent" *ngIf="!service.isAdmin()">Contact</a>
           <a href="#" class="nav-item nav-link" routerLink="/adminportal" id="adminbutton" *ngIf="service.isAdmin()">Admin Portal</a>
+          <a href="#" class="nav-item nav-link" routerLink="/" id="usermanual" *ngIf="service.isAdmin()">Help</a>
           <div class="nav-item dropdown" *ngIf="!service.isAdmin() && service.loggedIn()">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >My Profile</a>
               <div class="dropdown-menu bgp-modal">
@@ -40,3 +41,8 @@
       </div>
   </div>
 </nav>
+
+<!-- Uncomment below for electron -->
+<!-- <div class="bgp-gray">
+  <button class="btn" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+</div> -->

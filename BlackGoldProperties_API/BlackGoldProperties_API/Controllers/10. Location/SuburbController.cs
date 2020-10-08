@@ -132,6 +132,13 @@ namespace BlackGoldProperties_API.Controllers._10._Location._10._Suburb
                         var db = LinkToDBController.db;
                         db.Configuration.ProxyCreationEnabled = false;
 
+                        var check = db.SUBURBs.Where(x => x.SUBURBNAME == suburbname).Select(x => x.SUBURBNAME).FirstOrDefault();
+
+                        if (check != null)
+                        {
+                            return BadRequest();
+                        }
+
                         //Add a suburb
                         db.SUBURBs.Add(new SUBURB
                         {

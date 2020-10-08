@@ -52,6 +52,7 @@ export class EmployeeComponent implements OnInit {
 
 
   public counter: any;
+  response: any;
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
@@ -120,11 +121,14 @@ export class EmployeeComponent implements OnInit {
     console.log(this.email);
     console.log(this.idnumber, this.passportnumber);
 
-    await this.service.Post(`/employee?token=${this.token.token}&name=${this.name}&surname=${this.surname}&contactnumber=${this.newContactNumber}
+    this.response = await this.service.Post(`/employee?token=${this.token.token}&name=${this.name}&surname=${this.surname}&contactnumber=${this.newContactNumber}
     &altcontactnumber=${this.newAltContactNumber}&email=${this.email}&idnumber=${this.idnumber}&passportnumber=${this.passportnumber}
     &address=${this.address}&banking=${this.banking}&dateemployed=${this.dateemployed}
     &remuneration=${this.renumeration}&password=${this.password}` , employeeroles);
+
     this.showAddSuccess();
+
+
   }
 
   async view(id){
@@ -163,7 +167,7 @@ export class EmployeeComponent implements OnInit {
           this.employeeTypeDescriptionInput = f;
         }
       });
-      
+
       });
     console.log(this.idnumber, this.passportnumber, user)
   //   for (let i = 0; i < this.employeeTypeDescription.length; i++){
@@ -230,11 +234,11 @@ export class EmployeeComponent implements OnInit {
 
     //Add form validation
     async submitAdd(){
-    
+
         //console.log(this.descriptionInput);
         $("#confirmAddModal").modal('show');
         $("#addModal").modal('hide');
-    
+
     }
 
     //Update form validation
@@ -281,7 +285,7 @@ export class EmployeeComponent implements OnInit {
       }
       }
     }
-  
+
     deleteEmployeeType(i){
       this.employeeTypeDescriptions.splice(i, 1)
       console.log(this.employeeTypeDescriptions);
