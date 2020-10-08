@@ -23,12 +23,17 @@
 
 
 
+<div class="bgp-text-center">
+    <label *ngIf="!results" class="bgp-text-gold ">
+      Unfortunately there were no properties found that match your search results.
+      <br>
+      Please go back and try again.
+    </label>
+</div>
 
-
-<div class="container-fluid bgp-background-gray bgp-padding" > 
+<div class="container-fluid bgp-background-gray bgp-padding" >
   <br>
 <div class="row">
-<label *ngIf="!results">No properties found</label>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of properties; let i = index">
       <div class="card animate__animated  animate__slideInRight bg-dark">
