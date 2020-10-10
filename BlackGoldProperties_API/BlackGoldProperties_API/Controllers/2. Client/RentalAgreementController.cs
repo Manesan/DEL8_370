@@ -142,7 +142,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     y.EMPLOYEE.USER.USERNAME,
                     y.EMPLOYEE.USER.USERSURNAME
                 }).FirstOrDefault();
-                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
+                var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
                 //Null checks                             --Finish this
                 //if (string.IsNullOrEmpty(description))
@@ -244,7 +244,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     y.EMPLOYEE.USER.USERNAME,
                     y.EMPLOYEE.USER.USERSURNAME
                 }).FirstOrDefault();
-                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
+                var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
 
                 //Null checks
@@ -310,7 +310,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     y.EMPLOYEE.USER.USERNAME,
                     y.EMPLOYEE.USER.USERSURNAME
                 }).FirstOrDefault();
-                var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
+                var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
 
                 //Null checks
