@@ -62,7 +62,7 @@
     <form class="scrollbar" id="style-3">
     <div class="modal-body">
       <p class="bgp-ref bgp-text-gold">Property #{{ propertyID }}</p>
-      <img class="card-img-top img-fluid"  alt="Card image cap">
+      <img class="card-img-top img-fluid" [src]="photo"  alt="Card image cap">
       <br><br><br>
 
 
@@ -353,7 +353,7 @@
                     <p class="bgp-text-bold bgp-text-gold"> Email</p>
                     <input id="OwnerEmail" name="OwnerEmail" ngDefaultControl [(ngModel)]="propertyOwnerEmailInput" class="form-control" value="" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
                     <br>
-                   
+
                     <div class="southAfricanYesDiv" *ngIf="propertyOwnerIdNumberInput">
                       <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
                       <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" required>
@@ -850,7 +850,7 @@
                     <br>
                     <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
                     <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{this.dateToday}}"/>
-                    <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">                      
+                    <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">
                     <br>
                       <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
                       <div style="padding: 20px;">

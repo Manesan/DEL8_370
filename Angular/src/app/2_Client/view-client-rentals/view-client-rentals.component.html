@@ -120,7 +120,7 @@
             <div class="modal-header">
               <h4 class="modal-title bgp-text-gold" id="title">View Rental Agreement</h4>
               <div class="bgp-buttons-in-cards">
-                <button *ngIf="needToMaintain" id="maintain" class="btn btn-outline-warning my-2 my-sm-0" title="Accept/Reject this rental agreement"  data-dismiss="modal" (click)="maintain(rentalid)" ><i class="fas fa-file-signature"></i>Accept/Rject</button>
+                <button *ngIf="needToMaintain" id="maintain" class="btn btn-outline-warning my-2 my-sm-0" title="Accept/Reject this rental agreement"  data-dismiss="modal" (click)="maintain(rentalid)" ><i class="fas fa-file-signature"></i>Accept/Reject</button>
               </div>
             </div>
             <br>
@@ -137,14 +137,14 @@
               <br>
               <input class="form-control" [(ngModel)]="email" id="email" name="email" disabled="true">
               <br>
-              <div style="text-align: center;">
+              <div style="text-align: center;" *ngIf="!needToMaintain && !concluded">
                 <button  id="extending" class="btn btn-outline-warning my-2 my-sm-0  "  title="Request to extend rental agreement" data-toggle="modal" data-dismiss="modal" data-target="#extendModal" ><i class="fas fa-file-import"></i> &nbsp; Extend Agreement </button>
                 &nbsp;
-                <button   class="btn btn-outline-warning my-2 my-sm-0 "  title="Give notice of rental agreement termination" data-toggle="modal" data-dismiss="modal" data-target="#terminateModal"><i class="fas fa-ban"></i> &nbsp; Terminate Agreement </button>
+                <button class="btn btn-outline-warning my-2 my-sm-0 "  title="Give notice of rental agreement termination" data-toggle="modal" data-dismiss="modal" data-target="#terminateModal"><i class="fas fa-ban"></i> &nbsp; Terminate Agreement </button>
               </div>
             </div>
             <div class="modal-footer">
-             
+
               &nbsp;
               <button id="terminating" type="button" class="btn btn-outline-warning  bgp-buttons-in-cards bgp-text-gold" data-dismiss="modal" onClick="window.location.reload();"  >OK</button>
             </div>
