@@ -12,7 +12,7 @@
 
   <!----Search cards-->
     <div class="col-sm-12 mb-5">
-      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
+      <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search Concluded">
     </div>
     <br>
   <!------->
@@ -46,10 +46,17 @@
   <br>  <br>
 
 
+    <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterRented" class="form-control bgp-searchbox" onkeyup="searchRented()" placeholder="Search Rented">
+    </div>
+    <br>
+  <!------->
+
   <h2>Rented</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsRented">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of rentedRentalAgreements">
@@ -75,10 +82,17 @@
   <!----End of Rows-->
   <br>  <br>
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterPendingAgentTermination" class="form-control bgp-searchbox" onkeyup="searchPendingAgentTermination()" placeholder="Search Pending Termination">
+  </div>
+  <br>
+<!------->
+
   <h2>Pending Agent Termination</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsPendingAgentTermination">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of cancelRentalAgreements">
@@ -105,10 +119,17 @@
   <br>  <br>
 
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterPendingClientAcceptance" class="form-control bgp-searchbox" onkeyup="searchPendingClientAcceptance()" placeholder="Search Pending Acceptance">
+  </div>
+  <br>
+<!------->
+
   <h2>Pending Client Acceptance</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsPendingClientAcceptance">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of pendingClientAcceptanceRentalAgreements">
@@ -134,10 +155,18 @@
   <!----End of Rows-->
   <br>  <br>
 
+
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterRentalRenewed" class="form-control bgp-searchbox" onkeyup="searchRentalRenewed()" placeholder="Search Rental Renewed">
+  </div>
+  <br>
+<!------->
+
   <h2>Rental Renewed</h2>
   <br>
   <!----Start of Rows-->
-    <div class="row" id="myCards">
+    <div class="row" id="myCardsRentalRenewed">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3" *ngFor = "let x of rentalRenewedRentalAgreements">
@@ -164,10 +193,17 @@
   <br>  <br>
 
 
+    <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterRentalExtended" class="form-control bgp-searchbox" onkeyup="searchRentalExtended()" placeholder="Search Rental Extended">
+    </div>
+    <br>
+  <!------->
+
   <h2>Rental Extended</h2>
   <br>
   <!----Start of Rows-->
-  <div class="row" id="myCards">
+  <div class="row" id="myCardsRentalExtended">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3"  *ngFor = "let x of rentalExtendedRentalAgreements">
@@ -192,10 +228,17 @@
   <br>  <br>
 
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterPendingClientExtensionAcceptance" class="form-control bgp-searchbox" onkeyup="searchPendingClientExtensionAcceptance()" placeholder="Search Extension Acceptance">
+  </div>
+  <br>
+<!------->
+
   <h2>Pending Client Extension Acceptance</h2>
   <br>
   <!----Start of Rows-->
-  <div class="row" id="myCards">
+  <div class="row" id="myCardsPendingClientExtensionAcceptance">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3"  *ngFor = "let x of pendingClientExtensionRentalAgreements">
@@ -219,11 +262,18 @@
   <!----End of Rows-->
   <br>  <br>
 
+  <!----Search cards-->
+  <div class="col-sm-12 mb-5">
+    <input  type="text" id="myFilterPendingClientRenewalAcceptance" class="form-control bgp-searchbox" onkeyup="searchPendingClientRenewalAcceptance()" placeholder="Search Renewal Acceptance">
+  </div>
+  <br>
+<!------->
+
 
   <h2>Pending Client Renewal Acceptance</h2>
   <br>
   <!----Start of Rows-->
-  <div class="row" id="myCards">
+  <div class="row" id="myCardsPendingClientRenewalAcceptance">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3"  *ngFor = "let x of pendingClientRenewalRentalAgreements">
@@ -248,10 +298,17 @@
   <br>  <br>
 
 
+    <!----Search cards-->
+    <div class="col-sm-12 mb-5">
+      <input  type="text" id="myFilterPendingAgentExtension" class="form-control bgp-searchbox" onkeyup="searchPendingAgentExtension()" placeholder="Search Agent Extension">
+    </div>
+    <br>
+  <!------->
+
   <h2>Pending Agent Extension</h2>
   <br>
   <!----Start of Rows-->
-  <div class="row" id="myCards">
+  <div class="row" id="myCardsPendingAgentExtension">
   <!------>
   <!--Start of one tile-->
     <div class="col-sm-3"  *ngFor = "let x of pendingAgentExtensionRentalAgreements">

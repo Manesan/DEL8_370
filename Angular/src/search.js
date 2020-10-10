@@ -572,7 +572,131 @@ function submitAddJS(){
 
 
 
+//Rental agreements search bars
+function searchRented() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRented");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRented");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
 
+function searchPendingAgentTermination() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterPendingAgentTermination");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsPendingAgentTermination");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
 
+function searchPendingClientAcceptance() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterPendingClientAcceptance");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsPendingClientAcceptance");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
 
+function searchRentalRenewed() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRentalRenewed");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRentalRenewed");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
 
+function searchRentalExtended() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterRentalExtended");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsRentalExtended");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchPendingClientExtensionAcceptance() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterPendingClientExtensionAcceptance");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsPendingClientExtensionAcceptance");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchPendingClientRenewalAcceptance() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterPendingClientRenewalAcceptance");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsPendingClientRenewalAcceptance");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
+
+function searchPendingAgentExtension() {
+  var input, filter, cards, cardContainer, h5, title, i;
+  input = document.getElementById("myFilterPendingAgentExtension");
+  filter = input.value.toUpperCase();
+  cardContainer = document.getElementById("myCardsPendingAgentExtension");
+  cards = cardContainer.getElementsByClassName("card");
+  for (i = 0; i < cards.length; i++) {
+      title = cards[i].querySelector(".card-body h5.card-title ");
+      if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+          cards[i].style.display = "";
+      } else {
+          cards[i].style.display = "none";
+      }
+  }
+}
