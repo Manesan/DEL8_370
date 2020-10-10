@@ -46,6 +46,7 @@ export class ViewClientRentalsComponent implements OnInit {
   public statusid: any;
   public rentaldocument: any;
   public needToMaintain: boolean;
+  public concluded: boolean;
   public terminate: boolean;
 
    //Rental Agreement Document
@@ -119,6 +120,7 @@ export class ViewClientRentalsComponent implements OnInit {
     this.email= null;
     this.contact= null;
     this.needToMaintain = false;
+    this.concluded = false;
     this.terminate = false;
 
     this.rentalAgreements = await this.service.Get('/rentalagreement?token=' + this.token.token);
@@ -213,6 +215,10 @@ rentalAgreementChangeListener($event){
     if(this.rentalstatus == "Pending Client Renewal Acceptance"){
       this.needToMaintain = true;
     }
+    if(this.rentalstatus == "Concluded"){
+      this.concluded = true;
+    }
+
     this.name= rentalAgreements.USERNAME;
     this.surname= rentalAgreements.USERSURNAME;
     this.userid= rentalAgreements.USERID ;
@@ -267,8 +273,8 @@ rentalAgreementChangeListener($event){
       "FileBase64" : this.fileBase64rentalagreement,
       "FileExtension" : this.fileExtensionrentalagreement
     };
-    //console.log(rentalagreementdocument);
-    //console.log(id);
+    console.log(rentalagreementdocument);
+    console.log(id);
 
     $("#confirmAcceptanceModal").modal('hide');
     await this.service.Patch(`/rentalagreement?token=${this.token.token}&id=${id}&accepted=${this.accepted}`, rentalagreementdocument);

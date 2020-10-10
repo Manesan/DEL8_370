@@ -160,10 +160,10 @@
            <p class="bgp-text-bold bgp-text-gold">Certified copy of ID/Passport (.PDF)</p>
            <input required class="bgp-text-white" name="iddocument" type="file" accept="application/pdf, application/vnd.ms-word"  id= "iddocument" (change)="idDocumentChangeListener($event)" />
           <br><br>
-          
+
           <p class="bgp-text-bold bgp-text-gold">Term</p>
           <select [(ngModel)]="termid" class ="form-control" name="terms" required   id="terms">
-            <option *ngFor="let x of terms" [ngValue]="x.TERMID">{{x.TERMDESCRIPTION}}</option>
+            <option *ngFor="let x of terms" [ngValue]="x.TERMID">{{x.TERMDESCRIPTION}} months</option>
           </select>
 
           <br>

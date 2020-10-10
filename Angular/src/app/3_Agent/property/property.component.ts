@@ -158,6 +158,7 @@ public token: any; //holds user token
   startDate: string;
   endDate: string;
   public addedPicture: any;
+  photo: any;
 
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
@@ -464,6 +465,9 @@ pictureChangeListener($event){
   // //console.log(this.addedPicture);
   // this.addedPicture = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + this.addedPicture);
   // //console.log(this.addedPicture);
+
+  this.documenttype = "ListingPicture";
+  this.photo = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any);
     console.log(property)
   }
 
