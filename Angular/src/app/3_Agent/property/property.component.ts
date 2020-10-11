@@ -118,6 +118,7 @@ public token: any; //holds user token
   public propertyFeatureDescriptionInput: any;
   public propertyFeatureQuantityInput: any;
   public propertyOtherBuildingDetailInput: any;
+  public listingPictures: any;
 
   //Mandate document
   public fileBase64mandatedocument: string;
@@ -127,8 +128,8 @@ public token: any; //holds user token
   public newPOAltContactNumber: any;
 
   //Listing picture
-  public fileBase64picturedocument: string;
-  public fileExtensionpicturedocument: string;
+  public fileBase64picturedocument: any = [];
+  public fileExtensionpicturedocument: any = [];
   resultspicture: any;
 
   public countryCodes = CountryCodes;
@@ -221,11 +222,14 @@ public token: any; //holds user token
     };
     //console.log(mandatedocument);
 
-    let listingpicture = {
-      "FileBase64" : this.fileBase64picturedocument,
-      "FileExtension" : this.fileExtensionpicturedocument
-    };
-    //console.log(listingpicture);
+    let listingpictureList =  [];
+    let i = 0;
+    this.fileBase64picturedocument.forEach(e => {
+      listingpictureList.push({"FileBase64":this.fileBase64picturedocument[i], "FileExtension" : this.fileExtensionpicturedocument[i]});
+      i++;
+      console.log(e)
+    });
+    console.log(listingpictureList);
 
     this.propertydetails = [];
     this.propertySpaces = [];
@@ -254,7 +258,7 @@ public token: any; //holds user token
     await this.service.Post(`/propertyfile?token=${this.token.token}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
 
     console.log("hit3")
-    await this.service.Patch(`/propertyfile?token=${this.token.token}`, listingpicture);
+    await this.service.Patch(`/propertyfile?token=${this.token.token}`, listingpictureList);
 
 
     console.log("hit14")
@@ -318,12 +322,12 @@ pictureChangeListener($event){
    var myReader: FileReader = new FileReader();
 
    //Get the extension by splitting the name and popping the name off
-   this.fileExtensionpicturedocument = file.name.split('.').pop();
+   this.fileExtensionpicturedocument.push(file.name.split('.').pop());
 
    //Once the reader has loaded, load the Base64 string of the file into the variable declared earlier
    myReader.onloadend = (e) => {
-     this.fileBase64picturedocument = myReader.result.toString().substr(myReader.result.toString().indexOf(',') + 1);
-     //console.log(this.fileBase64);
+     this.fileBase64picturedocument.push(myReader.result.toString().substr(myReader.result.toString().indexOf(',') + 1));
+     console.log(this.fileBase64picturedocument);
    }
    //Read the file in and parse it to Base64
    myReader.readAsDataURL(file);
@@ -331,9 +335,11 @@ pictureChangeListener($event){
 
   //Used to display picture in modal dynamically when adding
   public imagePath;
-  imgURL: any;
+  imgURL: any = [];
+  imageNames: any = [];
   public message: string;
   preview(files) {
+    console.log(files[0])
     if (files.length === 0)
       return;
     var mimeType = files[0].type;
@@ -345,8 +351,14 @@ pictureChangeListener($event){
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL = reader.result;
+      this.imgURL.push(reader.result);
+      this.imageNames.push(files[0].name)
+      console.log(this.imgURL)
     }
+  }
+
+  deleteImage(i){
+
   }
 
 
@@ -504,11 +516,13 @@ pictureChangeListener($event){
     };
     console.log(mandatedocument);
 
-    let listingpicture = {
-    "FileBase64" : this.fileBase64picturedocument,
-    "FileExtension" : this.fileExtensionpicturedocument
-    };
-    console.log(listingpicture);
+    let listingpictureList =  [];
+    let i = 0;
+    this.fileBase64picturedocument.forEach(e => {
+      listingpictureList.push({"FileBase64":this.fileBase64picturedocument[i], "FileExtension" : this.fileExtensionpicturedocument[i]});
+      i++;
+    });
+    console.log(listingpictureList, listingpictureList[0]);
 
     this.propertySpaces.push(this.bedroomCount, this.bathroomCount);
     this.propertyFeatures.forEach(e => {
@@ -525,12 +539,12 @@ pictureChangeListener($event){
 
     this.phoneNumberUpdateJoiner();
     
-    if (mandatedocument.FileBase64 != null){
+    if (mandatedocument.FileBase64 != undefined){
       await this.service.Post(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
     }
     
-    if (listingpicture.FileBase64 != null){
-      await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpicture);
+    if (listingpictureList[0].FileBase64 != undefined){
+      await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpictureList);
     }
 
     await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);

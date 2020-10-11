@@ -79,7 +79,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         //Update Listing Picture//  
         [HttpPatch]
         [Route("api/propertyfileupdate")]
-        public IHttpActionResult Patch([FromUri] string token, [FromUri] int propertyid, [FromBody] DocumentController.UploadClass picture)
+        public IHttpActionResult Patch([FromUri] string token, [FromUri] int propertyid, [FromBody] List<DocumentController.UploadClass> pictures)
         {
                 try
                 {
@@ -95,21 +95,25 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 db.Configuration.ProxyCreationEnabled = false;
 
                     //Null checks
-                if (propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
+                if (pictures == null || propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
                         return BadRequest();
 
 
                 //Upload picture
-                var fileUri = DocumentController.UploadFile(DocumentController.Containers.listingPicturesContainer, picture);
+                foreach (var picture in pictures)
+                    {
+                        var fileUri = DocumentController.UploadFile(DocumentController.Containers.listingPicturesContainer, picture);
 
-                db.LISTINGPICTUREs.Add(new LISTINGPICTURE
-                {
-                    LISTINGPICTUREIMAGE = fileUri,
-                    PROPERTYID = propertyid
-                });
+                        db.LISTINGPICTUREs.Add(new LISTINGPICTURE
+                        {
+                            LISTINGPICTUREIMAGE = fileUri,
+                            PROPERTYID = propertyid
+                        });
 
-                //Save DB changes
-                db.SaveChanges();
+                        //Save DB changes
+                        db.SaveChanges();
+                    }
+                
 
                 //Return Ok
                 return Ok();

@@ -667,7 +667,22 @@
                   <div id="imagesUpdate" class="panel-collapse collapse hide">
                     <input #file1 class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file1.files)"/>
               <br><br>
-              <img [src]="imgURL" height="200" *ngIf="imgURL">
+              <div *ngFor="let x of imgURL; let i = index">
+                <div class="imageDisplay">
+                  <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
+                <p class="bgp-text-white">{{imageNames[i]}}</p>
+                </div>              
+                
+                <div class="imageDelete">
+                  <button name="deleteDefect" class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this image" (click)="deleteImage(i)"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </div>
                   </div>
                 </div>
               </div>
@@ -1065,9 +1080,25 @@
                     </h4>
                   </div>
                   <div id="imagesAdd" class="panel-collapse collapse hide">
-                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" required/>
+                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required/>
               <br><br>
-              <img [src]="imgURL" height="200" *ngIf="imgURL">
+              <div *ngFor="let x of imgURL; let i = index">
+                <div class="imageDisplay">
+                  <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
+                <p class="bgp-text-white">{{imageNames[i]}}</p>
+                </div>              
+                
+                <div class="imageDelete">
+                  <button name="deleteDefect" class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this image" (click)="deleteImage(i)"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </div>
+              
                   </div>
                 </div>
               </div>

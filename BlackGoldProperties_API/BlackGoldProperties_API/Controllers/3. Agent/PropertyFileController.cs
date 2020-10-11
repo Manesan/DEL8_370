@@ -80,7 +80,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         //Upload Listing Picture//  
         [HttpPatch]
         [Route("api/propertyfile")]
-        public IHttpActionResult Patch([FromUri] string token, [FromBody] DocumentController.UploadClass picture)
+        public IHttpActionResult Patch([FromUri] string token, [FromBody] List<DocumentController.UploadClass> pictures)
         {
                 try
                 {
@@ -95,20 +95,27 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
-                //Get newly added property
-                int lastpropertyid = db.PROPERTies.Max(item => item.PROPERTYID);
+                    if (pictures == null)
+                        return BadRequest();
+
+                    //Get newly added property
+                    int lastpropertyid = db.PROPERTies.Max(item => item.PROPERTYID);
 
                 //Upload picture
-                var fileUri = DocumentController.UploadFile(DocumentController.Containers.listingPicturesContainer, picture);
-
-                    db.LISTINGPICTUREs.Add(new LISTINGPICTURE
+                foreach (var picture in pictures)
                     {
-                        LISTINGPICTUREIMAGE = fileUri,
-                        PROPERTYID = lastpropertyid
-                    });
+                        var fileUri = DocumentController.UploadFile(DocumentController.Containers.listingPicturesContainer, picture);
 
-                    //Save DB changes
-                    db.SaveChanges();
+                        db.LISTINGPICTUREs.Add(new LISTINGPICTURE
+                        {
+                            LISTINGPICTUREIMAGE = fileUri,
+                            PROPERTYID = lastpropertyid
+                        });
+
+                        //Save DB changes
+                        db.SaveChanges();
+                    }
+                
 
                     //Return Ok
                     return Ok();

@@ -300,6 +300,22 @@ font-weight: bold;
   padding: 0px 0px 0px 5px;
 }
 
+.imageDisplay {
+  display: table-cell;
+  //text-align: center;
+  width: 95%;
+  float: left;
+  //padding: 0px 5px 0px px;
+}
+
+.imageDelete {
+  display: table-cell;
+  //text-align: center;
+  width: 5%;
+  float: right;
+  //padding: 0px 0px 0px 5px;
+}
+
 //Slider styling
 // We need to use ::ng-deep to overcome view encapsulation
 ::ng-deep {
