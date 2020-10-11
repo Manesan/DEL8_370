@@ -68,6 +68,7 @@ export class ViewPropertyComponent implements OnInit {
   agentemail: any;
   agentsurname: any;
   agentname: any;
+  result: any;
 
   constructor(public service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService,  private route:ActivatedRoute, private sanitizer: DomSanitizer) { }
 
@@ -83,6 +84,12 @@ export class ViewPropertyComponent implements OnInit {
       timeOut: 1500,
     });
     setTimeout(location.reload.bind(location), 1500);
+  }
+
+  showAppliedAlreadyError() {
+    this.toastr.error('You have already applied for this property', "", {
+      timeOut: 1500,
+    });
   }
 
   async ngOnInit() {
@@ -296,8 +303,13 @@ export class ViewPropertyComponent implements OnInit {
     // console.log(term)
     // this.termid = this.terms.TERMID;
 
-    await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.termid}&start=${this.startdate}`, documents);
-    this.showRentApplySuccess();
+    this.result = await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.termid}&start=${this.startdate}`, documents);
+    if(this.result == "Error"){
+      this.showAppliedAlreadyError();
+    }
+    else{
+      this.showRentApplySuccess();
+    }
 
   }
 

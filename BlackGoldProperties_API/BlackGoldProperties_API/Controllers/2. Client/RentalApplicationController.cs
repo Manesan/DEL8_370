@@ -143,9 +143,21 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
 
+                //Get client
                 var email = TokenManager.ValidateToken(token);
                 var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
                 var uid = user.USERID;
+
+                //Check if client applied to rent this property already
+                var currentrentalapplications = db.RENTALAPPLICATIONs.Where(x => x.PROPERTYID == propertyid).Select(x => x.CLIENT.USERID).ToList();
+
+                if (currentrentalapplications.Contains(uid))
+                {
+                    return Ok("Error");
+                }
+
+
+                //Get agent
                 var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == propertyid).Select(y => new
                 {
                     y.EMPLOYEE.USER.USERNAME,

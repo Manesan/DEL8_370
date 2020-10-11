@@ -7,7 +7,6 @@ using System.Web.Http;
 using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
 using System.Net.Mail;
-using System.Net;
 
 namespace BlackGoldProperties_API.Controllers._2._Client
 {
