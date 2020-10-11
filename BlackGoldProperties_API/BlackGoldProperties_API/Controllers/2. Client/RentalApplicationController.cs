@@ -19,15 +19,16 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/rentalapplication")]
         public IHttpActionResult Get([FromUri] string token)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {           
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -75,15 +76,20 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/rentalapplication")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null check
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -125,27 +131,43 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         //Apply To Rent//
         [HttpPost]
         [Route("api/rentalapplication")]
-        public IHttpActionResult Post([FromUri] string token, [FromUri] int propertyid, [FromUri] int termid, [FromUri] DateTime start, /*[FromBody] DocumentController.UploadClass file*/ [FromBody] dynamic[] documents)  //-- client documents should contain the many documents that will be seperated here -- clientdocument and rentaldocument
+        public IHttpActionResult Post([FromUri] string token, [FromUri] int propertyid, [FromUri] int termid, [FromUri] DateTime start, [FromBody] dynamic[] documents)
         {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in    
-
-            //Null checks
-            /*if (string.IsNullOrEmpty(description))
-                return BadRequest();*/
-
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in    
+
+                //Null checks
+                if (termid < 1 || string.IsNullOrEmpty(termid.ToString()))
+                    return BadRequest();
+                if (propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(start.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
 
+                //Get client
                 var email = TokenManager.ValidateToken(token);
                 var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
                 var uid = user.USERID;
+
+                //Check if client applied to rent this property already
+                var currentrentalapplications = db.RENTALAPPLICATIONs.Where(x => x.PROPERTYID == propertyid).Select(x => x.CLIENT.USERID).ToList();
+
+                if (currentrentalapplications.Contains(uid))
+                {
+                    return Ok("Error");
+                }
+
+
+                //Get agent
                 var agent = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == propertyid).Select(y => new
                 {
                     y.EMPLOYEE.USER.USERNAME,
@@ -183,7 +205,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 db.RENTALAPPLICATIONs.Add(new RENTALAPPLICATION
                 {
                     RENTALAPPLICATIONDOCUMENT = applicationUri,
-                    USERID = uid,  //---------fix this error.. keeps crashing when passing through old users??
+                    USERID = uid, 
                     PROPERTYID = propertyid,
                     RENTALAPPLICATIONSTATUSID = 1, //Sets status to 'Pending'
                     RENTALAPPLICATIONDATE = DateTime.Now,
@@ -200,7 +222,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     CLIENTDOCUMENTUPLOADEXPIRY = DateTime.Now.AddMonths(3)
                 });
 
-                db.CLIENTDOCUMENTs.Add(new CLIENTDOCUMENT   //--- MAYBE DOCUMENT TYPE SHOULD BE ID/PASSPORT???
+                db.CLIENTDOCUMENTs.Add(new CLIENTDOCUMENT 
                 {
                     USERID = uid,
                     CLIENTDOCUMENTTYPEID = 1, //Sets to 'Copy of ID'

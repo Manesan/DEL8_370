@@ -20,14 +20,14 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
         [Route("api/inspection")]   
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -60,12 +60,12 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
                         return Ok(inspections);
                     }
             }
+                return Unauthorized();
+            }
                 catch (Exception)
             {
                 return NotFound();
             }
-        }
-            return Unauthorized();
         }
 
         //READ INSPECTIONTYPES//
@@ -73,14 +73,14 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
         [Route("api/inspectiontype")]
         public IHttpActionResult Put([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in*/
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in*/
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -97,12 +97,12 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
                     else
                         return Ok(inspectiontype);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //READ DATA OF SPECIFIC ID//
@@ -110,15 +110,19 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
         [Route("api/inspection")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -152,12 +156,12 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
                         return Ok(inspection);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -166,22 +170,29 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
         [Route("api/inspection")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] DateTime date, [FromUri] string comment, [FromUri] int typeid, [FromUri] int userid, [FromUri] int IVid,[FromBody] dynamic propertydefect)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(3 /*Home Inspector*/))
+                {
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(date.ToString()))
+                        return BadRequest();
+                    if (typeid < 1 || string.IsNullOrEmpty(typeid.ToString()))
+                        return BadRequest();
+                    if (userid < 1 || string.IsNullOrEmpty(userid.ToString()))
+                        return BadRequest();
+
+
                     //DB context
                     var db = LinkToDBController.db;
                     var inspection = db.INSPECTIONs.Include(y => y.PROPERTY).FirstOrDefault(x => x.INSPECTIONID == id);
-
-                    //Null checks
-                    //if (string.IsNullOrEmpty(description))
-                    // return BadRequest();
 
                     DocumentController.UploadClass document = new DocumentController.UploadClass();
                     document.FileBase64 = propertydefect[1].FileBase64;
@@ -240,12 +251,12 @@ namespace BlackGoldProperties_API.Controllers._4._Inspection_Administration
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

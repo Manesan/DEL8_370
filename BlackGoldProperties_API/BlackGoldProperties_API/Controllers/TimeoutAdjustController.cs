@@ -19,18 +19,15 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/timer")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Null checks
-            if (string.IsNullOrEmpty(token))
-                return BadRequest();
 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -48,12 +45,12 @@ namespace BlackGoldProperties_API.Controllers
                         return Ok(time);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -62,11 +59,6 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/timer")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int duration)
         {
-            //Null checks
-            if (string.IsNullOrEmpty(token))
-                return BadRequest();
-           // if (string.IsNullOrEmpty(duration))
-                //return BadRequest();
 
             try
             {
@@ -77,6 +69,9 @@ namespace BlackGoldProperties_API.Controllers
                     return BadRequest(); // Returns as user is not logged in
                 if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
+                    //Null check
+                    if (duration < 10 || string.IsNullOrEmpty(duration.ToString()))
+                        return BadRequest();
 
                     //DB context
                     var db = LinkToDBController.db;
@@ -86,10 +81,6 @@ namespace BlackGoldProperties_API.Controllers
                     var email = TokenManager.ValidateToken(token);
                     var user = db.USERs.Where(x => x.USEREMAIL == email).FirstOrDefault();
                     var userid = user.USERID;
-
-                    ////Update session time
-                    //time.USERLOGINTIMEOUTDESCRIPTION = duration;
-                    //time.USERID = userid;
 
                     //Add new time
                     db.USERLOGINTIMEOUTs.Add(new USERLOGINTIMEOUT

@@ -47,13 +47,14 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
         [HttpGet]
         [Route("api/propertydocumenttypes")]
         public IHttpActionResult Get([FromUri] int id)
-        {
-            //Null checks
-            if (id < 1)
-                return BadRequest();
+        {            
 
             try
             {
+                //Null check
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;

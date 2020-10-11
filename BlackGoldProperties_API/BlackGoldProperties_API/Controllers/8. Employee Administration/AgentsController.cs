@@ -16,18 +16,14 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
         [Route("api/agents")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Null checks
-            if (string.IsNullOrEmpty(token))
-                return BadRequest();
-
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -45,12 +41,12 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                         return Ok(agents);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

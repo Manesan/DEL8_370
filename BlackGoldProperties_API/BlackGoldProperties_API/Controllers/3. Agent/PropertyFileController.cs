@@ -16,22 +16,25 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/propertyfile")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] int mandatetypeid, [FromUri] DateTime mandatedate, [FromBody] DocumentController.UploadClass mandatedocument)
         {
-            ////Check valid token, logged in, role
-            //if (TokenManager.Validate(token) != true)
-            //    return BadRequest(); // Returns as user is invalid
-            //if (TokenManager.IsLoggedIn(token) != true)
-            //    return BadRequest(); // Returns as user is not logged in
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            //{
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null checks
+                    if (mandatetypeid < 1 || string.IsNullOrEmpty(mandatetypeid.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(mandatedate.ToString()))
+                        return BadRequest();
+
+
                     //DB context
                     var db = LinkToDBController.db;
-                    db.Configuration.ProxyCreationEnabled = false;
-
-                    //Null checks
-                    //if (string.IsNullOrEmpty(description))
-                    //    return BadRequest();
+                    db.Configuration.ProxyCreationEnabled = false;                    
 
                     //Get newly added property
                     int lastpropertyid = db.PROPERTies.Max(item => item.PROPERTYID);
@@ -65,12 +68,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            //}
-            //return Unauthorized();
         }
 
 
@@ -79,22 +82,18 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/propertyfile")]
         public IHttpActionResult Patch([FromUri] string token, [FromBody] DocumentController.UploadClass picture)
         {
-            ////Check valid token, logged in, role
-            //if (TokenManager.Validate(token) != true)
-            //    return BadRequest(); // Returns as user is invalid
-            //if (TokenManager.IsLoggedIn(token) != true)
-            //    return BadRequest(); // Returns as user is not logged in
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            //{
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
-
-                //Null checks
-                //if (string.IsNullOrEmpty(description))
-                //    return BadRequest();
 
                 //Get newly added property
                 int lastpropertyid = db.PROPERTies.Max(item => item.PROPERTYID);
@@ -114,12 +113,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            //}
-            //return Unauthorized();
         }
     }
 }

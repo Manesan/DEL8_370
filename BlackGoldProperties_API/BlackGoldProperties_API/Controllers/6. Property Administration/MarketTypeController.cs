@@ -48,15 +48,19 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
         [Route("api/markettype")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -73,12 +77,12 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
                         return Ok(markettype);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -87,15 +91,19 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
         [Route("api/markettype")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] string description)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (string.IsNullOrEmpty(description))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -116,12 +124,12 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -130,15 +138,21 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
         [Route("api/markettype")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string description)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(description))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     var markettypes = db.MARKETTYPEs.FirstOrDefault(x => x.MARKETTYPEID == id);
@@ -156,12 +170,12 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -170,15 +184,19 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
         [Route("api/markettype")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
 
@@ -198,12 +216,12 @@ namespace BlackGoldProperties_API.Controllers._6._Market_type
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

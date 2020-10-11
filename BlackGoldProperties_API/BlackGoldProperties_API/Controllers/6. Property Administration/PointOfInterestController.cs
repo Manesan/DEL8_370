@@ -16,21 +16,20 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Get([FromUri] string token)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
                     //Get all points of interest
-                    //var selection = db.POINTOFINTERESTs.Select(x => new { x.POINTOFINTERESTID, x.POINTOFINTERESTNAME, x.POINTOFINTERESTTYPE, x.SUBURBPOINTOFINTERESTs }).ToList();
                     var pointofinterest = db.SUBURBPOINTOFINTERESTs.Select(x => new {
                         x.POINTOFINTEREST.POINTOFINTERESTID,
                         x.POINTOFINTEREST.POINTOFINTERESTNAME,
@@ -48,12 +47,12 @@ namespace BlackGoldProperties_API.Controllers
                         return Ok(pointofinterest);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -62,14 +61,14 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Put([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -86,12 +85,12 @@ namespace BlackGoldProperties_API.Controllers
                     else
                         return Ok(pointofinteresttype);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //READ DATA OF SPECIFIC ID//
@@ -99,15 +98,19 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -131,12 +134,12 @@ namespace BlackGoldProperties_API.Controllers
                         return Ok(pointofinterest);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -145,15 +148,23 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] string name, [FromUri] int typeid, [FromUri] int suburbid)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null checks
+                    if (typeid < 1 || string.IsNullOrEmpty(typeid.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(name))
+                        return BadRequest();
+                    if (suburbid < 1 || string.IsNullOrEmpty(suburbid.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -189,12 +200,12 @@ namespace BlackGoldProperties_API.Controllers
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -203,23 +214,29 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string name, [FromUri] int typeid, [FromUri] int suburbid)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(name))
+                        return BadRequest();
+                    if (typeid < 1 || string.IsNullOrEmpty(typeid.ToString()))
+                        return BadRequest();
+                    if (suburbid < 1 || string.IsNullOrEmpty(suburbid.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     var pointofinterests = db.POINTOFINTERESTs.FirstOrDefault(x => x.POINTOFINTERESTID == id);
                     var suburbpointofinterests = db.SUBURBPOINTOFINTERESTs.FirstOrDefault(x => x.POINTOFINTERESTID == id);
-
-                    //Null checks
-                    if (string.IsNullOrEmpty(name))
-                        return BadRequest();
 
                     //Update specified point of interest
                     pointofinterests.POINTOFINTERESTNAME = name;
@@ -232,12 +249,12 @@ namespace BlackGoldProperties_API.Controllers
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -246,15 +263,19 @@ namespace BlackGoldProperties_API.Controllers
         [Route("api/pointofinterest")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
 
@@ -279,12 +300,12 @@ namespace BlackGoldProperties_API.Controllers
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

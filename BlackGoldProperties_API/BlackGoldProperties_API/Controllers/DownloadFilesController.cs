@@ -17,20 +17,8 @@ namespace BlackGoldProperties_API.Controllers
         //GET INSPECTION FILE//
         [HttpGet]
         [Route("api/downloadfile")]
-        public dynamic Get([FromUri] string token,[FromUri] string documenttype, [FromUri]int id)
+        public dynamic Get([FromUri] string token, [FromUri] string documenttype, [FromUri]int id)
         {
-            //Null checks
-            //if (string.IsNullOrEmpty(token))
-            //    return BadRequest();
-
-            //Check valid token, logged in, role
-            //if (TokenManager.Validate(token) != true)
-            //    return BadRequest(); // Returns as user is invalid
-            //if (TokenManager.IsLoggedIn(token) != true)
-            //    return BadRequest(); // Returns as user is not logged in
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            //{
-
             var documentpath = "";
                 try
                 {
@@ -88,8 +76,6 @@ namespace BlackGoldProperties_API.Controllers
                 {
                     return null;
                 }
-            //}
-            //return Unauthorized();
         }
 
 

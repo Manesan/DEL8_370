@@ -15,19 +15,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
 {
     public class AgentRentalApplicationsController : ApiController
     {
-        //READ ALL DATA//   -- Should this only return ones that are pending? or should we have sections on the front end categorizing them according to their status
+        //READ ALL DATA// 
         [HttpGet]
         [Route("api/agentrentalapplication")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -66,12 +66,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
 
 
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -80,15 +80,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalapplication")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //  Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //  Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -125,30 +129,36 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(rentalapplication);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
 
-        //Accept/Reject Rental Application//    --- THis is also used for accepting an extension to a rental agreement also as it accepts the application and generates a new rental agreement for the client to sign
+        //Accept/Reject Rental Application// This is also used for accepting an extension to a rental agreement also as it accepts the application and generates a new rental agreement for the client to sign
         [HttpPatch]
         [Route("api/agentrentalapplication")]
-        public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromUri] string note, [FromBody] DocumentController.UploadClass rentalagreement) //--Store link to unsigned agreement
+        public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromUri] string note, [FromBody] DocumentController.UploadClass rentalagreement)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(accepted.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -168,12 +178,10 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         y.EMPLOYEE.USER.USEREMAIL,
                         y.EMPLOYEE.USER.USERCONTACTNUMBER
                     }).FirstOrDefault();
-                    //Null checks
-                    //if (string.IsNullOrEmpty(description))
-                    //return BadRequest();
+
 
                     //Accept specified rental application
-                    if (accepted == true)  //--- Can only accept if available and not in progress/occupied    //---- CHECK TO SEE IF THEY ARE ABLE TO ACCEPT IN CASE THERES ALREADY ANOTHER ACCEPTED APPLICATION
+                    if (accepted == true)  //--- Can only accept if available and not in progress/occupied 
                     {
                         if (rentalapplication.RENTALID == null) //Only creates a rental record if this is a brand new rental application
                         {
@@ -221,11 +229,11 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                             return Ok(mailSent);
 
                         }
-                        else //Called when the agent is accepting an extension/renewal     ----UPDATE RENTALTERM IN RENTAL ENTITY
+                        else //Called when the agent is accepting an extension/renewal 
                         {
-                            rentalapplication.RENTALAPPLICATIONSTATUSID = 7; //Sets the application status to 'Approved Extension'      --- use if statement to check status if its renewal or extension
+                            rentalapplication.RENTALAPPLICATIONSTATUSID = 7; //Sets the application status to 'Approved Extension'
                             rentalapplication.RENTALAPPLICATIONNOTE = note;
-                            rentalapplication.RENTAL.RENTALSTATUSID = 7; //Sets the rental status to 'Pending Client Extension Acceptance'     -----THis doesnt work
+                            rentalapplication.RENTAL.RENTALSTATUSID = 7; //Sets the rental status to 'Pending Client Extension Acceptance'
 
                             //Upload rental agreement
                             var documenturi = DocumentController.UploadFile(DocumentController.Containers.rentalDocumentsContainer, rentalagreement);
@@ -249,7 +257,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     else if (accepted == false)
                     {
                         rentalapplication.RENTALAPPLICATIONSTATUSID = 3; //Sets the application status to 'Rejected'
-                        rentalapplication.RENTALAPPLICATIONNOTE = note;  //---check if screen exists 
+                        rentalapplication.RENTALAPPLICATIONNOTE = note; 
 
                         string newSubject = "Rental application for property #" + propertyid + " rejected";
                         var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
@@ -265,12 +273,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

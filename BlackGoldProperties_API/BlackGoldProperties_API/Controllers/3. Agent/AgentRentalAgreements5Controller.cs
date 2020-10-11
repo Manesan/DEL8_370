@@ -17,15 +17,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/agentrentalagreement5")]
         public IHttpActionResult Get([FromUri] string token)
-        { /*
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
+        { 
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -57,12 +57,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(agentrentalagreement5);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -70,15 +70,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [HttpGet]
         [Route("api/agentrentalagreement5")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        { /*
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
+        { 
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -110,52 +110,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(agentrentalagreement5);
                     }
                 }
-                catch (Exception)
-                {
-                    return NotFound();
-                }
-            }
-            return Unauthorized();
-        }
-
-
-        //Cancel Rental Agreement//
-        [HttpDelete]
-        [Route("api/agentrentalagreement5")]
-        public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
-        { /*
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in */
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
-                try
-                {
-                    //DB context
-                    var db = LinkToDBController.db;
-
-                    //Find city
-                    var agentrentalagreement5 = db.RENTALs.FirstOrDefault(x => x.RENTALID == id);
-                    if (agentrentalagreement5 == null)
-                        return NotFound();
-
-                    //Delete specified city
-                    agentrentalagreement5.RENTALSTATUSID = 1; // ---This sets the rental status to Available.. but maybe it should set it to something like Terminated as it is technically not available as yet??
-
-                    //Save DB Changes
-                    db.SaveChanges();
-
-                    //Return Ok
-                    return Ok();
+                return Unauthorized();
                 }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
+
     }
 }

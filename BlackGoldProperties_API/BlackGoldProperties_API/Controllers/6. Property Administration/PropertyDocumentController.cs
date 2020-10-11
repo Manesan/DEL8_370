@@ -50,11 +50,13 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
         [Route("api/propertydocument")]
         public IHttpActionResult Get([FromUri] int id)
         {
-            if (id < 1 || string.IsNullOrEmpty(id.ToString()))
-                return BadRequest();
-
+        
             try
             {
+                //Null check
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -89,12 +91,7 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
         [HttpPost]
         [Route("api/propertydocument")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] int propertyid, [FromUri] int documenttype, [FromBody] DocumentController.UploadClass propertydocument)
-        {
-            //Null checks
-            if (string.IsNullOrEmpty(token))
-                return BadRequest();
-            if (string.IsNullOrEmpty(propertydocument.ToString()))
-                return BadRequest();
+        {          
 
             try
             {
@@ -105,6 +102,12 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
                     return BadRequest(); // Returns as user is not logged in
                 if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
+                    //Null checks
+                    if (propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
+                        return BadRequest();
+                    if (documenttype < 1 || string.IsNullOrEmpty(documenttype.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;

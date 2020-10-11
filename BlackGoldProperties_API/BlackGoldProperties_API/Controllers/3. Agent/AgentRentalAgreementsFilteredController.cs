@@ -18,22 +18,17 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Get([FromUri] string token)
         { 
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
-
-                //Get client
-                //var email = TokenManager.ValidateToken(token);
-                //var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
-                //var uid = user.USERID;
 
                 //Get all rental applications pending extension
                 var rentalagreement = db.RENTALs.Where(z => z.RENTALSTATUSID == 3).Select(x => new {
@@ -72,15 +67,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -111,12 +110,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(rentalagreement);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //Cancel Rental Agreement//
@@ -124,15 +123,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/rentalagreementterminations")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
 
@@ -162,12 +165,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }
