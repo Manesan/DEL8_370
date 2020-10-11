@@ -20,14 +20,14 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
         [Route("api/valuation")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -59,12 +59,12 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                         return Ok(valuations);
                     }
             }
+                return Unauthorized();
+            }
                 catch (Exception)
             {
                 return NotFound();
             }
-        }
-            return Unauthorized();
         }
 
         //READ IVSTATUSES//
@@ -72,14 +72,14 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
         [Route("api/ivstatus")]
         public IHttpActionResult Put([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -96,12 +96,12 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                     else
                         return Ok(ivstatuses);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -110,15 +110,19 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
         [Route("api/valuation")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -148,36 +152,43 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                         return Ok(valuation);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
         //CAPTURE VALUATION//
         [HttpPatch]
-        [Route("api/valuation")]   //---Figure out how to store string to pdf in DB
+        [Route("api/valuation")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] DateTime date, [FromUri] string description, [FromUri] int userid, [FromUri] int IVid, [FromBody] DocumentController.UploadClass document)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(4 /*Valuer*/))
+                {
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(date.ToString()))
+                        return BadRequest();
+                    if (userid < 1 || string.IsNullOrEmpty(userid.ToString()))
+                        return BadRequest();
+                    if (IVid < 1 || string.IsNullOrEmpty(IVid.ToString()))
+                        return BadRequest();
+
+
                     //DB context
                     var db = LinkToDBController.db;
                     var valuation = db.VALUATIONs.FirstOrDefault(x => x.VALUATIONID == id);
-
-                    //Null checks
-                    if (string.IsNullOrEmpty(description))
-                        return BadRequest();
 
                     //Upload valuation document
                     var documenturi = DocumentController.UploadFile(DocumentController.Containers.valuationDocumentsContainer, document);
@@ -195,12 +206,12 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }
