@@ -63,7 +63,7 @@
     <div class="modal-body">
       <p class="bgp-ref bgp-text-gold">Property #{{ propertyID }}</p>
       <img class="card-img-top img-fluid" [src]="photo"  alt="Card image cap">
-      <br><br><br>
+      <br><br>
 
 
 
@@ -193,11 +193,14 @@
               <br>
               <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
               <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" disabled />
+              <div *ngIf="marketTypeID == 2">
               <br>
-              <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
+                <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
                 <div *ngFor="let x of propertyTerms">
                   <label class="form-check-label bgp-text-white" for="accept">{{x.TERMDESCRIPTION}} Months</label>
                 </div>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -1121,7 +1124,7 @@
             <p class="bgp-text-white">{{propertyAddress}}</p>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  (click)="delete(propertyID)">Yes</button>
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" (click)="delete(propertyID)">Yes</button>
             &nbsp;
             <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
           </div>

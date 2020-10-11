@@ -170,29 +170,6 @@ export class EmployeeComponent implements OnInit {
 
       });
     console.log(this.idnumber, this.passportnumber, user)
-  //   for (let i = 0; i < this.employeeTypeDescription.length; i++){
-  //     switch(this.employeeTypeDescription[i].EMPLOYEETYPEDESCRIPTION){
-  //       case "Director":
-  //         this.employeeTypeDescriptionInput[0] = true;
-  //         break;
-  //       case "Agent":
-  //         this.employeeTypeDescriptionInput[1] = true;
-  //         break;
-  //       case "Home Inspector":
-  //         this.employeeTypeDescriptionInput[2] = true;
-  //         break;
-  //       case "Valuer":
-  //         this.employeeTypeDescriptionInput[3] = true;
-  //         break;
-  //       case "Administrator":
-  //         this.employeeTypeDescriptionInput[4] = true;
-  //         break;
-  //       case "Secretary":
-  //         this.employeeTypeDescriptionInput[5] = true;
-  //         break;
-  //   }
-  // }
-    //this.showViewModal = true;
     console.log(this.employeetypes, this.employeeTypeDescriptionInput)
   }
 

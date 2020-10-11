@@ -227,8 +227,6 @@ public token: any; //holds user token
     };
     //console.log(listingpicture);
 
-
-
     this.propertydetails = [];
     this.propertySpaces = [];
     //this.mandateTypeDocInput = tempDocument; // Delete this line once documents implemented
@@ -243,15 +241,23 @@ public token: any; //holds user token
     console.log(this.propertydetails);
     this.phoneNumberJoiner();
     this.getMarketTypeID(); ////////////////////New for markettype
+    if (this.marketTypeID = 1){
+      this.value = null;
+      this.highValue = null;
+    }
+    console.log("hit1")
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     await this.service.Post(`/property?token=${this.token.token}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOAltContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.propertyZonintEstimatedMonthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
 
+    console.log("hit2")
 
     await this.service.Post(`/propertyfile?token=${this.token.token}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
 
+    console.log("hit3")
     await this.service.Patch(`/propertyfile?token=${this.token.token}`, listingpicture);
 
 
+    console.log("hit14")
 
     this.showAddSuccess();
   }
@@ -378,7 +384,7 @@ pictureChangeListener($event){
 
     this.mandatedocument = property.Mandates.MANDATEDOCUMENT;
     this.mandateid = property.Mandates.MANDATEID;
-    //console.log(this.mandatedocument)
+    console.log(this.propertyOwnerContactNumberInput)
 
 
     let tempMandates = [];
@@ -410,8 +416,8 @@ pictureChangeListener($event){
     this.buildingConditionInput = property.BUILDINGCONDITION?.BUILDINGCONDITIONDESCRIPTION;
     this.buildingConditionID = property.BUILDINGCONDITIONID;
     this.propertyTerms = property.Terms;
-    this.value = property.Mintermdescription;
-    this.highValue = property.Maxtermdescription;
+    this.value = property?.Mintermdescription;
+    this.highValue = property?.Maxtermdescription;
     this.propertyFeatures = [];
     this.propertyFeatureQuantities = [];
     property.PropertyFeatures.forEach(e => {
@@ -491,16 +497,16 @@ pictureChangeListener($event){
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.propertydetails = [];
     //this.mandateTypeDocInput = tempDocument; // Delete this line once documents implemented
-
+    
     let mandatedocument = {
-      "FileBase64" : this.fileBase64mandatedocument,
-      "FileExtension" : this.fileExtensionmandatedocument
+    "FileBase64" : this.fileBase64mandatedocument,
+    "FileExtension" : this.fileExtensionmandatedocument
     };
     console.log(mandatedocument);
 
     let listingpicture = {
-      "FileBase64" : this.fileBase64picturedocument,
-      "FileExtension" : this.fileExtensionpicturedocument
+    "FileBase64" : this.fileBase64picturedocument,
+    "FileExtension" : this.fileExtensionpicturedocument
     };
     console.log(listingpicture);
 
@@ -517,12 +523,17 @@ pictureChangeListener($event){
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(id);
 
-    await this.service.Post(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
+    this.phoneNumberUpdateJoiner();
+    
+    if (mandatedocument.FileBase64 != null){
+      await this.service.Post(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
+    }
+    
+    if (listingpicture.FileBase64 != null){
+      await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpicture);
+    }
 
-    await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpicture);
-
-
-    await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOAltContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
+    await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
 
     this.showUpdateSuccess();
   }
@@ -539,6 +550,7 @@ pictureChangeListener($event){
     console.log(id);
     $("#deleteModal").modal('hide');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
+    console.log(this.token)
     let response = await this.service.Delete('/property?token=' + this.token.token + '&id='+ id)
     console.log(response)
     if (response === 409){
@@ -556,6 +568,16 @@ pictureChangeListener($event){
     }
     if (this.propertyOwnerAltContactNumberInput != null){
       this.newPOAltContactNumber = "%2B"+this.altCountryCode.substring(1)+this.propertyOwnerAltContactNumberInput.substring(1);
+    }
+  }
+
+  phoneNumberUpdateJoiner()
+  {
+    if (this.propertyOwnerContactNumberInput != null){
+      this.newPOContactNumber = "%2B"+this.propertyOwnerContactNumberInput.substring(1);
+    }
+    if (this.propertyOwnerAltContactNumberInput != null){
+      this.newPOAltContactNumber = "%2B"+this.propertyOwnerAltContactNumberInput.substring(1);
     }
   }
 

@@ -54,8 +54,8 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         MARKETTYPEID = (int?)x.MARKETTYPE.MARKETTYPEID,
                         x.MARKETTYPE.MARKETTYPEDESCRIPTION,
                         PROPERTYTYPEID = (int?)x.PROPERTYTYPE.PROPERTYTYPEID,
-                        x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,*/
-                        SUBURBID = (int?)x.SUBURB.SUBURBID,
+                        x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
+                        SUBURBID = (int?)x.SUBURB.SUBURBID,*/
                         x.SUBURB.SUBURBNAME,
                         /*CITYID = (int?)x.SUBURB.CITY.CITYID,
                         x.SUBURB.CITY.CITYNAME,
@@ -115,10 +115,10 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         x.PROPERTYOWNER.PROPERTYOWNERSURNAME,
                         x.PROPERTYOWNER.PROPERTYOWNEREMAIL,
                         x.PROPERTYOWNER.PROPERTYOWNERADDRESS,
-                        PROPERTYOWNERIDNUMBER = x.PROPERTYOWNER.PROPERTYOWNERIDNUMBER,
-                        PROPERTYOWNERPASSPORTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERPASSPORTNUMBER,
-                        PROPERTYOWNERCONTACTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERCONTACTNUMBER,
-                        PROPERTYOWNERALTCONTACTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERALTCONTACTNUMBER,
+                        PROPERTYOWNERIDNUMBER = x.PROPERTYOWNER.PROPERTYOWNERIDNUMBER.Trim(),
+                        PROPERTYOWNERPASSPORTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERPASSPORTNUMBER.Trim(),
+                        PROPERTYOWNERCONTACTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERCONTACTNUMBER.Trim(),
+                        PROPERTYOWNERALTCONTACTNUMBER = x.PROPERTYOWNER.PROPERTYOWNERALTCONTACTNUMBER.Trim(),
                         PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { FEATUREID = (int?)y.FEATURE.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).ToList(),
                         Pointsofinterest = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME, y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
                         Mandates = x.PROPERTYMANDATEs.Select(y => new { y.PROPERTYMANDATEID, y.MANDATE.MANDATEID, y.MANDATE.MANDATEDATE, y.MANDATE.MANDATEDOCUMENT, MANDATETYPEID = (int?)y.MANDATE.MANDATETYPE.MANDATETYPEID, y.MANDATE.MANDATETYPE.MANDATETYPEDESCRIPTION }).OrderByDescending(y => y.PROPERTYMANDATEID).FirstOrDefault(),
@@ -136,15 +136,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         //Spaces = x.PROPERTYSPACEs.Select(y => new { y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY }).ToList(),
                         Bedrooms = x.PROPERTYSPACEs.Select(y => new { SPACEID = (int?)y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                         Bathrooms = x.PROPERTYSPACEs.Select(y => new { SPACEID = (int?)y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
-                        Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
+                        //Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
                         Otherbuildingdetails = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { OTHERBUILDINGDETAILID = (int?)y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList(),
                         Picture = x.LISTINGPICTUREs.Select(y => new { y.LISTINGPICTUREID, y.LISTINGPICTUREIMAGE }).OrderByDescending(y => y.LISTINGPICTUREID).FirstOrDefault(),
                         x.BUILDINGCONDITION,
                         x.BUILDINGCONDITIONID,
-                        Mintermid = x.TERM.TERMID,
-                        Mintermdescription = x.TERM.TERMDESCRIPTION,
-                        Maxtermid = x.TERM1.TERMID,
-                        Maxtermdescription = x.TERM1.TERMDESCRIPTION,
+                        Mintermid = (int?)x.TERM.TERMID,
+                        Mintermdescription = (int?)x.TERM.TERMDESCRIPTION,
+                        Maxtermid = (int?)x.TERM1.TERMID,
+                        Maxtermdescription = (int?)x.TERM1.TERMDESCRIPTION,
                         x.PROPERTYRATEANDTAX,
                         x.PROPERTYLEVIES,
                         Zoning = x.ZONINGs.OrderByDescending(z => z.ZONINGID).FirstOrDefault(),
@@ -172,7 +172,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         //ADD//   
         [HttpPost]
         [Route("api/property")]
-        public IHttpActionResult Post([FromUri] string token, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int mandatetypeid, [FromUri] DateTime mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int minterm, [FromUri] int maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
+        public IHttpActionResult Post([FromUri] string token, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int mandatetypeid, [FromUri] DateTime mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int? minterm, [FromUri] int? maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
         {
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
@@ -214,9 +214,14 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Set status based on available date
                     int statusID = 1; //'Available'
                     if (availabledate > DateTime.Now)
-                    {
                         statusID = 4; //'Not Available'
-                    }
+
+                    //Discard terms if property is for sale
+                    //if (propertytypeid == 1)
+                    //{
+                    //    minterm = null;
+                    //    maxterm = null;
+                    //}
 
                     //Add a property
                     db.PROPERTies.Add(new PROPERTY
@@ -391,7 +396,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         //UPDATE//
         [HttpPatch]
         [Route("api/property")]
-        public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int? mandatetypeid, [FromUri] DateTime? mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int minterm, [FromUri] int maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
+        public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int? mandatetypeid, [FromUri] DateTime? mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int? minterm, [FromUri] int? maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
         {
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)

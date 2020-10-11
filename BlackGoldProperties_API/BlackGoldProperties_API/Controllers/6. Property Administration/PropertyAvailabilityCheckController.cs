@@ -41,10 +41,12 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
                         }
                     }
 
+                    db.SaveChanges();
+
                     return Ok();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return NotFound();
             }
