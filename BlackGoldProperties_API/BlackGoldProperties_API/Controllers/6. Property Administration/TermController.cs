@@ -16,13 +16,6 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
         [Route("api/term")]
         public IHttpActionResult Get(/*[FromUri] string token*/)
         {
-            ////Check valid token, logged in, role
-            //if (TokenManager.Validate(token) != true)
-            //    return BadRequest(); // Returns as user is invalid
-            //if (TokenManager.IsLoggedIn(token) != true)
-            //    return BadRequest(); // Returns as user is not logged in
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            //{
                 try
                 {
                     //DB context
@@ -48,8 +41,7 @@ namespace BlackGoldProperties_API.Controllers._6._Property_Administration
                 {
                     return NotFound();
                 }
-            //}
-            //return Unauthorized();
+
         }
     }
 }
