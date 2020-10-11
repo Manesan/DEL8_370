@@ -13,19 +13,19 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
 {
     public class EmployeeController : ApiController
     {
-        //READ ALL DATA//     -- Fix DELETE
+        //READ ALL DATA// 
         [HttpGet]
         [Route("api/employee")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -39,12 +39,7 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                         x.USER.USERCONTACTNUMBER,
                         x.USER.USERALTCONTACTNUMBER,
                         x.USER.USEREMAIL,
-                        //x.USER.USERIDORPASSPORTNUMBER,
-                        //x.USER.USERADDRESS,
-                        //x.EMPLOYEEBANKINGDETAILS,
-                        EmployeeType = x.EMPLOYEEROLEs.Select(y => new { y.EMPLOYEETYPE.EMPLOYEETYPEID, y.EMPLOYEETYPE.EMPLOYEETYPEDESCRIPTION }).ToList(),
-                        //x.EMPLOYEEDATEEMPLOYED,
-                        //x.EMPLOYEERENUMERATON
+                        EmployeeType = x.EMPLOYEEROLEs.Select(y => new { y.EMPLOYEETYPE.EMPLOYEETYPEID, y.EMPLOYEETYPE.EMPLOYEETYPEDESCRIPTION }).ToList()
                     }).ToList();
 
                     if (employee == null)
@@ -52,12 +47,12 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     else
                         return Ok(employee);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -67,15 +62,19 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
         [Route("api/employee")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -107,12 +106,12 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                         return Ok(employee);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //ADD//   
@@ -120,30 +119,32 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
         [Route("api/employee")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] string name, [FromUri] string surname, [FromUri] string contactnumber, [FromUri] string altcontactnumber, [FromUri] string email, [FromUri] string idnumber, [FromUri] string passportnumber, [FromUri] string address, [FromUri] string password, [FromUri] string banking, [FromBody] dynamic employeeroles, [FromUri] DateTime dateemployed, [FromUri] decimal remuneration)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
                     //Null checks
-                    //if (string.IsNullOrEmpty(email))
-                    //    return BadRequest();
-                    //if (string.IsNullOrEmpty(name))
-                    //    return BadRequest();
-                    //if (string.IsNullOrEmpty(surname))
-                    //    return BadRequest();
-                    //if (string.IsNullOrEmpty(address))
-                    //    return BadRequest();
-                    //if (string.IsNullOrEmpty(password))
-                    //    return BadRequest();
+                    if (string.IsNullOrEmpty(email))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(name))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(surname))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(address))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(password))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(contactnumber))
+                        return BadRequest();
 
 
                     var check = db.EMPLOYEEs.Where(x => x.USER.USEREMAIL == email).Select(x => x.USER.USEREMAIL).FirstOrDefault();
@@ -174,11 +175,8 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     //Save DB changes
                     db.SaveChanges();
 
-                    ////Find the point of interest that was just added
-                    int lastuserid = db.USERs.OrderByDescending(item => item.USERID).FirstOrDefault().USERID;
-
                     //Find the user id that was just registered
-                    //int lastuserid = db.USERs.Max(item => item.USERID);
+                    int lastuserid = db.USERs.OrderByDescending(item => item.USERID).FirstOrDefault().USERID;
 
                     //Link the user profile to employee
                     db.EMPLOYEEs.Add(new EMPLOYEE
@@ -208,12 +206,12 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -222,28 +220,37 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
         [Route("api/employee")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string name, [FromUri] string surname, [FromUri] string contactnumber, [FromUri] string altcontactnumber, [FromUri] string email, [FromUri] string idnumber, [FromUri] string passportnumber, [FromUri] string address, [FromUri] string banking, [FromBody] dynamic employeeroles, [FromUri] DateTime dateemployed, [FromUri] decimal remuneration)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
                 {
                     //DB context
                     var db = LinkToDBController.db; // Missing the config line below?
                     db.Configuration.ProxyCreationEnabled = false;
                     var employee = db.EMPLOYEEs.Include(x => x.USER).FirstOrDefault(y => y.USERID == id);
 
-                    //Null checks   --Finish this
-                    //if (string.IsNullOrEmpty(name))
-                    //    return BadRequest();
+                    //Null checks
+                    if (string.IsNullOrEmpty(email))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(name))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(surname))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(address))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(contactnumber))
+                        return BadRequest();
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
 
                     //Update specified employee
                     employee.USER.USERID = id;
                     employee.USER.USEREMAIL = email.ToLower();
-                    //employee.USER.USERPASSWORD = HomeController.HashPassword(password); --The password is not updated in this component
                     employee.USER.USERNAME = name;
                     employee.USER.USERSURNAME = surname;
                     employee.USER.USERCONTACTNUMBER = Utilities.Trimmer(contactnumber);
@@ -255,8 +262,7 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     employee.EMPLOYEEDATEEMPLOYED = dateemployed;
                     employee.EMPLOYEERENUMERATON = remuneration;
                     employee.USER.USERGUID = HomeController.GUIDActions().USERGUID;
-                    employee.USER.USERGUIDEXPIRY = HomeController.GUIDActions().USERGUIDEXPIRY;
-                    //Updates GUID & GUIDExpiry for user (assumes logged in user is updating themself)
+                    employee.USER.USERGUIDEXPIRY = HomeController.GUIDActions().USERGUIDEXPIRY; //Updates GUID & GUIDExpiry for user (assumes logged in user is updating themself)
 
                     try
                     {
@@ -283,27 +289,6 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                             EMPLOYEETYPEID = employeerole.EMPLOYEETYPEID
                         });
                     }
-                    //foreach (EMPLOYEEROLE item in employeeroles)
-                    //{
-                    //    db.EMPLOYEEROLEs.Add(new EMPLOYEEROLE
-                    //    {
-                    //        USERID = id,
-                    //        EMPLOYEETYPEID = item.EMPLOYEETYPEID
-                    //    });
-                    //}
-
-
-                    ////Added
-                    //Newtonsoft.Json.Linq.JArray rolesList = employeeroles; // Convert to use Fn Count in for loop
-
-                    ////Delete old employee roles
-                    //IQueryable<EMPLOYEEROLE> toBeDeleted = db.EMPLOYEEROLEs.Where(x => x.USERID == id);
-                    //if (toBeDeleted != null)
-                    //{
-                    //    db.EMPLOYEEROLEs.RemoveRange(toBeDeleted);
-                    //    db.SaveChanges();
-                    //}
-
 
                     //Save DB changes
                     db.SaveChanges();
@@ -311,43 +296,34 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
-        //DELETE//    -DELETE ISNT WORKING 
+        //DELETE//
         [HttpDelete]
         [Route("api/employee")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
-
-                    /*
-                    //Find all associative records for employee roles
-                    var roles = db.EMPLOYEEROLEs.Where(x => x.USERID == id);
-
-                    //Delete employee roles records
-                    foreach (var item in roles)
-                    {
-                        db.EMPLOYEEROLEs.Remove(item);
-                    }
-
-                    //Save DB Changes
-                    db.SaveChanges();  */
 
                     //Find if employee exists and does not have assigned properties or outstanding inspections/valuations
                     var employee = db.EMPLOYEEs.Include(y => y.EMPLOYEEPROPERTies).Include(z => z.INSPECTIONs).Include(yy => yy.VALUATIONs).FirstOrDefault(x => x.USERID == id);
@@ -355,13 +331,6 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                         return NotFound();
                     if (employee.EMPLOYEEPROPERTies.Count > 0 || employee.INSPECTIONs.Where(x => x.IVSTATUSID == 1).ToList().Count > 0 || employee.VALUATIONs.Where(x => x.IVSTATUSID == 1).ToList().Count > 0)
                         return Conflict();
-
-                    /*
-                    //Delete specified employee
-                    db.EMPLOYEEs.Remove(employee);
-
-                    //Save DB Changes
-                    db.SaveChanges();  */
 
                     //Find user
                     var user = db.USERs.FirstOrDefault(x => x.USERID == id);
@@ -377,26 +346,20 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //READ ALL VALUERS//
         [HttpPut]
         [Route("api/employee")]
         public IHttpActionResult Put([FromUri] string token)
-        {/*
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in*/
-            //if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(6 /*Secretary*/))
-            {
+        {
+            
                 try
                 {
                     //DB context
@@ -420,8 +383,6 @@ namespace BlackGoldProperties_API.Controllers._8._Employee_Administration
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

@@ -19,14 +19,14 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
         [Route("api/adminportalgraph")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            //if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -60,24 +60,6 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                     }).ToList();
                     graphsDetails.PopularLocations = popularLocations;
 
-                    /*
-                    //Get popular locations by sale
-                    var popularLocationsBySale = db.PROPERTies.Where(x => x.SALEs.Count > 0).OrderByDescending(y => y.SALEs.Count).Select(z => new 
-                    {
-                        z.SUBURB.SUBURBNAME,
-                        z.SALEs.Count
-                    }).ToList();
-                    graphsDetails.PopularLocationsBySale = popularLocationsBySale;
-
-                    //Get popular locations by rental
-                    var popularLocationsByRental = db.PROPERTies.Where(x => x.RENTALs.Count > 0).OrderByDescending(y => y.RENTALs.Count).Select(z => new
-                    {
-                        z.SUBURB.SUBURBNAME,
-                        z.RENTALs.Count
-                    }).ToList();
-                    graphsDetails.PopularLocationsByRental = popularLocationsByRental;
-                    */
-
                     if (graphsDetails == null)
                     {
                         return BadRequest();
@@ -87,12 +69,12 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                         return Ok(graphsDetails);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

@@ -10,25 +10,32 @@ namespace BlackGoldProperties_API.Models
 
         public void RefreshGUID(BlackGoldDBEntities20 db)
         {
-            db.Configuration.ProxyCreationEnabled = false;
-            user.USERGUID = Guid.NewGuid().ToString();
-            var time = LinkToDBController.db.USERLOGINTIMEOUTs.Select(x => x.USERLOGINTIMEOUTDESCRIPTION).FirstOrDefault();
-            user.USERGUIDEXPIRY = DateTime.Now.AddMinutes(Convert.ToDouble(time));
-            var guids = db.USERs.Where(x => x.USERGUID == user.USERGUID).Count();
-            if (guids > 0)
-                RefreshGUID(db);
-            else
+            try
             {
-                var usr = db.USERs.Where(x => x.USERID == user.USERID).FirstOrDefault();
-                db.Entry(usr).CurrentValues.SetValues(user);
-                try
+                db.Configuration.ProxyCreationEnabled = false;
+                user.USERGUID = Guid.NewGuid().ToString();
+                var time = LinkToDBController.db.USERLOGINTIMEOUTs.Select(x => x.USERLOGINTIMEOUTDESCRIPTION).FirstOrDefault();
+                user.USERGUIDEXPIRY = DateTime.Now.AddMinutes(Convert.ToDouble(time));
+                var guids = db.USERs.Where(x => x.USERGUID == user.USERGUID).Count();
+                if (guids > 0)
+                    RefreshGUID(db);
+                else
                 {
-                    db.SaveChanges();
-                }
-                catch
-                {
+                    var usr = db.USERs.Where(x => x.USERID == user.USERID).FirstOrDefault();
+                    db.Entry(usr).CurrentValues.SetValues(user);
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
 
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                
             }
         }
     }
