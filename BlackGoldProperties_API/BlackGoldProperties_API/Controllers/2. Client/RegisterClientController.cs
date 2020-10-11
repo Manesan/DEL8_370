@@ -32,6 +32,8 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     return BadRequest();
                 if (string.IsNullOrEmpty(password))
                     return BadRequest();
+                if (string.IsNullOrEmpty(contactnumber))
+                    return BadRequest();
 
 
                 //Check if client is potential client to be deleted

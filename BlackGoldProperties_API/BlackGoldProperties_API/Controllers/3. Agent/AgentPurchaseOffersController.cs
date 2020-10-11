@@ -19,14 +19,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentpurchaseoffer")]
         public IHttpActionResult Get([FromUri] string token)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -53,12 +54,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(purchaseoffer);
                     }
                 }
+                    return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
+         
         }
 
 
@@ -67,15 +69,22 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentpurchaseoffer")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
+            
                 try
                 {
+
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+
+                    //Null check 
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -100,12 +109,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(purchaseoffer);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -114,17 +123,25 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentpurchaseoffer")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromUri] string note, [FromBody] DocumentController.UploadClass saleagreement)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
-                //DB context
-                var db = LinkToDBController.db;
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+
+                    //Null checks
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+                    if (string.IsNullOrEmpty(accepted.ToString()))
+                        return BadRequest();
+
+
+                    //DB context
+                    var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
                 var purchaseoffer = db.PURCHASEOFFERs.Include(x => x.SALEs).Include(y => y.CLIENT).Include(z => z.CLIENT.USER).FirstOrDefault(Y => Y.PURCHASEOFFERID == id);
                 var propertyid = purchaseoffer.PROPERTYID;
@@ -185,19 +202,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
 
                         return Ok(mailSent);
                 }
-
-                //Save DB changes
-                db.SaveChanges();
-
-                //Return Ok
-                return Ok();
+                }
+                return Unauthorized();
                 }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

@@ -18,15 +18,16 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/rentalagreement")]
         public IHttpActionResult Get([FromUri] string token)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {         
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -73,15 +74,19 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/rentalagreement")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-
+        {            
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null check
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -122,15 +127,23 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpPatch]
         [Route("api/rentalagreement")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromBody] DocumentController.UploadClass signedagreement) 
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {          
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(accepted.ToString()))
+                    return BadRequest();
+
+
                 //DB context
                 var db = LinkToDBController.db;
                 var rental = db.RENTALs.FirstOrDefault(x => x.RENTALID == id);
@@ -144,9 +157,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 }).FirstOrDefault();
                 var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
-                //Null checks                             --Finish this
-                //if (string.IsNullOrEmpty(description))
-                //    return BadRequest();
 
                 //Update specified rental
                 if (accepted == true)   //---- LINK RENTALID TO RENTALAPPLICATION
@@ -224,16 +234,21 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpPost]
         [Route("api/rentalagreement")]
 
-        public IHttpActionResult Post([FromUri] string token, [FromUri] int rentalid/*, [FromUri] int termid*/) //--If its a renewal how do we cater for getting the term? (maybe front end handles this to send back term no matter what)
+        public IHttpActionResult Post([FromUri] string token, [FromUri] int rentalid/*, [FromUri] int termid*/) 
         {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-
+           
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null check
+                if (rentalid < 1 || string.IsNullOrEmpty(rentalid.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 var rental = db.RENTALs.Include(x => x.TERM).Include(y => y.PROPERTY).Include(z => z.CLIENT).Include(xx => xx.CLIENT.USER).FirstOrDefault(x => x.RENTALID == rentalid);
@@ -246,26 +261,19 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 }).FirstOrDefault();
                 var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
-
-                //Null checks
-                //if (string.IsNullOrEmpty(request))
-                //return BadRequest();
                 if (rental == null)
                     return NotFound();
 
-                //-- do a maths check here to check if its a renewal or extension  -- need term attribute in rental entity to do this
 
-
-                db.RENTALAPPLICATIONs.Add(new RENTALAPPLICATION   //--TEST THIS
+                db.RENTALAPPLICATIONs.Add(new RENTALAPPLICATION  
                 {
                     RENTALAPPLICATIONDOCUMENT = "",
                     USERID = (int)rental.USERID,
                     PROPERTYID = rental.PROPERTYID,
-                    RENTALAPPLICATIONSTATUSID = 4, //Sets status to 'Pending Agent Extension'   ///---- make this depend on check above
+                    RENTALAPPLICATIONSTATUSID = 4, //Sets status to 'Pending Agent Extension'
                     RENTALAPPLICATIONDATE = DateTime.Now,
                     TERMID = rental.TERMID,
-                    //TERMID = termid,
-                    RENTALAPPLICATIONSTARTDATE = (DateTime)rental.RENTALDATEEND,  //--test if this works
+                    RENTALAPPLICATIONSTARTDATE = (DateTime)rental.RENTALDATEEND, 
                     RENTALID = rentalid
                 });
 
@@ -292,14 +300,20 @@ namespace BlackGoldProperties_API.Controllers._2._Client
 
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int rentalid, [FromUri] bool terminate)
         {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (rentalid < 1 || string.IsNullOrEmpty(rentalid.ToString()))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(terminate.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 var rental = db.RENTALs.Include(x => x.RENTALSTATU).Include(y => y.PROPERTY).Include(z => z.CLIENT).Include(xx => xx.CLIENT.USER).FirstOrDefault(x => x.RENTALID == rentalid);
@@ -312,10 +326,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 }).FirstOrDefault();
                 var agentAddress = new MailAddress(agent.USEREMAIL, agent.USERNAME + " " + agent.USERSURNAME);
 
-
-                //Null checks
-                //if (string.IsNullOrEmpty(request))
-                //return BadRequest();
                 if (rental == null)
                     return NotFound();
 

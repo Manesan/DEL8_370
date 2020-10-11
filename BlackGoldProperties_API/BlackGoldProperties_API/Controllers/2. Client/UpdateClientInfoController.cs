@@ -18,17 +18,18 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [Route("api/updateclientinfo")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] int documenttypeid, [FromBody]DocumentController.UploadClass clientdocument)
         {
-            //Null checks
-            if (string.IsNullOrEmpty(token))
-                return BadRequest();
-            if (documenttypeid < 1 || string.IsNullOrEmpty(documenttypeid.ToString()))
-                return BadRequest();
-
-
                 try
                 {
-                    //DB context
-                    var db = LinkToDBController.db;
+
+                //Null checks
+                if (string.IsNullOrEmpty(token))
+                    return BadRequest();
+                if (documenttypeid < 1 || string.IsNullOrEmpty(documenttypeid.ToString()))
+                    return BadRequest();
+
+
+                //DB context
+                var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
                     //Find user from token
@@ -69,14 +70,26 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [Route("api/updateclientinfo")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] string name, [FromUri] string surname, [FromUri] string contactnumber, [FromUri] string altcontactnumber, [FromUri] string address, [FromUri] string idnumber, [FromUri] string passportnumber )
         {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
             
             try
             {
+
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (string.IsNullOrEmpty(name))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(surname))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(contactnumber))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(address))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
 
@@ -118,15 +131,17 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/clientinfo")]
         public IHttpActionResult Get([FromUri] string token)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
             
                 try
                 {
+
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;

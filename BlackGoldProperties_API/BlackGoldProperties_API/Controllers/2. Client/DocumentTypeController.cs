@@ -11,7 +11,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
 {
     public class DocumentTypeController : ApiController
     {
-        //READ DATA OF SPECIFIC ID//
+        //READ ALL DATA//
         [HttpGet]
         [Route("api/documenttypes")]
         public IHttpActionResult Get()

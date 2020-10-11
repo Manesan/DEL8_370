@@ -17,22 +17,24 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/assignvaluer")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int valuationid, [FromUri] int userid)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
+                {
+                    //Null checks
+                    if (valuationid < 1 || string.IsNullOrEmpty(valuationid.ToString()))
+                        return BadRequest();
+                    if (userid < 1 || string.IsNullOrEmpty(userid.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     var valuation = db.VALUATIONs.FirstOrDefault(x => x.VALUATIONID == valuationid);
-
-                    //Null checks
-                    //if (string.IsNullOrEmpty(cityname))
-                       // return BadRequest();
 
                     //Assign valuer
                     valuation.USERID = userid;
@@ -43,12 +45,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -57,22 +59,24 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/assigninspector")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] int inspectionid, [FromUri] int userid)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
+                {
+                    //Null checks
+                    if (inspectionid < 1 || string.IsNullOrEmpty(inspectionid.ToString()))
+                        return BadRequest();
+                    if (userid < 1 || string.IsNullOrEmpty(userid.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     var inspection = db.INSPECTIONs.FirstOrDefault(x => x.INSPECTIONID == inspectionid);
-
-                    //Null checks
-                    //if (string.IsNullOrEmpty(cityname))
-                    // return BadRequest();
 
                     //Assign valuer
                     inspection.USERID = userid;
@@ -83,12 +87,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (System.Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

@@ -19,15 +19,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalapplication4")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
-                //try
-                //{
+                try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -63,13 +63,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 }
 
 
-                //}
-                //catch (Exception)
-                //{
-                //    return NotFound();
-                //}
-            }
-            return Unauthorized();
+                }
+                return Unauthorized();
+                }
+                catch (Exception)
+                {
+                    return NotFound();
+                }
         }
 
 
@@ -78,15 +78,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalapplication4")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //  Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //  Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -122,116 +126,16 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(rentalapplication2);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
 
-        //Accept/Reject Rental Application//    --- THis is also used for accepting an extension to a rental agreement also as it accepts the application and generates a new rental agreement for the client to sign
-        [HttpPatch]
-        [Route("api/agentrentalapplication4")]
-        public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromUri] string note, [FromBody] DocumentController.UploadClass rentalagreement) //--Store link to unsigned agreement
-        {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
-                //try
-                //{
-                //DB context
-                var db = LinkToDBController.db;
-                db.Configuration.ProxyCreationEnabled = false;
-                var agentrentalapplication4 = db.RENTALAPPLICATIONs.Include(x => x.TERM).Include(x => x.RENTAL).FirstOrDefault(x => x.RENTALAPPLICATIONID == id);
-                var rent = db.RENTALAPPLICATIONs.Where(x => x.RENTALAPPLICATIONID == id);
-                //Null checks
-                //if (string.IsNullOrEmpty(description))
-                //return BadRequest();
-
-                //Accept specified rental application
-                if (accepted == true)  //--- Can only accept if available and not in progress/occupied    //---- CHECK TO SEE IF THEY ARE ABLE TO ACCEPT IN CASE THERES ALREADY ANOTHER ACCEPTED APPLICATION
-                {
-                    if (agentrentalapplication4.RENTALID == null) //Only creates a rental record if this is a brand new rental application
-                    {
-                        agentrentalapplication4.RENTALAPPLICATIONSTATUSID = 2; //Sets the application status to 'Approved'
-                        agentrentalapplication4.RENTALAPPLICATIONNOTE = note;
-
-                        var property = agentrentalapplication4.PROPERTYID;
-                        var properties = db.PROPERTies.FirstOrDefault(x => x.PROPERTYID == property);
-                        properties.PROPERTYSTATUSID = 3;//Sets to 'In Progress'
-
-                        //Create rental record
-                        db.RENTALs.Add(new RENTAL
-                        {
-                            PROPERTYID = agentrentalapplication4.PROPERTY.PROPERTYID,
-                            RENTALSTATUSID = 4,//Sets to 'Pending client acceptance'
-                            USERID = agentrentalapplication4.USERID,
-                            RENTALDATESTART = agentrentalapplication4.RENTALAPPLICATIONSTARTDATE,
-                            RENTALDATEEND = agentrentalapplication4.RENTALAPPLICATIONSTARTDATE.AddMonths(agentrentalapplication4.TERM.TERMDESCRIPTION),
-                            TERMID = agentrentalapplication4.TERMID
-                        });
-
-                        //Save DB Changes
-                        db.SaveChanges();
-
-                        //Find the user id that was just registered
-                        int lastrentalid = db.RENTALs.Max(item => item.RENTALID);
-
-                        //Upload rental agreement
-                        var documenturi = DocumentController.UploadFile(DocumentController.Containers.rentalDocumentsContainer, rentalagreement);
-
-                        db.RENTALDOCUMENTs.Add(new RENTALDOCUMENT
-                        {
-                            RENTALID = lastrentalid,
-                            RENTALAGREEMENTDOCUMENT = documenturi
-                        });
-
-                        //Link rental application to rental
-                        agentrentalapplication4.RENTALID = lastrentalid;
-
-                    }
-                    else //Called when the agent is accepting an extension/renewal     ----UPDATE RENTALTERM IN RENTAL ENTITY
-                    {
-                        agentrentalapplication4.RENTALAPPLICATIONSTATUSID = 7; //Sets the application status to 'Approved Extension'      --- use if statement to check status if its renewal or extension
-                        agentrentalapplication4.RENTALAPPLICATIONNOTE = note;
-                        agentrentalapplication4.RENTAL.RENTALSTATUSID = 7; //Sets the rental status to 'Pending Client Extension Acceptance'     -----THis doesnt work
-
-                        //Upload rental agreement
-                        var documenturi = DocumentController.UploadFile(DocumentController.Containers.rentalDocumentsContainer, rentalagreement);
-
-                        db.RENTALDOCUMENTs.Add(new RENTALDOCUMENT
-                        {
-                            RENTALID = agentrentalapplication4.RENTALID,
-                            RENTALAGREEMENTDOCUMENT = documenturi
-                        });
-                    }
-                }
-                //Reject specified rental application
-                else if (accepted == false)
-                {
-                    agentrentalapplication4.RENTALAPPLICATIONSTATUSID = 3; //Sets the application status to 'Rejected'
-                    agentrentalapplication4.RENTALAPPLICATIONNOTE = note;  //---check if screen exists 
-                }
-
-                //Save DB changes
-                db.SaveChanges();
-
-                //Return Ok
-                return Ok();
-                //}
-                //catch (System.Exception)
-                //{
-                //    return NotFound();
-                //}
-            }
-            return Unauthorized();
-        }
+       
     }
 }

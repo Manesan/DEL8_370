@@ -19,20 +19,20 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalagreement")]
         public IHttpActionResult Get([FromUri] string token)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
-                    //Get all rental agreements   --- Needs document also
+                    //Get all rental agreements 
                     var rentalagreement = db.RENTALs.Where(z => z.RENTALSTATUSID == 1).Select(x => new {
                         x.RENTALID,
                         x.RENTALDATESTART,
@@ -58,12 +58,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(rentalagreement);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -72,15 +72,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalagreement")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
@@ -111,12 +115,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(rentalagreement);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -125,15 +129,19 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/agentrentalagreement")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         { 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in 
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
                 {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in 
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
+                    //Null check
+                    if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                        return BadRequest();
+
                     //DB context
                     var db = LinkToDBController.db;
 
@@ -151,7 +159,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return NotFound();
 
                     //Delete specified city
-                    rentalagreement.RENTALSTATUSID = 1; // ---This sets the rental status to Available.. but maybe it should set it to something like Terminated as it is technically not available as yet??
+                    rentalagreement.RENTALSTATUSID = 1; 
 
                     string newSubject = "Rental application for property #" + rentalagreement.PROPERTYID + " concluded";
                     var userAddress = new MailAddress(user.USEREMAIL, user.USERNAME + " " + user.USERSURNAME);
@@ -164,12 +172,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok(mailSent);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

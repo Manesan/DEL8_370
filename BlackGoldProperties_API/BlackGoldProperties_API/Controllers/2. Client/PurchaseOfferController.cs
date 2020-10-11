@@ -17,15 +17,16 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/purchaseoffer")]
         public IHttpActionResult Get([FromUri] string token)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
            
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -67,15 +68,20 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/purchaseoffer")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -111,23 +117,26 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpPost]
         [Route("api/purchaseoffer")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] int propertyid, [FromUri] decimal offeramount, [FromBody] dynamic[] documents)  //-- client documents should contain the many documents that will be seperated here
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
+                    return BadRequest();
+                if (offeramount < 1 || string.IsNullOrEmpty(offeramount.ToString()))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
 
-
-                //Null checks
-                //if (string.IsNullOrEmpty(offeramount))
-                //return BadRequest();
 
                 //Get client
                 var email = TokenManager.ValidateToken(token);

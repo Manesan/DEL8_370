@@ -19,11 +19,19 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         {
             try
             {
+                //Null checks
+                if (markettype < 1 || string.IsNullOrEmpty(markettype.ToString()))
+                    return BadRequest();
+                if (propertytype < 1 || string.IsNullOrEmpty(propertytype.ToString()))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(area))
+                    return BadRequest();
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                //Get all properties that match required search criteria 
+                //Get all properties that match initial required search criteria 
                 var properties = db.PROPERTies.Select(x => new {
                     x.PROPERTYID,
                     x.PROPERTYADDRESS,
@@ -42,7 +50,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     x.PROPERTYAVAILABLEDATE,
                     InspectionStatus = x.INSPECTIONs.Select(y => new { y.INSPECTIONID, y.IVSTATUSID }).OrderByDescending(y => y.INSPECTIONID).FirstOrDefault(),                    
                     Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault(), 
-                    //PropertySpaces = x.PROPERTYSPACEs.Select(y => new { y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).ToList(),
                     Bedrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                     Bathrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
                     Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
@@ -112,17 +119,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
 
                 //Join two lists
                 var areas = suburbs.Concat(cities);
-                //List<string> areas = new List<string>();
-
-
-                //foreach (var i in suburbs)
-                //{
-                //    areas.Add(i.ToString());
-                //}
-                //foreach (var j in cities)
-                //{
-                //    areas.Add(j.ToString());
-                //}
 
                 return Ok(areas);
             }

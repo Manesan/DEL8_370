@@ -18,15 +18,16 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpGet]
         [Route("api/saleagreement")]
         public IHttpActionResult Get([FromUri] string token)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -68,14 +69,20 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [Route("api/saleagreement")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-
+            
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null check
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+
+
                 //DB context
                 var db = LinkToDBController.db;
                 db.Configuration.ProxyCreationEnabled = false;
@@ -113,15 +120,23 @@ namespace BlackGoldProperties_API.Controllers._2._Client
         [HttpPatch] 
         [Route("api/saleagreement")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] bool accepted, [FromBody] DocumentController.UploadClass signedagreement)
-        {
-            //Check valid token, logged in
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
+        {            
 
             try
             {
+                //Check valid token, logged in
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+
+                //Null checks
+                if (id < 1 || string.IsNullOrEmpty(id.ToString()))
+                    return BadRequest();
+                if (string.IsNullOrEmpty(accepted.ToString()))
+                    return BadRequest();
+
+
                 //DB context
                 var db = LinkToDBController.db;
                 var sale = db.SALEs.Include(x => x.PURCHASEOFFER).Include(y => y.PURCHASEOFFER.CLIENT).Include(z => z.PURCHASEOFFER.CLIENT.USER).FirstOrDefault(xx => xx.SALEID == id);
@@ -133,10 +148,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     y.EMPLOYEE.USER.USERSURNAME
                 }).FirstOrDefault();
                 var agentAddress = new MailAddress(agent.USEREMAIL + ", " + agent.USERNAME + " " + agent.USERSURNAME);
-
-                //Null checks                             --Finish this
-                //if (string.IsNullOrEmpty(description))
-                //    return BadRequest();
 
                 //Update specified rental
                 if (accepted == true)
@@ -169,12 +180,6 @@ namespace BlackGoldProperties_API.Controllers._2._Client
 
                     return Ok(mailSent);
                 }
-
-                //Save DB changes
-                db.SaveChanges();
-
-                //Return Ok
-                return Ok();
             }
             catch (System.Exception)
             {
