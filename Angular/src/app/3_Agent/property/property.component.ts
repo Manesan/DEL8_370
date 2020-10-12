@@ -131,6 +131,7 @@ public token: any; //holds user token
   public fileBase64picturedocument: any = [];
   public fileExtensionpicturedocument: any = [];
   resultspicture: any;
+  public photos: any[] = [];
 
   public countryCodes = CountryCodes;
 
@@ -368,7 +369,7 @@ pictureChangeListener($event){
     let property = await this.service.Get('/property?token=' + this.token.token + '&id='+ id) as any;
     console.log(property);
     this.propertyListingPicture = property.Picture?.LISTINGPICTUREIMAGE;
-    this.pictureid = property.Picture?.LISTINGPICTUREID;
+    this.pictureid = property.Picture[0]?.LISTINGPICTUREID;
     //console.log(this.propertyListingPicture);
     //console.log(this.pictureid)
     this.propertyID = property.PROPERTYID;
@@ -469,24 +470,19 @@ pictureChangeListener($event){
     this.mandatedocument = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.mandateid) as any;
     console.log(this.ratesAndTaxesInput)
 
-    // this.documenttype = "ListingPicture";
-    // this.propertyListingPicture = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any;
-    //console.log(this.propertyListingPicture)
+    //Adding sanitizer for multiple pictures:
+    this.documenttype = "ListingPicture";
+    for(let x = 0; x < property.Picture.length; x++){
+      //this.photos[x] = this.properties[x]?.Picture?.LISTINGPICTUREIMAGE
+      this.photos[x] = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ property.Picture[x]?.LISTINGPICTUREID) as any);
+    }
 
 
 
 
-  //  this.addedPicture = {
-  //   "FileBase64" : this.fileBase64picturedocument,
-  //   "FileExtension" : this.fileExtensionpicturedocument
-  // };
-  // //console.log(this.addedPicture);
-  // this.addedPicture = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + this.addedPicture);
-  // //console.log(this.addedPicture);
-
-  this.documenttype = "ListingPicture";
-  this.photo = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any);
-    console.log(property)
+  //this.documenttype = "ListingPicture";
+  //this.photo = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any);
+    //console.log(property)
   }
 
   getMandateDocument(){
@@ -509,7 +505,7 @@ pictureChangeListener($event){
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.propertydetails = [];
     //this.mandateTypeDocInput = tempDocument; // Delete this line once documents implemented
-    
+
     let mandatedocument = {
     "FileBase64" : this.fileBase64mandatedocument,
     "FileExtension" : this.fileExtensionmandatedocument
@@ -538,11 +534,11 @@ pictureChangeListener($event){
     console.log(id);
 
     this.phoneNumberUpdateJoiner();
-    
+
     if (mandatedocument.FileBase64 != undefined){
       await this.service.Post(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
     }
-    
+
     if (listingpictureList[0].FileBase64 != undefined){
       await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpictureList);
     }

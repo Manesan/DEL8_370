@@ -62,7 +62,17 @@
     <form class="scrollbar" id="style-3">
     <div class="modal-body">
       <p class="bgp-ref bgp-text-gold">Property #{{ propertyID }}</p>
-      <img class="card-img-top img-fluid" [src]="photo"  alt="Card image cap">
+      <div id="carouselExampleIndicators" class="carousel slide " data-ride="carousel">
+        <div id="carousel1" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner" role="listbox">
+              <div *ngFor="let image of photos; let i = index" class="carousel-item bgp-carousel {{ (i == 0) ? 'active' : ''}}">
+                  <img class="d-block img-fluid w-100" [src]="image" >
+              </div>
+          </div>
+          <a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
+          <a class="carousel-control-next" href="#carousel1" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
+      </div>
+      </div>
       <br><br>
 
 
@@ -200,7 +210,7 @@
                   <label class="form-check-label bgp-text-white" for="accept">{{x.TERMDESCRIPTION}} Months</label>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </div>
@@ -671,8 +681,8 @@
                 <div class="imageDisplay">
                   <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
                 <p class="bgp-text-white">{{imageNames[i]}}</p>
-                </div>              
-                
+                </div>
+
                 <div class="imageDelete">
                   <button name="deleteDefect" class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this image" (click)="deleteImage(i)"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -1086,8 +1096,8 @@
                 <div class="imageDisplay">
                   <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
                 <p class="bgp-text-white">{{imageNames[i]}}</p>
-                </div>              
-                
+                </div>
+
                 <div class="imageDelete">
                   <button name="deleteDefect" class="btn btn-outline-warning btn-sm my-2 my-sm-0" title="Delete this image" (click)="deleteImage(i)"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -1098,7 +1108,7 @@
                 <br>
                 <br>
               </div>
-              
+
                   </div>
                 </div>
               </div>

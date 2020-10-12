@@ -52,15 +52,11 @@ export class SearchPropertiesComponent implements OnInit {
 
   async ngOnInit() {
     await this.service.Get('/propertystatuscheck')
-    
+
     this.propertytypes = await this.service.Get('/propertytype') as any;
     this.markettypes = await this.service.Get('/markettype') as any;
+    this.areas = await this.service.Get('/areas') as any;
     this.featuredproperties = await this.service.Get('/featured') as any;
-    console.log(this.featuredproperties)
-
-     //API call for auto-popup
-     this.areas = await this.service.Get('/areas') as any;
-     console.log(this.featuredproperties, this.areas)
 
     this.propertyid1 = this.featuredproperties[0]?.Picture?.LISTINGPICTUREID;
     this.propertyid2 = this.featuredproperties[1]?.Picture?.LISTINGPICTUREID;
