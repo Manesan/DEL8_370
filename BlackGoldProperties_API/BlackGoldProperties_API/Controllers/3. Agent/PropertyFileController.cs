@@ -101,6 +101,8 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Get newly added property
                     int lastpropertyid = db.PROPERTies.Max(item => item.PROPERTYID);
 
+
+
                 //Upload picture
                 foreach (var picture in pictures)
                     {

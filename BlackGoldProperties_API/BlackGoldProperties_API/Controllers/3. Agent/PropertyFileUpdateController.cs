@@ -98,6 +98,14 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 if (pictures == null || propertyid < 1 || string.IsNullOrEmpty(propertyid.ToString()))
                         return BadRequest();
 
+                    //Delete images
+                    var images = db.LISTINGPICTUREs.Where(x => x.PROPERTYID == propertyid);
+                    if (images != null)
+                    {
+                        db.LISTINGPICTUREs.RemoveRange(images);
+                    }
+
+                    db.SaveChanges();
 
                 //Upload picture
                 foreach (var picture in pictures)

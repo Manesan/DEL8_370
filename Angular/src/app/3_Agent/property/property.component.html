@@ -680,7 +680,7 @@
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">
                   <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
-                <p class="bgp-text-white">{{imageNames[i]}}</p>
+                <p class="bgp-text-white">Image {{i+1}}</p>
                 </div>
 
                 <div class="imageDelete">
@@ -1095,7 +1095,7 @@
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">
                   <img height="150" [src]="imgURL[i]" *ngIf="imgURL[i]">
-                <p class="bgp-text-white">{{imageNames[i]}}</p>
+                <p class="bgp-text-white">Image {{i+1}}</p>
                 </div>
 
                 <div class="imageDelete">
