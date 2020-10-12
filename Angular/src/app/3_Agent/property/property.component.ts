@@ -463,8 +463,6 @@ pictureChangeListener($event){
     this.propertyZoningUsage = property.Zoning?.ZONINGUSAGE;
     this.ratesAndTaxesInput = property.PROPERTYRATEANDTAX;
     this.leviesInput = property.PROPERTYLEVIES;
-    //console.clear();
-    //console.log(this.counter1, this.propertyFeatures);
 
     this.documenttype = "Mandate";
     this.mandatedocument = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.mandateid) as any;
@@ -477,12 +475,6 @@ pictureChangeListener($event){
       this.photos[x] = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ property.Picture[x]?.LISTINGPICTUREID) as any);
     }
 
-
-
-
-  //this.documenttype = "ListingPicture";
-  //this.photo = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any);
-    //console.log(property)
   }
 
   getMandateDocument(){
@@ -495,11 +487,7 @@ pictureChangeListener($event){
     downloadLink.click();
   }
 
-  // getPicture(){
-  //   return this.sanitizer.bypassSecurityTrustResourceUrl(
-  //     'data:image;base64,' + this.propertyListingPicture
-  //   );
-  // }
+
 
   async update(id){
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
