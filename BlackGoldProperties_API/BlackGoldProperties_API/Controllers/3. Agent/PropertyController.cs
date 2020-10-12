@@ -18,14 +18,14 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/property")]
         public IHttpActionResult Get([FromUri] string token)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -35,36 +35,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     var property = db.PROPERTies.Select(x => new {
                         x.PROPERTYID,
                         x.PROPERTYADDRESS,
-                        /*PROPERTYSTATUSID = (int?)x.PROPERTYSTATU.PROPERTYSTATUSID,
-                        x.PROPERTYSTATU.PROPERTYSTATUSDESCRIPTION,
-                        Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).FirstOrDefault(),
-                        x.PROPERTYOWNER.PROPERTYOWNERID,
-                        x.PROPERTYOWNER.PROPERTYOWNERNAME,
-                        x.PROPERTYOWNER.PROPERTYOWNERSURNAME,
-                        x.PROPERTYOWNER.PROPERTYOWNEREMAIL,
-                        x.PROPERTYOWNER.PROPERTYOWNERADDRESS,
-                        x.PROPERTYOWNER.PROPERTYOWNERIDNUMBER,
-                        x.PROPERTYOWNER.PROPERTYOWNERPASSPORTNUMBER,
-                        x.PROPERTYOWNER.PROPERTYOWNERCONTACTNUMBER,
-                        x.PROPERTYOWNER.PROPERTYOWNERALTCONTACTNUMBER,
-                        PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).ToList(),
-                        Pointsofinterest = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME, y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
-                        Mandates = x.PROPERTYMANDATEs.Select(y => new { y.PROPERTYMANDATEID, y.MANDATE.MANDATEID, y.MANDATE.MANDATEDATE, y.MANDATE.MANDATEDOCUMENT, MANDATETYPEID = (int?)y.MANDATE.MANDATETYPE.MANDATETYPEID, y.MANDATE.MANDATETYPE.MANDATETYPEDESCRIPTION }).OrderByDescending(y => y.PROPERTYMANDATEID).FirstOrDefault(),
-                        Agent = x.EMPLOYEEPROPERTies.Select(y => new { y.EMPLOYEE.USERID, y.EMPLOYEE.USER.USERNAME, y.EMPLOYEE.USER.USERSURNAME, y.EMPLOYEE.USER.USEREMAIL }).ToList(),
-                        MARKETTYPEID = (int?)x.MARKETTYPE.MARKETTYPEID,
-                        x.MARKETTYPE.MARKETTYPEDESCRIPTION,
-                        PROPERTYTYPEID = (int?)x.PROPERTYTYPE.PROPERTYTYPEID,
-                        x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
-                        SUBURBID = (int?)x.SUBURB.SUBURBID,*/
-                        x.SUBURB.SUBURBNAME,
-                        /*CITYID = (int?)x.SUBURB.CITY.CITYID,
-                        x.SUBURB.CITY.CITYNAME,
-                        PROVINCEID = (int?)x.SUBURB.CITY.PROVINCE.PROVINCEID,
-                        x.SUBURB.CITY.PROVINCE.PROVINCENAME,
-                        Spaces = x.PROPERTYSPACEs.Select(y => new { SPACEID = (int?)y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY }).ToList(),
-                        Otherbuildingdetails = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList(),
-                        x.BUILDINGCONDITION,
-                        x.BUILDINGCONDITIONID,*/
+                        x.SUBURB.SUBURBNAME
                     }).ToList();
 
                     if (property == null)
@@ -76,12 +47,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(property);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -90,14 +61,14 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/property")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -133,10 +104,8 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         x.SUBURB.CITY.CITYNAME,
                         PROVINCEID = (int?)x.SUBURB.CITY.PROVINCE.PROVINCEID,
                         x.SUBURB.CITY.PROVINCE.PROVINCENAME,
-                        //Spaces = x.PROPERTYSPACEs.Select(y => new { y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY }).ToList(),
                         Bedrooms = x.PROPERTYSPACEs.Select(y => new { SPACEID = (int?)y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                         Bathrooms = x.PROPERTYSPACEs.Select(y => new { SPACEID = (int?)y.SPACE.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
-                        //Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
                         Otherbuildingdetails = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { OTHERBUILDINGDETAILID = (int?)y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList(),
                         Picture = x.LISTINGPICTUREs.Select(y => new { y.LISTINGPICTUREID, y.LISTINGPICTUREIMAGE }).OrderByDescending(y => y.LISTINGPICTUREID).ToList(),
                         x.BUILDINGCONDITION,
@@ -161,12 +130,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         return Ok(property);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
         //ADD//   
@@ -174,22 +143,18 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/property")]
         public IHttpActionResult Post([FromUri] string token, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int mandatetypeid, [FromUri] DateTime mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int? minterm, [FromUri] int? maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
-
-                    //Null checks   --- FINISH THIS
-                    //if (string.IsNullOrEmpty(address))
-                        //return BadRequest();
 
                     //Add the property owner
                     db.PROPERTYOWNERs.Add(new PROPERTYOWNER
@@ -215,13 +180,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     int statusID = 1; //'Available'
                     if (availabledate > DateTime.Now)
                         statusID = 4; //'Not Available'
-
-                    //Discard terms if property is for sale
-                    //if (propertytypeid == 1)
-                    //{
-                    //    minterm = null;
-                    //    maxterm = null;
-                    //}
 
                     //Add a property
                     db.PROPERTies.Add(new PROPERTY
@@ -338,26 +296,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Save DB changes
                     db.SaveChanges();
 
-
-                    //Add spaces to the property
-                    //foreach (dynamic quantity in propertydetails[2])
-                    //{
-                    //    db.PROPERTYSPACEs.Add(new PROPERTYSPACE
-                    //    {
-                    //        PROPERTYID = lastpropertyid,
-                    //        SPACEID = item.spaceid,
-                    //        PROPERTYSPACEQUANTITY = item.propertyspacequanity
-                    //    });
-                    //}
-
-                    //Add mandate
-                    //db.MANDATEs.Add(new MANDATE
-                    //{
-                    //    MANDATEDATE = mandatedate,
-                    //    MANDATETYPEID = mandatetypeid,
-                    //    MANDATEDOCUMENT = DocumentController.UploadFile(DocumentController.Containers.mandateDocumentsContainer, propertydetails[4])
-                    //});
-
                     //Get newly added mandate
                     int lastmandateid = db.MANDATEs.Max(item => item.MANDATEID);
 
@@ -384,12 +322,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
 
 
@@ -398,15 +336,15 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/property")]
         public IHttpActionResult Patch([FromUri] string token, [FromUri] int id, [FromUri] string address, [FromUri] decimal price, [FromUri] string ownername, [FromUri] string ownersurname, [FromUri] string owneremail, [FromUri] string owneraddress, [FromUri] string owneridnumber, [FromUri] string ownerpassportnumber, [FromUri] string ownercontactnumber, [FromUri] string owneraltcontactnumber, [FromUri] int markettypeid, [FromUri] int propertytypeid, [FromUri] DateTime availabledate, [FromUri] int suburbid, [FromUri] int? mandatetypeid, [FromUri] DateTime? mandatedate, [FromUri] int agentid, [FromBody] dynamic propertydetails, [FromUri] int? minterm, [FromUri] int? maxterm, [FromUri] decimal ratesandtax, [FromUri] int condition, [FromUri] decimal? municipalvaluation, [FromUri] decimal? monthlyrates, [FromUri] string period, [FromUri] string usagecategory, [FromUri] string yearofvaluation, [FromUri] string zoningusage, [FromUri] decimal? levies)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
-                /*try
-                {*/
+                try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
+                {
                 //DB context
                 var db = LinkToDBController.db;
                 var properties = db.PROPERTies.Include(y => y.PROPERTYOWNER).FirstOrDefault(x => x.PROPERTYID == id);
@@ -469,7 +407,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 //Save DB changes
                 db.SaveChanges();
 
-                //Find all associative records for employee properties    --- TEST THIS UPDATE FOR EMPLOYEE TO PROPERTY
+                //Find all associative records for employee properties 
                 var employee = db.EMPLOYEEPROPERTies.Where(x => x.PROPERTYID == id);
 
                 //Delete employee properties records
@@ -584,18 +522,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     });
                 }
 
-
-                //Save DB changes
-                db.SaveChanges();
-
-                //Add updated mandate
-                //db.MANDATEs.Add(new MANDATE
-                //{
-                //    MANDATEDATE = mandatedate,
-                //    MANDATETYPEID = mandatetypeid,
-                //    MANDATEDOCUMENT = DocumentController.UploadFile(DocumentController.Containers.mandateDocumentsContainer, mandateDocument)
-                //});
-
                 //Save DB changes
                 db.SaveChanges();
 
@@ -613,13 +539,13 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
 
                 //Return Ok
                 return Ok();
-                //}
-                //catch (Exception)
-                //{
-                //    return NotFound();
-                //}
-            }
-            return Unauthorized();
+                }
+                return Unauthorized();
+                }
+                catch (Exception)
+                {
+                    return NotFound();
+                }
         }
 
 
@@ -628,14 +554,14 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
         [Route("api/property")]
         public IHttpActionResult Delete([FromUri] string token, [FromUri] int id)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -648,49 +574,6 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     if (property.RENTALs.Count > 0 || property.RENTALAPPLICATIONs.Count > 0 || property.PURCHASEOFFERs.Count > 0 || property.SALEs.Count > 0)
                         return Conflict();
 
-                    /*
-                    //Find all associative records for other building details
-                    var otherbuildingdetails = db.PROPERTYOTHERBUILDINGDETAILs.Where(x => x.PROPERTYID == id);
-
-                    //Delete other building details records
-                    foreach (var item in otherbuildingdetails)
-                    {
-                        db.PROPERTYOTHERBUILDINGDETAILs.Remove(item);
-                    }
-
-
-                    //Find all associative records for features
-                    var features = db.PROPERTYFEATUREs.Where(x => x.PROPERTYID == id);
-
-                    //Delete features records
-                    foreach (var item in features)
-                    {
-                        db.PROPERTYFEATUREs.Remove(item);
-                    }
-
-
-                    //Find all associative records for spaces
-                    var spaces = db.PROPERTYSPACEs.Where(x => x.PROPERTYID == id);
-
-                    //Delete spaces records
-                    foreach (var item in spaces)
-                    {
-                        db.PROPERTYSPACEs.Remove(item);
-                    }
-
-
-                    //Find all associative records for spaces
-                    var prices = db.PRICEs.Where(x => x.PROPERTYID == id);
-
-                    //Delete spaces records
-                    foreach (var item in prices)
-                    {
-                        db.PRICEs.Remove(item);
-                    }
-
-                    //Save DB Changes
-                    db.SaveChanges();
-                    */
                     //Delete specified property
                     db.PROPERTies.Remove(property);
 
@@ -700,12 +583,12 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //Return Ok
                     return Ok();
                 }
+                return Unauthorized();
+                }
                 catch (Exception e)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }
