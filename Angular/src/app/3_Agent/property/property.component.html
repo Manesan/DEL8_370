@@ -465,7 +465,7 @@
                     </select>
                     <br>
                     <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
-                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{this.dateToday}}"/>
+                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required />
                     <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">
                       <br>
                       <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>

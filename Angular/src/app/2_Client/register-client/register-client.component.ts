@@ -17,7 +17,7 @@ declare var $: any; //needed to use jQuery in ts
   styleUrls: ['./register-client.component.scss']
 })
 export class RegisterClientComponent implements OnInit {
-  
+
 
   public clients;
   public email: any;
@@ -44,7 +44,7 @@ export class RegisterClientComponent implements OnInit {
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
-  
+
 
   showRegisterSuccess() {
     this.toastr.success('You are successfully registered', "", {
@@ -82,4 +82,9 @@ export class RegisterClientComponent implements OnInit {
       this.newAltnumber = "%2B"+this.altCountryCode.substring(1)+this.altnumber.substring(1);
     }
   }
+
+  allowSubmit(){
+    console.log("passed")
+  }
+
 }
