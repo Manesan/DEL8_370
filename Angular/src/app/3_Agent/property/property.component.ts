@@ -195,6 +195,13 @@ public token: any; //holds user token
     //setTimeout(location.reload.bind(location), 1000);
   }
 
+  showNoDuplicateImage() {
+    this.toastr.error('A duplicate image cannot be added', "", {
+      timeOut: 1000,
+    });
+    //setTimeout(location.reload.bind(location), 1000);
+  }
+
   async ngOnInit() {
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.properties = await this.service.Get('/property?token=' + this.token.token);
@@ -327,8 +334,22 @@ pictureChangeListener($event){
 
    //Once the reader has loaded, load the Base64 string of the file into the variable declared earlier
    myReader.onloadend = (e) => {
-     this.fileBase64picturedocument.push(myReader.result.toString().substr(myReader.result.toString().indexOf(',') + 1));
-     console.log(this.fileBase64picturedocument);
+     let readerValue = myReader.result.toString().substr(myReader.result.toString().indexOf(',') + 1);
+
+     let duplicate = false;
+      this.fileBase64picturedocument.forEach(e => {
+        if (e == readerValue){
+          duplicate = true;
+        }        
+      });
+      if (duplicate == false){
+        this.fileBase64picturedocument.push(readerValue);
+        console.log(this.fileExtensionpicturedocument);
+      }
+      else{
+        this.showNoDuplicateImage();
+      }
+     
    }
    //Read the file in and parse it to Base64
    myReader.readAsDataURL(file);
@@ -337,6 +358,7 @@ pictureChangeListener($event){
   //Used to display picture in modal dynamically when adding
   public imagePath;
   imgURL: any = [];
+  imgURLDisplay: any = [];
   imageNames: any = [];
   public message: string;
   preview(files) {
@@ -352,14 +374,34 @@ pictureChangeListener($event){
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL.push(reader.result);
-      this.imageNames.push(files[0].name)
+      let readerResult = reader.result;
+      let duplicate = false;
+      this.imgURL.forEach(e => {
+        if (e?.changingThisBreaksApplicationSecurity != undefined){
+          e = e.changingThisBreaksApplicationSecurity.toString().split(',').pop();
+          // console.log(e)
+          // console.log(readerResult.toString().split(',').pop())
+        }
+        if(e == readerResult.toString().split(',').pop()){
+          duplicate = true
+        }
+      });
+      if(duplicate == false){
+        this.imgURL.push(reader.result);
+        this.imageNames.push(files[0].name)
+      }
+      else{
+      }
+      
       console.log(this.imgURL)
     }
   }
 
   deleteImage(i){
-
+    this.imgURL.splice(i, 1);
+    this.fileBase64picturedocument.splice(i, 1);
+    this.fileExtensionpicturedocument.splice(i, 1);
+    console.log(this.imgURL, this.fileBase64picturedocument)
   }
 
 
@@ -368,8 +410,8 @@ pictureChangeListener($event){
     console.log(this.token);
     let property = await this.service.Get('/property?token=' + this.token.token + '&id='+ id) as any;
     console.log(property);
-    this.propertyListingPicture = property.Picture?.LISTINGPICTUREIMAGE;
-    this.pictureid = property.Picture[0]?.LISTINGPICTUREID;
+    //this.propertyListingPicture = property.Picture?.LISTINGPICTUREIMAGE;
+    //this.pictureid = property.Picture[0]?.LISTINGPICTUREID;
     //console.log(this.propertyListingPicture);
     //console.log(this.pictureid)
     this.propertyID = property.PROPERTYID;
@@ -472,8 +514,19 @@ pictureChangeListener($event){
     this.documenttype = "ListingPicture";
     for(let x = 0; x < property.Picture.length; x++){
       //this.photos[x] = this.properties[x]?.Picture?.LISTINGPICTUREIMAGE
-      this.photos[x] = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ property.Picture[x]?.LISTINGPICTUREID) as any);
+      let base64Header: string = 'data:image;base64,';
+      let base64: string = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ property.Picture[x]?.LISTINGPICTUREID) as any;
+      let base64Combined = base64Header + base64;
+      this.photos[x] = this.sanitizer.bypassSecurityTrustResourceUrl
+      (base64Combined);
+
+      
+      this.fileBase64picturedocument.push(base64);
+      this.fileExtensionpicturedocument.push(property.Picture[x].LISTINGPICTUREIMAGE.split('.').pop());
+      this.imgURL[x] = this.sanitizer.bypassSecurityTrustResourceUrl
+      (base64Combined);
     }
+    console.log(this.imgURL)
 
   }
 
