@@ -33,9 +33,9 @@ namespace BlackGoldProperties_API.Models
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                
+
             }
         }
     }
