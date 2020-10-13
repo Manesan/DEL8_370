@@ -17,7 +17,7 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
         //READ ALL DATA//
         [HttpGet]
         [Route("api/auditreport")]
-        public IHttpActionResult Get([FromUri] string token, [FromUri] DateTime startdate, [FromUri] DateTime endDate)
+        public IHttpActionResult Get([FromUri] string token)
         {
             //Check valid token, logged in, role
             if (TokenManager.Validate(token) != true)
@@ -32,14 +32,8 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
-                    //Find user from token
-                    //var email = TokenManager.ValidateToken(token);
-                    //var user = db.USERs.Where(x => x.USEREMAIL == email).FirstOrDefault();
-                    //var generatorName = user.USERNAME;
-                    //var generatorSurname = user.USERSURNAME;
-
                     //Get all properties 
-                    var properties = db.PROPERTies.Select(x => new {
+                    /*var properties = db.PROPERTies.Select(x => new {
                         x.PROPERTYID,
                         x.PROPERTYADDRESS,
                         x.PROPERTYTYPE.PROPERTYTYPEID,
@@ -73,13 +67,36 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
 
                         //generatorName,
                         //generatorSurname
-                    }).OrderBy(z => z.PROPERTYID).ToList();
+                    }).OrderBy(z => z.PROPERTYID).ToList();*/
 
                     dynamic reportDetails = new ExpandoObject();
-                    reportDetails.Properties = properties;
+                    
+                    //Sales
+                    var sales = db.SALEs.Select(x => new
+                    {
+                        x.SALEAMOUNT
+                    }).OrderByDescending(y => y.SALEAMOUNT).ToList();
+                    reportDetails.TotalPropertySales = sales.Count;
+                    reportDetails.AverageSalePrice = sales.Average(x => x.SALEAMOUNT);
+                    reportDetails.MaxSalePrice = sales.FirstOrDefault();
+                    reportDetails.MinSalePrice = sales.LastOrDefault();
+
+                    //Rentals
+                    var rentals = db.RENTALs.Select(x => new
+                    {
+                        PRICEAMOUNT = x.PROPERTY.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault()
+                    }).OrderByDescending(y => y.PRICEAMOUNT).ToList();
+                    reportDetails.TotalPropertiesRented = rentals.Count;
+                    reportDetails.AverageRentalPrice = rentals.Average(x => x.PRICEAMOUNT);
+                    reportDetails.MaxRentalPrice = rentals.FirstOrDefault();
+                    reportDetails.MinRentalPrice = rentals.LastOrDefault();
+
+                    //Property total
+                    reportDetails.PropertyCount = db.PROPERTies.Count();
+
                     reportDetails.ReportDate = DateTime.Now;
-                    reportDetails.rentals = db.RENTALs.Select(x => x.RENTALDATESTART).ToList();
-                    reportDetails.sales = db.SALEs.Select(x => x.SALEDATECONCLUDED).ToList();
+                    //reportDetails.rentals = db.RENTALs.Select(x => x.RENTALDATESTART).ToList();
+                    //reportDetails.sales = db.SALEs.Select(x => x.SALEDATECONCLUDED).ToList();
                     var useremail = TokenManager.ValidateToken(token);
                     reportDetails.CurrentUser = db.USERs.Where(x => x.USEREMAIL == useremail).Select(y => new
                     {

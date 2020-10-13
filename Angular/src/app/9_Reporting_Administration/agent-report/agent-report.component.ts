@@ -65,6 +65,8 @@ export class AgentReportComponent implements OnInit {
   }
 
   async DownloadReport(){
+    
+    window.scrollTo(0,0);
     var doc = new jsPDF("a4"),
     margins = {
       top: 40,
@@ -92,7 +94,7 @@ export class AgentReportComponent implements OnInit {
       return contentDataURL;
     });     
     console.log("hit", contentDataURL)
-    doc.addImage(contentDataURL, 'PNG', 10, 5, pageWidth-20, pageHeight-280);  
+    doc.addImage(contentDataURL, 'PNG', 10, 12, pageWidth-20, pageHeight-280);  
 
     //Header
     let data1 = document.getElementById("subHeading");  
@@ -101,11 +103,11 @@ export class AgentReportComponent implements OnInit {
       return contentDataURL1;
     });     
     console.log("hit", contentDataURL)
-    doc.addImage(contentDataURL1, 'PNG', 10, 30, pageWidth+100, pageHeight-200);  
+    doc.addImage(contentDataURL1, 'PNG', -115, 50, pageWidth+230, pageHeight-250);  
 
     //doc.setFontSize(40);
     //doc.text("Agent Report", (pageWidth / 2) - 50, 15)
-    doc.setFontSize(3);
+    //doc.setFontSize(3);
 
     // Open PDF document in new tab
     console.log( titles)
@@ -114,10 +116,11 @@ export class AgentReportComponent implements OnInit {
     // doc.autoTable({startY: finalY + 25, html: '#date', useCss: true, head: [
     //   [' Dates']]})
     //   finalY = doc.autoTable.previous.finalY;
-    doc.autoTable({margin: { bottom: 10},startY: finalY + 65, html: '#table', useCss: true, head: [
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#table', useCss: true, head: [
         ['Property Address']]})
         finalY = doc.autoTable.previous.finalY;
     /*}*/
+    doc.text("***End of report***", (pageWidth / 2.5), finalY+20)
     doc.save('Agent Report')
 
         /*(doc as any).autoTable({

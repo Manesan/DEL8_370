@@ -1,11 +1,11 @@
 <div   class="bgp-background-gray">
-    <!-- <button mat-flat-button (click)="DownloadReport()">
-        Download PDF
-    </button>
-    <br> <br> -->
+    <div style="width: 100%; text-align: right;">
+        <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
+    </div>
 
-    <div style="width: 75; padding-left: 10px;">
-        <div style="background-color: rgb(22, 21, 21);" >
+
+    <div style="width: 100%; margin: auto; text-align: center;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21); text-align: left; margin:0 auto;" >
             <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
             <div style="background-color:lightgray; float: right; ">
                 <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
@@ -16,15 +16,17 @@
 
         <br>
          <div >
-            <div>
-                <h1 class="bgp-text-gold" >Property Report</h1>
+            <div id="subHeading">
+                <h1 >Property Report</h1>
                 <br>
                 <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
                 <h4><i class="fas fa-user"></i> Prepared By: {{name}} {{surname}}</h4>
             </div>
 
-            <div  id="Details" >
-                <table class="container" >
+            
+
+            <div>
+                <table style="margin: auto; width: 800px;" id="dateTable" >
                     <tr >
                         <th>Report Date Range:</th>
                         <th></th>
@@ -40,10 +42,16 @@
                 </table>
             </div>
 
-            <div class="categoryTable" *ngFor="let property of Properties; let y = index">
-                <table  > 
+            <table id="smallSaleTable" style="margin: auto; width: 800px;" >
+                <tr >
+                    <th style=" color: black;">Properties for Sale</th>
+                </tr>
+            </table>
+            <br>
+            <div *ngFor="let property of SaleProperties; let y = index">
+                <table id="saleTable{{y}}" style="margin: auto; text-align: left;">                    
                     <tr>
-                        <th class="headingRows">Ref:</th>
+                        <th class="headingRows" style="color: black;">Ref:</th>
                         <td class="dataRow">{{property.PROPERTYID}}</td>
                     </tr>
                     <tr>
@@ -59,16 +67,24 @@
                         <td class="dataRow">{{property.MARKETTYPEDESCRIPTION}}</td> 
                     </tr>
                     <tr>
+                        <th class="headingRows">Date Added:</th> 
+                        <td class="dataRow">{{property.PROPERTYADDEDDATE}}</td> 
+                    </tr>
+                    <tr>
                         <th class="headingRows">Property Owner:</th> 
                         <td class="dataRow">{{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}}</td> 
                     </tr>
                     <tr>
                         <th class="headingRows">Defects:</th> 
-                        <td class="dataRow"><p *ngFor="let defect of property.Defects">{{defect[y]?.DEFECTDESCRIPTION}} </p></td> 
+                        <td class="dataRow">
+                            <p *ngFor="let defect of property?.Defects">
+                                <span style="display: inline;" *ngFor="let defectinfo of defect">{{defectinfo.DEFECTDESCRIPTION}} - {{defectinfo.SPACEDESCRIPTION}}. </span>
+                            </p>
+                        </td> 
                     </tr>
                     <tr>
                         <th class="headingRows">Points of Interest:</th> 
-                        <td class="dataRow"><p *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}} </p></td> 
+                        <td class="dataRow"><p style="display: inline;" *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}}. </p></td> 
                     </tr>
                     <!-- <tr>
                         <th class="headingRows">Municipality Report:</th> 
@@ -77,20 +93,77 @@
                 </table>
             </div>
             <br>
-            <table id="Details" style="width: 16%; margin-left: 20px;" >
-                <tr style="height: 60px;">
-                    <th>Total Properties: {{Properties.length}}</th>
+            <table id="smallRentTable" style="margin: auto; width: 800px;" >
+                <tr >
+                    <th style=" color: black; text-align: right;">Properties for Sale Quantity: {{SaleProperties.length}}</th>
+                </tr>
+                <tr >
+                    <th style=" color: black;">Properties for Rent</th>
+                </tr>
+            </table>
+            <br>
+            <div *ngFor="let property of RentalProperties; let y = index">
+                <table id="rentalTable{{y}}" style="margin: auto; text-align: left;">                    
+                    <tr>
+                        <th class="headingRows" style="color: black;">Ref:</th>
+                        <td class="dataRow">{{property.PROPERTYID}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Address:</th> 
+                        <td class="dataRow">{{property.PROPERTYADDRESS}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Property Type:</th> 
+                        <td class="dataRow">{{property.PROPERTYTYPEDESCRIPTION}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Market Type:</th> 
+                        <td class="dataRow">{{property.MARKETTYPEDESCRIPTION}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Date Added:</th> 
+                        <td class="dataRow">{{property.PROPERTYADDEDDATE}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Property Owner:</th> 
+                        <td class="dataRow">{{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}}</td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Defects:</th> 
+                        <td class="dataRow">
+                            <p *ngFor="let defect of property?.Defects">
+                                <span style="display: inline;" *ngFor="let defectinfo of defect">{{defectinfo.DEFECTDESCRIPTION}} - {{defectinfo.SPACEDESCRIPTION}}. </span>
+                            </p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Points of Interest:</th> 
+                        <td class="dataRow"><p style="display: inline;" *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}}. </p></td> 
+                    </tr>
+                    <!-- <tr>
+                        <th class="headingRows">Municipality Report:</th> 
+                        <td class="dataRow"></td> 
+                    </tr> -->
+                </table>
+            </div>
+            <br>
+            <table id="smallTotalTable" style="margin: auto; width: 800px;" >
+                <tr >
+                    <th style=" color: black; text-align: right">Properties for Rent Quantity: {{RentalProperties.length}}</th>
+                </tr>
+                <tr >
+                    <th style="text-align: right; color: black;">Total Property Quantity: {{SaleProperties.length + RentalProperties.length}}</th>
                 </tr>
             </table>
             <br> 
             <br>
-            <div class="bgp-left-panel" *ngIf="chart" id="canvas-div">
+            <div style="width: 45%; margin: auto;"  id="canvas-div">
                 <canvas id="pie-chart" > {{chart}} </canvas>
             </div>  
-            <div class="bgp-right-panel" *ngIf="chart2" id="canvas-div">
+            <div style="width: 40%; margin: auto;" id="canvas-div">
                 <canvas id="canvas" > {{chart2}} </canvas>
             </div> 
-            <br><br>
+            <br>
             <h5 style="text-align: center;">**End of Report**</h5>
         </div>
     </div>

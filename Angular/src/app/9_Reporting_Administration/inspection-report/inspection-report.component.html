@@ -3,9 +3,9 @@
         <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
     </div>
 
-    <div style="width: 100%; margin: auto;">
-        <div id=headerDiv style="background-color: rgb(22, 21, 21);">
-            <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
+    <div style="width: 100%; margin: auto; text-align: center;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21); text-align: left; margin:0 auto;">
+            <img  src="../assets/bgplogo.JPG" style="width:200px;height:150px; text-align: left;">
 
             <div style="background-color:lightgray; float: right; ">
                 <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
@@ -15,8 +15,9 @@
         </div>
         <br>
         <div *ngIf="takeonInspections || outgoingInspections">
-                <div id="subHeading">
-                    <h1 class="bgp-text-gold" >{{reportType}}</h1>
+                <div id="subHeading" style="margin:0 auto;">
+                    <h1>{{reportType}}</h1>
+                    <br>
                     <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
                     <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
                 </div>
@@ -33,31 +34,42 @@
                         </tr>
                     </table>
                 </div>
-           
+                
+                <table id="smallTable1" style="margin: auto; ;" >
+                    <tr >
+                        <th style=" color: black;">Take-on Inspections</th>
+                    </tr>
+                </table>
+                <br>
 
             <div class="categoryTable">
-                <table style="margin: auto;" id="table">
-                    <tr class="topBorder">
-                        <th colspan="4" style="text-align: center; color: black;" >Take-on Inspections</th>
-                    </tr>
-                    <tr>
-                        <th nowrap>Inspection Date:</th> <th nowrap>Property Address:</th> <th nowrap>Inspector:</th>  <th nowrap>Defects:</th> 
+                <table style="margin: auto; text-align: left;" id="tableTakeOn">
+                    <tr >
+                        <th nowrap >Inspection Date:</th> <th nowrap>Property Address:</th> <th nowrap>Inspector:</th>  <th nowrap>Defects:</th> 
                     </tr>
 
                     <tr id="table{{i}}" *ngFor="let inspection of takeonInspections; let i = index">
-                        <td>{{inspection.INSPECTIONDATE}}</td>  <td>{{inspection.PROPERTYADDRESS}}</td>  <td>{{inspection.USERNAME}} {{inspection.USERSURNAME}}</td> <td><p *ngFor="let defect of inspection.Defects">{{defect.DEFECTDESCRIPTION}}</p></td>
+                        <td>{{inspection.INSPECTIONDATE}}</td>  <td>{{inspection.PROPERTYADDRESS}}</td>  <td>{{inspection.USERNAME}} {{inspection.USERSURNAME}}</td> <td><p style="display: inline;" *ngFor="let defect of inspection.Defects">{{defect.DEFECTDESCRIPTION}}<span> </span></p></td>
                     </tr>
                     <tr class="subTotal">
                         <th colspan="4" style="text-align: right; color: black;">Take-On Inspection Total: {{takeonInspections.length}}</th>
                     </tr>
-                    <tr>
-                        <th colspan="4" style="text-align: center; color: black;" >Outgoing Inspections</th>
-                    </tr>
-                    <tr>
-                        <th nowrap>Inspection date:</th> <th nowrap>Property address:</th>  <th nowrap>Inspector:</th>  <th nowrap>Defects:</th> 
+                </table>
+            </div>
+            <br>
+            <table id="smallTable2" style="margin: auto;" >
+                <tr >
+                    <th style=" color: black;">Outgoing Inspections</th>
+                </tr>
+            </table>
+            <br>
+            <div class="categoryTable">
+                <table style="margin: auto; text-align: left;" id="tableOutGoing">
+                    <tr >
+                        <th nowrap>Inspection Date:</th> <th nowrap>Property Address:</th> <th nowrap>Inspector:</th>  <th nowrap>Defects:</th> 
                     </tr>
                     <tr id="table{{i}}" *ngFor="let inspection of outgoingInspections; let i = index">
-                        <td>{{inspection.INSPECTIONDATE}}</td>  <td>{{inspection.PROPERTYADDRESS}}</td> <td>{{inspection.USERNAME}} {{inspection.USERSURNAME}}</td> <td><p *ngFor="let defect of inspection.Defects">{{defect.DEFECTDESCRIPTION}}</p></td>
+                        <td>{{inspection.INSPECTIONDATE}}</td>  <td>{{inspection.PROPERTYADDRESS}}</td> <td>{{inspection.USERNAME}} {{inspection.USERSURNAME}}</td> <td><p *ngFor="let defect of inspection.Defects">{{defect.DEFECTDESCRIPTION}}<span>{{lineBreak}}{{lineBreak}}</span></p></td>
                     </tr>
                     <tr class="subTotal">
                         <th colspan="4" style="text-align: right; color: black;">Outgoing Inspection Count: {{outgoingInspections.length}}</th>
@@ -67,23 +79,6 @@
                     </tr>  
                 </table>
             </div>
-            <!-- <div class="categoryTable">
-                <table>
-                    <tr>
-                        <th colspan="4" style="text-align: center; color: black;" >Outgoing Inspections</th>
-                    </tr>
-                    <tr>
-                        <th nowrap>Inspection date:</th> <th nowrap>Property address:</th>  <th nowrap>Inspector:</th>  <th nowrap>Defects:</th> 
-                    </tr>
-
-                    <tr id="table{{i}}" *ngFor="let inspection of outgoingInspections; let i = index">
-                        <td>{{inspection.INSPECTIONDATE}}</td>  <td>{{inspection.PROPERTYADDRESS}}</td> <td>{{inspection.USERNAME}} {{inspection.USERSURNAME}}</td> <td><p *ngFor="let defect of inspection.Defects">{{defect.DEFECTDESCRIPTION}}</p></td>
-                    </tr>
-                    <tr>
-                        <th colspan="4" style="text-align: right; color: black;">Outgoing Inspection Count: {{outgoingInspections.length}}</th>
-                    </tr>
-                </table>
-            </div> -->
         </div>    
  
 

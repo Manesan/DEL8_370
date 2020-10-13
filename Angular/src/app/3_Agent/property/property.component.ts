@@ -114,6 +114,7 @@ public token: any; //holds user token
   public propertyOtherBuildingDetailsView = [];
   public propertyAvailableDate: any;
   public dateToday: any;
+  public valuationDate: any;
   public SouthAfrican: any;
   public propertyFeatureDescriptionInput: any;
   public propertyFeatureQuantityInput: any;
@@ -205,7 +206,7 @@ public token: any; //holds user token
   async ngOnInit() {
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.properties = await this.service.Get('/property?token=' + this.token.token);
-    this.agents = await this.service.Get('/employee?token=' + this.token.token);
+    this.agents = await this.service.Get('/agents?token=' + this.token.token);
     this.suburbs = await this.service.Get('/suburb?token=' + this.token.token);
     this.marketTypes = await this.service.Get('/markettype?token=' + this.token.token);
     this.propertyTypes = await this.service.Get('/propertytype?token=' + this.token.token);
@@ -711,4 +712,6 @@ pictureChangeListener($event){
     this.propertyOtherBuildingDetails.splice(i, 1)
     console.log(this.propertyOtherBuildingDetails);
   }
+
+  
 }

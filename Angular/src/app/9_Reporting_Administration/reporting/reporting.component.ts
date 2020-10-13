@@ -42,15 +42,15 @@ export class ReportingComponent implements OnInit {
 
   //Generate agent report form validation
   async submitGenerateAgent(){
-    console.log("hit")
-      if (this.startDate != null && this.endDate != null  && this.startDate <= this.endDate){
-      $("#agentreportModal").modal('hide');
-      this.service.GenerateReport(this.startDate, this.endDate);
+    // console.log("hit")
+    //   if (this.startDate != null && this.endDate != null  && this.startDate <= this.endDate){
+    //   $("#agentreportModal").modal('hide');
+    //   this.service.GenerateReport(this.startDate, this.endDate);
       this.router.navigateByUrl("agent-report");
-    }
-    else{
-      this.toastr.warning("The End Date cannot be earlier than the Start Date")
-    }
+    // }
+    // else{
+    //   this.toastr.warning("The End Date cannot be earlier than the Start Date")
+    // }
   }
 
   async submitGenerateAudit(){

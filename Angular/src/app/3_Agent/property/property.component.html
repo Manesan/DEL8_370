@@ -465,7 +465,7 @@
                     </select>
                     <br>
                     <p class="bgp-text-bold bgp-text-gold">Property Available Date</p>
-                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{this.dateToday}}"/>
+                    <input type="date" ngDefaultControl [(ngModel)]="propertyAvailableDate" class ="form-control" name="propertyAvailableDate" id="propertyAvailableDate" required min="{{propertyAvailableDate}}"/>
                     <div id="termsDiv" *ngIf="marketTypeDescription == 'To Let'">
                       <br>
                       <p class="bgp-text-bold bgp-text-gold">Available Terms (Months)</p>
@@ -1090,7 +1090,7 @@
                     </h4>
                   </div>
                   <div id="imagesAdd" class="panel-collapse collapse hide">
-                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required/>
+                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
               <br><br>
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">

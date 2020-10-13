@@ -1,13 +1,14 @@
 <div   class="bgp-background-gray">
-    <button mat-flat-button >
-        Download PDF
-    </button>
-    <br> <br>
+    <div style="width: 100%; text-align: right;">
+        <button (click)="SaveReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-save"></i> Save Report</button>
+        &nbsp;
+        <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
+    </div>
 
     <!--test-->
 
-    <div style="width: 75; padding-left: 10px;">
-        <div style="background-color: rgb(22, 21, 21);" >
+    <div style="width: 100%; margin: auto; text-align: center;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21); text-align: left; margin:0 auto;" >
             <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
             <div style="background-color:lightgray; float: right; ">
                 <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
@@ -18,14 +19,14 @@
 
         <br>
          <div >
-            <div>
-                <h1 class="bgp-text-gold" >Audit Report</h1>
+            <div id="subHeading">
+                <h1 >Audit Report</h1>
                 <br>
                 <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
                 <h4><i class="fas fa-user"></i> Prepared By: {{name}} {{surname}}</h4>
             </div>
 
-            <div  id="Details" >
+            <!-- <div  id="Details" >
                 <table class="container" >
                     <tr >
                         <th>Report Date Range:</th>
@@ -40,12 +41,57 @@
                         <td>{{endDate}}</td>
                     </tr>
                 </table>
+            </div> -->
+
+            <div>
+                <table id="table" style="margin: auto; text-align: left;" >
+                    <tr>
+                        <th colspan="2" class="headingRows" style="color: black; text-align: center;">Audit Details</th>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Total Sales:</th>
+                        <td class="dataRow">{{TotalPropertySales}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Average Sale Price:</th>
+                        <td class="dataRow">R{{AverageSalePrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Highest Sale Price:</th>
+                        <td class="dataRow">R{{MaxSalePrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Lowest Sale Price:</th>
+                        <td class="dataRow">R{{MinSalePrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Total Rentals:</th>
+                        <td class="dataRow">{{TotalPropertiesRented}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Average Rental Price:</th>
+                        <td class="dataRow">R{{AverageRentalPrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Highest Rental Price:</th>
+                        <td class="dataRow">R{{MaxRentalPrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Lowest Rental Price:</th>
+                        <td class="dataRow">R{{MinRentalPrice}}</td>
+                    </tr>
+                    <tr>
+                        <th class="headingRows">Total Properties:</th>
+                        <td class="dataRow">{{PropertyCount}}</td>
+                    </tr>
+                </table>
             </div>
 
-            <div class="categoryTable" *ngFor="let property of Properties; let y = index">
-                <table  >
+            <!-- <div class="categoryTable" *ngFor="let property of Properties; let y = index">
+
+                <table id="table{{y}}" style="margin: auto;" >
                     <tr>
-                        <th class="headingRows">Ref:</th>
+                        <th class="headingRows" style="color: black;">Ref:</th>
                         <td class="dataRow">{{property.PROPERTYID}}</td>
                     </tr>
                     <tr>
@@ -66,11 +112,11 @@
                     </tr>
                     <tr>
                         <th class="headingRows">Defects:</th>
-                        <td class="dataRow"><p *ngFor="let defect of property.Defects">{{defect[y]?.DEFECTDESCRIPTION}} </p></td>
+                        <td class="dataRow"><p *ngFor="let defect of property.Defects">{{defect[y]?.DEFECTDESCRIPTION}} <span>{{lineBreak}}{{lineBreak}}</span></p></td>
                     </tr>
                     <tr>
                         <th class="headingRows">Points of Interest:</th>
-                        <td class="dataRow"><p *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}} </p></td>
+                        <td class="dataRow"><p *ngFor="let pointofinterest of property.PointofInterests">{{pointofinterest.POINTOFINTERESTNAME}} <span>{{lineBreak}}{{lineBreak}}</span></p></td>
                     </tr>
                     <tr>
                         <th class="headingRows">Title Deed:</th>
@@ -97,7 +143,11 @@
                         <td class="dataRow">{{this.houses[0].Levies?.PROPERTYDOCUMENT1}}</td>
                     </tr>
                 </table>
-            </div>
+            </div> -->
+            <br>
+            <br>
+            
+            <h5 style="text-align: center;">***End of Report***</h5> 
         </div>
     </div>
 </div>

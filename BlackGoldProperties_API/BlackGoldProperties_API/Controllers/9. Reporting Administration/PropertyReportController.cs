@@ -37,7 +37,7 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                     //var generatorSurname = user.USERSURNAME;
 
                     //Get all properties 
-                    var properties = db.PROPERTies.Select(x => new {
+                    var saleProperties = db.PROPERTies.Where(y => startdate <= y.PROPERTYADDEDDATE && y.PROPERTYADDEDDATE <= endDate && y.MARKETTYPEID == 1).Select(x => new {
                         x.PROPERTYID,
                         x.PROPERTYADDRESS,
                         x.PROPERTYTYPE.PROPERTYTYPEID,
@@ -48,7 +48,25 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                         x.PROPERTYOWNER.PROPERTYOWNERNAME,
                         x.PROPERTYOWNER.PROPERTYOWNERSURNAME,
                         x.PROPERTYADDEDDATE,
-                        Defects = x.PROPERTYSPACEs.Select(z => z.SPACE.PROPERTYDEFECTs.Select(t => t.DEFECT).ToList()),
+                        Defects = x.INSPECTIONs.Select(z => z.PROPERTYDEFECTs.Select(t => new { t.SPACE.SPACEDESCRIPTION, t.DEFECT.DEFECTDESCRIPTION }).ToList()),
+                        PointofInterests = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
+                        Municipal = x.PROPERTYDOCUMENTs.Where(y => y.PROPERTYDOCUMENTTYPEID == 5).Select(y => new { y.PROPERTYDOCUMENTID, y.PROPERTYDOCUMENT1, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEID, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEDESCRIPTION }).ToList(),
+                        //generatorName,
+                        //generatorSurname
+                    }).OrderBy(z => z.PROPERTYID).ToList();
+
+                    var rentalProperties = db.PROPERTies.Where(y => startdate <= y.PROPERTYADDEDDATE && y.PROPERTYADDEDDATE <= endDate && y.MARKETTYPEID == 2).Select(x => new {
+                        x.PROPERTYID,
+                        x.PROPERTYADDRESS,
+                        x.PROPERTYTYPE.PROPERTYTYPEID,
+                        x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
+                        x.MARKETTYPE.MARKETTYPEID,
+                        x.MARKETTYPE.MARKETTYPEDESCRIPTION,
+                        x.PROPERTYOWNER.PROPERTYOWNERID,
+                        x.PROPERTYOWNER.PROPERTYOWNERNAME,
+                        x.PROPERTYOWNER.PROPERTYOWNERSURNAME,
+                        x.PROPERTYADDEDDATE,
+                        Defects = x.INSPECTIONs.Select(z => z.PROPERTYDEFECTs.Select(t => new { t.SPACE.SPACEDESCRIPTION, t.DEFECT.DEFECTDESCRIPTION }).ToList()),
                         PointofInterests = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
                         Municipal = x.PROPERTYDOCUMENTs.Where(y => y.PROPERTYDOCUMENTTYPEID == 5).Select(y => new { y.PROPERTYDOCUMENTID, y.PROPERTYDOCUMENT1, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEID, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEDESCRIPTION }).ToList(),
                         //generatorName,
@@ -56,7 +74,8 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                     }).OrderBy(z => z.PROPERTYID).ToList();
 
                     dynamic reportDetails = new ExpandoObject();
-                    reportDetails.Properties = properties;
+                    reportDetails.SaleProperties = saleProperties;
+                    reportDetails.RentalProperties = rentalProperties;
                     reportDetails.ReportDate = DateTime.Now;
                     reportDetails.rentals = db.RENTALs.Select(x => x.RENTALDATESTART).ToList();
                     reportDetails.sales = db.SALEs.Select(x => x.SALEDATECONCLUDED).ToList();

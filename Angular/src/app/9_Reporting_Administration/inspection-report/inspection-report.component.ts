@@ -35,16 +35,16 @@ export class InspectionReportComponent implements OnInit {
     public endDate: any;
     chart=[];
     public reportType = "Inspection Report";
+    public lineBreak = "\r\n";
   
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
 
   async ngOnInit()
    {
-    // this.service._startDate.subscribe(startDate => this.startDate = startDate);
-     //this.service._endDate.subscribe(endDate => this.endDate = endDate);
-     this.startDate = "2020/01/01";
-     this.endDate = "2020/09/09";
+    this.service._startDate.subscribe(startDate => this.startDate = startDate);
+     this.service._endDate.subscribe(endDate => this.endDate = endDate);
+
      console.log("hit",this.startDate, this.endDate)
      this.token ={"token" : localStorage.getItem("37y7ffheu73")}    
     let reportDetails = await this.service.Get(`/inspectionreport?token=${this.token.token}&startdate=${this.startDate}&enddate=${this.endDate}`) as any;
@@ -95,6 +95,7 @@ export class InspectionReportComponent implements OnInit {
   }
 
   async DownloadReport(){
+    window.scrollTo(0,0);
     var doc = new jsPDF("a4")
     
   //   let reportDetails = await this.service.Get(`/inspectionreport?token=${this.token.token}&startdate=${this.startDate}&enddate=${this.endDate}`);
@@ -116,29 +117,53 @@ export class InspectionReportComponent implements OnInit {
       return contentDataURL;
     });     
     console.log("hit", contentDataURL)
-    doc.addImage(contentDataURL, 'PNG', 10, 5, pageWidth-20, pageHeight-280);  
+    doc.addImage(contentDataURL, 'PNG', 10, 12, pageWidth-20, pageHeight-280);  
 
-    //Header
+    //Sub Header
     let data1 = document.getElementById("subHeading");  
     let contentDataURL1: any = await html2canvas(data1).then(canvas => {
       let contentDataURL1 = canvas.toDataURL('image/png'); 
       return contentDataURL1;
     });     
+
+    
     console.log("hit", contentDataURL)
-    doc.addImage(contentDataURL1, 'PNG', 10, 20, pageWidth+150, pageHeight-200);  
-    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#dateTable', useCss: true, head: [
+    doc.addImage(contentDataURL1, 'PNG', -115, 50, pageWidth+230, pageHeight-250);  
+
+    //Date table
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 10, html: '#dateTable', useCss: true, head: [
       ['Report Dates']]})
       finalY = doc.autoTable.previous.finalY;
 
-    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#table', useCss: true, head: [
+            //small table 1
+    //console.log("hit", contentDataURL)
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 10, html: '#smallTable1', useCss: true, head: [
+      ['Report Dates']]})
+      finalY = doc.autoTable.previous.finalY; 
+
+    //Main Table 1
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 10, html: '#tableTakeOn', useCss: true, head: [
+        ['Inspections']]})
+        finalY = doc.autoTable.previous.finalY;
+
+        
+            //small table 2
+    //console.log("hit", contentDataURL)
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 10, html: '#smallTable2', useCss: true, head: [
+      ['Report Dates']]})
+      finalY = doc.autoTable.previous.finalY; 
+
+    //Main Table 2
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 10, html: '#tableOutGoing', useCss: true, head: [
         ['Inspections']]})
         finalY = doc.autoTable.previous.finalY;
 
       //Pie chart
       var newCanvas = <HTMLCanvasElement>document.querySelector('#pie-chart');
+      doc.addPage();
       var newCanvasImg = newCanvas.toDataURL("image/png", 1.0);
-      doc.addImage(newCanvasImg, 'PNG', 0, finalY+15, 210, 100);     
-      doc.text("***End of report***", (pageWidth / 2.5), finalY+130)
+      doc.addImage(newCanvasImg, 'PNG', 0, 15, 210, 100);     
+      doc.text("***End of report***", (pageWidth / 2.5), 130)
 
         doc.save('Inspection Report')
   //     console.log(pageWidth)

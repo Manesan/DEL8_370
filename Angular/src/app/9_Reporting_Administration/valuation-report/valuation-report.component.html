@@ -1,11 +1,10 @@
 <div class="bgp-background-gray" style="width: 100%;">
-    <!-- <button mat-flat-button (click)="DownloadReport()">
-        Download PDF
-    </button>
-    <br> <br> -->
+    <div style="width: 100%; text-align: right;">
+        <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
+    </div>
 
-    <div style="width: 75; padding-left: 10px;">
-        <div style="background-color: rgb(22, 21, 21);" >
+    <div style="width: 100%; margin: auto; text-align: center;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21); text-align: left; margin:0 auto;">
             <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
             <div style="background-color:lightgray; float: right; ">
                 <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
@@ -16,18 +15,17 @@
 
         <br>
          <div *ngIf="valuations" >
-            <div>
-                <h1 class="bgp-text-gold" >Valuations Report</h1>
+            <div id="subHeading">
+                <h1>Valuations Report</h1>
                 <br>
                 <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
-                <h4><i class="fas fa-user"></i> Prepared By: {{reportUser}}</h4>
+                <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
             </div>
 
-            <div  id="Details" >
-                <table class="container" >
+            <div >
+                <table style="margin: auto; " id="dateTable" >
                     <tr >
-                        <th>Report Date Range:</th>
-                        <th></th>
+                        <th colspan="2">Report Date Range:</th>
                     </tr>
                     <tr >
                         <td>Start date</td> 
@@ -41,18 +39,18 @@
             </div>
 
             <div class="categoryTable">
-                <table class="container">
+                <table style="text-align: left;" id="table" class="container">
                     <tr>
                         <th>Valuation date:</th> 
                         <th>Property address:</th> 
                         <th>Valuer:</th> 
                         <th>Valuation description:</th> 
                     </tr>
-                    <tr id="table{{i}}" *ngFor="let valuation of valuations; let i = index">
+                    <tr *ngFor="let valuation of valuations; let i = index">
                         <td>{{valuation.VALUATIONDATE}}</td>
-                        <td>{{valuation.PROPERTYADDRESS}}</td> 
-                        <td>{{valuation.USERNAME}}  {{valuation.USERSURNAME}}</td>  
-                        <td>{{valuation.VALUATIONDESCRIPTION}}</td>
+                        <td style="text-align: left;">{{valuation.PROPERTYADDRESS}}</td> 
+                        <td style="text-align: left;">{{valuation.USERNAME}}  {{valuation.USERSURNAME}}</td>  
+                        <td style="text-align: left;">{{valuation.VALUATIONDESCRIPTION}}</td>
                     </tr>
                 </table>
             </div>

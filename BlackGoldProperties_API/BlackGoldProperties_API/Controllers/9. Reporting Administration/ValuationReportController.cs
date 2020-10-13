@@ -35,18 +35,18 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                         y.EMPLOYEE.USER.USERNAME,
                         y.EMPLOYEE.USER.USERSURNAME,
                         y.VALUATIONAMOUNT
-                    }).ToList();
+                    }).OrderByDescending(z => z.VALUATIONDATE).ToList();
 
                     dynamic reportDetails = new ExpandoObject();
                     reportDetails.valuations = valuations;
                     reportDetails.ReportDate = DateTime.Now;
-                    //var useremail = TokenManager.ValidateToken(token);
+                    var useremail = TokenManager.ValidateToken(token);
 
-                    //reportDetails.CurrentUser = db.USERs.Where(x => x.USEREMAIL == useremail).Select(y => new
-                    //{
-                    //    y.USERNAME,
-                    //    y.USERSURNAME
-                    //});
+                    reportDetails.CurrentUser = db.USERs.Where(x => x.USEREMAIL == useremail).Select(y => new
+                    {
+                        y.USERNAME,
+                        y.USERSURNAME
+                    });
 
                     if (reportDetails == null)
                         return BadRequest();

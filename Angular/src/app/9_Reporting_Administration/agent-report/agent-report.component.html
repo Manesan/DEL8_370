@@ -1,11 +1,9 @@
 <div class="bgp-background-gray" style="width: 100%;">
-    <button mat-flat-button (click)="DownloadReport()">
-        Download PDF
-    </button>
-    <br> <br>
-
-    <div id="reportDiv" #pdfTable style="width: 75; padding-left: 10px;">
-        <div id=headerDiv style="background-color: rgb(22, 21, 21);" >
+    <div style="width: 100%; text-align: right;">
+        <button (click)="DownloadReport()" type="submit" class="btn btn-outline-dark my-2 my-sm-0 " > <i class="far fa-arrow-alt-circle-down"></i> Download Report</button>
+    </div>
+    <div id="reportDiv" #pdfTable style="width: 100%; margin: auto; text-align: center;">
+        <div id=headerDiv style="background-color: rgb(22, 21, 21);  text-align: left; margin:0 auto;" >
             <img src="../assets/bgplogo.JPG" style="width:200px;height:150px;">
             <div style="background-color:lightgray; float: right; ">
                 <h4><i class="fas fa-map-marker-alt"></i> Company: Black Gold Properties</h4>
@@ -16,15 +14,14 @@
 
         <br>
          <div *ngIf="agents" >
-            <div  id="subHeading">
-                <div >
+            <div  id="subHeading" style="margin:0 auto;">
                     <h1>{{reportType}}</h1>
                     <br>
                     <h4><i class="fas fa-calendar-alt"></i> Report Date: {{reportDate}}</h4>
                     <h4><i class="fas fa-user"></i> Prepared By: {{reportUser[0].USERNAME}} {{reportUser[0].USERSURNAME}}</h4>
                 </div>
     
-                <div  id="Details" >
+                <!-- <div  id="Details" >
                     <table id="date" class="container">
                         <tr >
                             <th>Report Date Range:</th>
@@ -39,25 +36,24 @@
                             <td>{{endDate}}</td>
                         </tr>
                     </table>
-                </div>
-            </div>
+                </div> -->
             
 
-            <div class="categoryTable">
-                <table class="container" id="table">
+            <div>
+                <table style="margin: auto; text-align: left;"  id="table">
                     <tr>
                         <th>Agent:</th> 
                         <th>Property Address:</th> 
                         <th>Property Owner:</th> 
                     </tr>
                     <tr id="table{{i}}" *ngFor="let agent of agents; let i = index">
-                        <td>{{agent.USERNAME}}&nbsp;{{agent.USERSURNAME}}</td>  
-                        <td><p *ngFor="let property of agent.Properties">{{property.PROPERTYADDRESS}} <span>{{lineBreak}}{{lineBreak}}</span></p></td> 
-                        <td><p *ngFor="let property of agent.Properties">{{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}} <span>{{lineBreak}}{{lineBreak}}</span></p></td>
+                        <td>{{agent.USERNAME}} {{agent.USERSURNAME}}</td>  
+                        <td><p style="display: inline;" *ngFor="let property of agent.Properties; let x = index">{{x}} - {{property.PROPERTYADDRESS}}. <span> </span></p></td> 
+                        <td><p style="display: inline;" *ngFor="let property of agent.Properties; let y = index">{{y}} - {{property.PROPERTYOWNERNAME}} {{property.PROPERTYOWNERSURNAME}}. <span> </span></p></td> 
                     </tr>
                 </table>
             </div>
-            <br><br><br>
+            <br><br>
             <h5 style="text-align: center;">**End of Report**</h5>
             <br>
             <div *ngIf="chart" id="canvas-div">

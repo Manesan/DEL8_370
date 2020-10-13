@@ -4,6 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../environments/api.service';
 import {HttpClient}  from '@angular/common/http';
 import { Router } from '@angular/router';
+import 'jspdf-autotable';
+declare var jsPDF: any;
+import html2canvas from 'html2canvas';
+
 
 
 @Component({
@@ -29,44 +33,74 @@ export class ValuationReportComponent implements OnInit {
     console.log("hit",this.startDate, this.endDate)
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}  
    
+ 
     let reportDetails = await this.service.Get(`/valuationreport?token=${this.token.token}&startdate=${this.startDate}&enddate=${this.endDate}`) as any;
     this.valuations = reportDetails.valuations;
     this.reportDate = reportDetails.ReportDate.split("T")[0];
     this.reportUser = reportDetails.CurrentUser;
+    this.valuations.forEach(e => {
+      console.log(e)
+      e.VALUATIONDATE = e.VALUATIONDATE.split("T")[0];
+    });
    
     console.log(reportDetails)
   }
 
 
 
-  DownloadReport(){
-    // this.reporting.getReportData(this.selection).subscribe( (x) => {
-    //   console.log(x)
-    //   var doc = new jsPDF();
-    //   var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-    //   var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+  async DownloadReport(){
+    
+    window.scrollTo(0,0);
+    var doc = new jsPDF("a4")
+
+
+
+  
+    var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+    var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
     //   console.log(pageWidth)
 
     //   let length = x["Suppliers"].length;
     //   let titles = x["Suppliers"].map(c => c.Name)
     //   this.suppliers = x["Suppliers"];
 
-    //   let finalY = 150;
-    //   var newCanvas = <HTMLCanvasElement>document.querySelector('#canvas');
-    //   var newCanvasImg = newCanvas.toDataURL("image/png", 1.0);
+      let finalY = 100;
+                //Header
+    let data = document.getElementById("headerDiv"); 
+    let headerDivWidth =  data.offsetWidth;
+    let headerDivHeight =  data.offsetHeight;
+    let hratio = headerDivHeight/headerDivWidth;
+    let width = pageWidth*hratio
+    let contentDataURL: any = await html2canvas(data).then(canvas => {
+      let contentDataURL = canvas.toDataURL('image/png'); 
+      return contentDataURL;
+    });     
+    console.log("hit", contentDataURL)
+    doc.addImage(contentDataURL, 'PNG', 10, 12, pageWidth-20, pageHeight-280); 
 
-    //   doc.setFontSize(40);
-    //   doc.text("Product Report", (pageWidth / 2) - 50, 15)
-    //   doc.addImage(newCanvasImg, 'PNG', 20, 20, 165, 100);
-    //   doc.setFontSize(11);
-    //   for (let i=0; i<length; i++){
-    //     doc.text(titles[i]+" (Number of Products: " + this.suppliers[i].ProductCount+")", (pageWidth / 2) - 20, finalY + 23);
-    //     doc.autoTable({startY: finalY + 25, html: '#table'+i, useCss: true, head: [
-    //       ['Product Name']]})
-    //       finalY = doc.autoTable.previous.finalY;
-    //   }
-    //   doc.save('Report.pdf');
+    //Sub Header
+    let data1 = document.getElementById("subHeading");  
+    let contentDataURL1: any = await html2canvas(data1).then(canvas => {
+      let contentDataURL1 = canvas.toDataURL('image/png'); 
+      return contentDataURL1;
+    });     
 
+    //Date table
+    console.log("hit", contentDataURL)
+    doc.addImage(contentDataURL1, 'PNG', -115, 50, pageWidth+230, pageHeight-250);  
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#dateTable', useCss: true, head: [
+      ['Report Dates']]})
+      finalY = doc.autoTable.previous.finalY;
+
+    //Main Table
+    doc.autoTable({margin: { bottom: 10},startY: finalY + 20, html: '#table', useCss: true, head: [
+        ['Inspections']]})
+        finalY = doc.autoTable.previous.finalY;
+
+        doc.text("***End of report***", (pageWidth / 2.5), finalY+20)
+
+        doc.save('Valuation Report')
+  //     console.log(pageWidth)
 
   /*
       console.log(x);
