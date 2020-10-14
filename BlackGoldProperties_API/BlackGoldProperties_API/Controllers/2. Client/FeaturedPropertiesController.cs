@@ -28,7 +28,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                 var properties = db.PROPERTies.Select(x => new {
                     x.PROPERTYID,
                     x.PROPERTYADDRESS,
-                    x.PROPERTYSTATU,
+                    x.PROPERTYSTATU.PROPERTYSTATUSID,
                     x.PROPERTYAVAILABLEDATE,
                     SUBURBID = (int?)x.SUBURB.SUBURBID,
                     x.SUBURB.SUBURBNAME,
@@ -38,13 +38,13 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     x.SUBURB.CITY.PROVINCE.PROVINCENAME,
                     PROPERTYTYPEID = (int?)x.PROPERTYTYPE.PROPERTYTYPEID,
                     x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
-                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE, y.PROPERTYFEATUREQUANTITY }).ToList(),
-                    Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault(),
+                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE.FEATUREID, y.PROPERTYFEATUREQUANTITY }).ToList(),
+                    Price = x.PRICEs.Select(y => new { y.PRICEID, y.PRICEAMOUNT }).OrderByDescending(z => z.PRICEID).FirstOrDefault(),
                     Bedrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                     Bathrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
                     Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
                     Picture = x.LISTINGPICTUREs.Select(y => new { y.LISTINGPICTUREID, y.LISTINGPICTUREIMAGE }).OrderByDescending(y => y.LISTINGPICTUREID).FirstOrDefault(),
-                }).Where(z => z.PROPERTYSTATU.PROPERTYSTATUSID == 1 && z.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
+                }).Where(z => z.PROPERTYSTATUSID == 1 && z.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
 
                 if (properties == null)
                 {

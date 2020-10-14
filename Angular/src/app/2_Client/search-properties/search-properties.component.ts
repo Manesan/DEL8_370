@@ -58,6 +58,8 @@ export class SearchPropertiesComponent implements OnInit {
     this.areas = await this.service.Get('/areas') as any;
     this.featuredproperties = await this.service.Get('/featured') as any;
 
+    console.log(this.featuredproperties)
+
     this.propertyid1 = this.featuredproperties[0]?.Picture?.LISTINGPICTUREID;
     this.propertyid2 = this.featuredproperties[1]?.Picture?.LISTINGPICTUREID;
     this.propertyid3 = this.featuredproperties[2]?.Picture?.LISTINGPICTUREID;

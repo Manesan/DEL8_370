@@ -102,7 +102,7 @@ export class ViewPropertyComponent implements OnInit {
 
     this.propertyid = property.PROPERTYID;
     this.address = property.PROPERTYADDRESS;
-    this.price = property.Price;
+    this.price = property.Price?.PRICEAMOUNT;
     this.suburb = property.SUBURBNAME;
     this.city = property.CITYNAME;
     this.province = property.PROVINCENAME;
