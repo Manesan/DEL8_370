@@ -165,7 +165,7 @@
         <div class="card animate__animated  animate__slideInRight bg-dark">
           <a (click)="view(x.PROPERTYID)" title="View this property"><img class="card-img-top img-fluid bgp-image" [src]="photos[i]" alt="Card image cap"></a>
           <div class="card-block" style="padding: 20px 20px 18px 20px;">
-            <h3 class="card-title bgp-text-gold">R{{x?.Price}}</h3>
+            <h3 class="card-title bgp-text-gold">R{{x?.Price?.PRICEAMOUNT}}</h3>
             <h5 class="card-text bgp-text-white">{{x?.PROPERTYTYPEDESCRIPTION}}</h5>
             <p class="bgp-text-white bg-dark">{{x?.SUBURBNAME}}
               <br>

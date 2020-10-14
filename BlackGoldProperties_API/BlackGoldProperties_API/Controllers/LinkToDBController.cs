@@ -13,5 +13,6 @@ namespace BlackGoldProperties_API.Controllers
     {
         /* Make any changes to the UserModel class as well */
         public static BlackGoldPropertiesDBEntities db = new BlackGoldPropertiesDBEntities();
+        //public static BlackGoldDBEntities20 db = new BlackGoldDBEntities20();
     }
 }

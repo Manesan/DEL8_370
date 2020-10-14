@@ -40,9 +40,9 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
                     InspectionStatus = x.INSPECTIONs.Select(y => new { y.INSPECTIONID, IVSTATUSID = (int?)y.IVSTATUSID }).OrderByDescending(y => y.INSPECTIONID).FirstOrDefault(),
                     x.PROPERTYAVAILABLEDATE,
-                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE, y.PROPERTYFEATUREQUANTITY }).ToList(),
-                    x.PROPERTYSTATU,
-                    Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault(),
+                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).ToList(),
+                    x.PROPERTYSTATU.PROPERTYSTATUSID,
+                    Price = x.PRICEs.Select(y => new { y.PRICEID, y.PRICEAMOUNT }).OrderByDescending(z => z.PRICEID).FirstOrDefault(),
                     //PropertySpaces = x.PROPERTYSPACEs.Select(y => new { y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).ToList(),
                     Bedrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                     Bathrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
@@ -51,7 +51,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     Employee = x.EMPLOYEEPROPERTies.Select(y => new { y.EMPLOYEE.USER.USEREMAIL }),
                     PropertyPOI = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION, SUBURBID = (int?)y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME }).ToList(),
                     Otherbuildingdetail = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { OTHERBUILDINGDETAILID = (int?)y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList()
-                }).Where(z => z.PROPERTYSTATU.PROPERTYSTATUSID == 1 && z.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
+                }).Where(z => z.PROPERTYSTATUSID == 1 && z.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
 
                 if (properties == null)
                 {
@@ -98,9 +98,9 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     x.SUBURB.CITY.PROVINCE.PROVINCENAME,
                     PROPERTYTYPEID = (int?)x.PROPERTYTYPE.PROPERTYTYPEID,
                     x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
-                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE, y.PROPERTYFEATUREQUANTITY }).ToList(),
-                    x.PROPERTYSTATU,
-                    Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault(),
+                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).ToList(),
+                    x.PROPERTYSTATU.PROPERTYSTATUSID,
+                    Price = x.PRICEs.Select(y => new { y.PRICEID, y.PRICEAMOUNT }).OrderByDescending(z => z.PRICEID).FirstOrDefault(),
                     //PropertySpaces = x.PROPERTYSPACEs.Select(y => new { y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).ToList(),
                     Bedrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 1).FirstOrDefault(),
                     Bathrooms = x.PROPERTYSPACEs.Select(y => new { y.SPACEID, y.SPACE.SPACEDESCRIPTION, y.PROPERTYSPACEQUANTITY, y.SPACE.SPACETYPE.SPACETYPEDESCRIPTION }).Where(z => z.SPACEID == 3).FirstOrDefault(),
