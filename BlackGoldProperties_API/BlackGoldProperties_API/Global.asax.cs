@@ -24,6 +24,10 @@ namespace BlackGoldProperties_API
             .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             GlobalConfiguration.Configuration.Formatters
             .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
+
+            //Added for loops
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }

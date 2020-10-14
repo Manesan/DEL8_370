@@ -568,7 +568,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     db.Configuration.ProxyCreationEnabled = false;
 
                     //Find property
-                    var property = db.PROPERTies.Include(y => y.RENTALs.Select(x => x.RENTALID)).Include(z => z.RENTALAPPLICATIONs.Select(z => z.RENTALAPPLICATIONID)).Include(yy => yy.PURCHASEOFFERs.Select(yy => yy.PROPERTYID)).Include(zz => zz.SALEs.Select(zz => zz.SALEID)).FirstOrDefault(x => x.PROPERTYID == id);
+                    var property = db.PROPERTies.Include(y => y.RENTALs).Include(z => z.RENTALAPPLICATIONs).Include(yy => yy.PURCHASEOFFERs).Include(zz => zz.SALEs).FirstOrDefault(x => x.PROPERTYID == id);
                     if (property == null)
                         return NotFound();
 
