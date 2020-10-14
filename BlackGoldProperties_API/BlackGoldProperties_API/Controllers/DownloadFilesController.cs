@@ -30,49 +30,59 @@ namespace BlackGoldProperties_API.Controllers
                     if(documenttype == "Inspection")
                     {
                          documentpath = db.INSPECTIONs.Where(z => z.INSPECTIONID == id).Select(x => x.INSPECTIONDOCUMENT ).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.inspectionDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "Valuation")
                     {
                          documentpath = db.VALUATIONs.Where(z => z.VALUATIONID == id).Select(x => x.VALUATIONDOCUMENT ).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.valuationDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "SaleAgreement")
                     {
                          documentpath = db.SALEs.Where(z => z.SALEID == id).Select(x => x.SALEAGREEMENTDOCUMENT ).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.saleAgreementDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "RentalAgreement")
                     {
                          var placeholder = db.RENTALDOCUMENTs.Where(z => z.RENTALID == id).Select(y => new {y.RENTALDOCUMENTID, y.RENTALAGREEMENTDOCUMENT }).OrderByDescending(y => y.RENTALDOCUMENTID).FirstOrDefault();
                          documentpath = placeholder.RENTALAGREEMENTDOCUMENT;
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.rentalDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "RentalApplication")
                     {
                          documentpath = db.RENTALAPPLICATIONs.Where(z => z.RENTALAPPLICATIONID == id).Select(x => x.RENTALAPPLICATIONDOCUMENT).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.rentalApplicationDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "Mandate")
                     {
                          documentpath = db.MANDATEs.Where(z => z.MANDATEID == id).Select(x => x.MANDATEDOCUMENT).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.mandateDocumentsContainer, documentpath);
                     }
                     else if(documenttype == "ListingPicture")
                     {
                         var placeholder = db.LISTINGPICTUREs.Where(z => z.LISTINGPICTUREID == id).Select(y => new { y.LISTINGPICTUREID, y.LISTINGPICTUREIMAGE }).OrderByDescending(y => y.LISTINGPICTUREID).FirstOrDefault();
                         documentpath = placeholder.LISTINGPICTUREIMAGE;
+                        documentpath = DocumentController.DownloadFile(DocumentController.Containers.listingPicturesContainer, documentpath);
                     }
                     else if(documenttype == "ClientDocument")
                     {
                          documentpath = db.CLIENTDOCUMENTs.Where(z => z.CLIENTDOCUMENTID == id).Select(x => x.CLIENTDOCUMENT1).FirstOrDefault();
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.clientDocumentsContainer, documentpath);
                     }                   
                     else if(documenttype == "PropertyDocument")
                     {
                          documentpath = db.PROPERTYDOCUMENTs.Where(z => z.PROPERTYDOCUMENTID == id).Select(x => x.PROPERTYDOCUMENT1).FirstOrDefault();
-                    }  
+                         documentpath = DocumentController.DownloadFile(DocumentController.Containers.propertyDocumentsContainer, documentpath);
+                    }
 
-                    Byte[] bytes = File.ReadAllBytes(documentpath);
-                    var file64 = Convert.ToBase64String(bytes);
+                //Byte[] bytes = File.ReadAllBytes(documentpath);
+                //var file64 = Convert.ToBase64String(bytes);
 
-                return file64;
-                   
-                }
-                catch (Exception)
+                //return file64;
+                return documentpath;
+
+            }
+                catch (Exception e)
                 {
                     return null;
                 }

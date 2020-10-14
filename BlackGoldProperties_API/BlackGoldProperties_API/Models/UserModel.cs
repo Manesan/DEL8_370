@@ -8,7 +8,7 @@ namespace BlackGoldProperties_API.Models
     {
         public USER user;
 
-        public void RefreshGUID(BlackGoldDBEntities20 db)
+        public void RefreshGUID(BlackGoldPropertiesDBEntities db)
         {
             try
             {

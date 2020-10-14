@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4a9fd1aedce44e81a8627101534dd312" Name="Diagram1">
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.AUDITREPORT" Width="1.5" PointX="8.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.BUILDINGCONDITION" Width="1.5" PointX="0.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.CITY" Width="1.5" PointX="1.5" PointY="39.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.CLIENT" Width="1.5" PointX="9" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.CLIENTDOCUMENT" Width="1.5" PointX="11.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.CLIENTDOCUMENTTYPE" Width="1.5" PointX="9" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.CLIENTTYPE" Width="1.5" PointX="6.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.DEFECT" Width="1.5" PointX="11.25" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.EMPLOYEE" Width="1.5" PointX="6" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.EMPLOYEEPROPERTY" Width="1.5" PointX="5.25" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.EMPLOYEEROLE" Width="1.5" PointX="11.25" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.EMPLOYEETYPE" Width="1.5" PointX="9" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.FEATURE" Width="1.5" PointX="6" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.INSPECTION" Width="1.5" PointX="8.25" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.INSPECTIONTYPE" Width="1.5" PointX="6" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.IVSTATU" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.LISTINGPICTURE" Width="1.5" PointX="5.25" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.MANDATE" Width="1.5" PointX="6" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.MANDATETYPE" Width="1.5" PointX="3.75" PointY="38.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.MARKETTYPE" Width="1.5" PointX="0.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.OTHERBUILDINGDETAIL" Width="1.5" PointX="3" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.POINTOFINTEREST" Width="1.5" PointX="0.75" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.POINTOFINTERESTTYPE" Width="1.5" PointX="1.5" PointY="48.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.POTENTIALCLIENT" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PRICE" Width="1.5" PointX="5.25" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTY" Width="1.5" PointX="3" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYDEFECT" Width="1.5" PointX="13.5" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYDOCUMENT" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYDOCUMENTTYPE" Width="1.5" PointX="3" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYFEATURE" Width="1.5" PointX="8.25" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYMANDATE" Width="1.5" PointX="8.25" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYOTHERBUILDINGDETAIL" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYOWNER" Width="1.5" PointX="0.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYSPACE" Width="1.5" PointX="11.25" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYSTATU" Width="1.5" PointX="0.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROPERTYTYPE" Width="1.5" PointX="0.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PROVINCE" Width="1.5" PointX="1.5" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PURCHASEOFFER" Width="1.5" PointX="11.25" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.PURCHASEOFFERSTATU" Width="1.5" PointX="9" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.RENTAL" Width="1.5" PointX="11.25" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.RENTALAPPLICATION" Width="1.5" PointX="16.5" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.RENTALAPPLICATIONSTATU" Width="1.5" PointX="14.25" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.RENTALDOCUMENT" Width="1.5" PointX="13.5" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.RENTALSTATU" Width="1.5" PointX="9" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.SALE" Width="1.5" PointX="13.5" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.SPACE" Width="1.5" PointX="11.25" PointY="35.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.SPACETYPE" Width="1.5" PointX="9" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.SUBURB" Width="1.5" PointX="0.75" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.SUBURBPOINTOFINTEREST" Width="1.5" PointX="3" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.TERM" Width="1.5" PointX="0.75" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.USER" Width="1.5" PointX="3.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.USERLOGINTIMEOUT" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.VALUATION" Width="1.5" PointX="8.25" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlackGoldPropertiesDBModel.ZONING" Width="1.5" PointX="5.25" PointY="60.5" IsExpanded="true" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_AUDITREP_REFERENCE_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_REFERENCE_BUILDING" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_CITY_RELATIONS_PROVINCE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SUBURB_RELATIONS_CITY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_CLIENT_RELATIONS_CLIENTTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_CLIENT_RELATIONS_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_CLIENTDO_RELATIONS_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PURCHASE_RELATIONS_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTAL_RELATIONS_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALAP_RELATIONS_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_CLIENTDO_RELATIONS_CLIENTDO" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_DEFECT" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_EMPLOYEE_REFERENCE_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_EMPLOYEE_RELATIONS_EMPLOYEE2" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_EMPLOYEE_RELATIONS_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_INSPECTI_RELATIONS_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_USERLOGI_REFERENCE_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_VALUATIO_RELATIONS_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_EMPLOYEE_REFERENCE_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_EMPLOYEE_RELATIONS_EMPLOYEE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_FEATURE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_INSPECTI_RELATIONS_INSPECTI" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_INSPECTI_RELATIONS_IVSTATUS" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_INSPECTI_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_INSPECTI" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_VALUATIO_RELATIONS_IVSTATUS" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_LISTINGP_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_MANDATE_RELATIONS_MANDATET" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_MANDATE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_MARKETTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_OTHERBUI" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_POINTOFI_RELATIONS_POINTOFI" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SUBURBPO_RELATIONS_POINTOFI" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_POTENTIA_RELATIONS_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PRICE_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_REFERENCE_TERM" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_REFERENCE_TERM2" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY2" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY3" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY4" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY5" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY7" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY8" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY9" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_SUBURB" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PURCHASE_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTAL_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALAP_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SALE_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_VALUATIO_RELATIONS_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_ZONING_REFERENCE_PROPERTY" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_SPACE2" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_PROPERTY6" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PROPERTY_RELATIONS_SPACE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_PURCHASE_RELATIONS_PURCHASE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SALE_REFERENCE_PURCHASE" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTAL_REFERENCE_TERM" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTAL_RELATIONS_RENTALST" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALAP_REFERENCE_RENTAL" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALDO_REFERENCE_RENTAL" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALAP_REFERENCE_TERM" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_RENTALAP_RELATIONS_RENTALAP" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SPACE_RELATIONS_SPACETYP" ManuallyRouted="false" />
+        <AssociationConnector Association="BlackGoldPropertiesDBModel.FK_SUBURBPO_RELATIONS_SUBURB" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

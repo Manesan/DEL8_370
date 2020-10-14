@@ -12,6 +12,7 @@ declare var $: any; //needed to use jQuery in ts
 })
 export class ApiService {
 url = 'https://localhost:44373/api';
+//url = 'https://bgp-api.azurewebsites.net';
   constructor(private http: HttpClient,  private router: Router, private toastr: ToastrService) { }
   headers = {
     headers: new HttpHeaders({
