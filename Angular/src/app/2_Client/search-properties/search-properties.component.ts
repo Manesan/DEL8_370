@@ -8,6 +8,7 @@ import { NavBarComponent } from '../../nav-bar/nav-bar.component'
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { NbThemeModule, NbLayoutModule, NbPopoverModule } from '@nebular/theme';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-search-properties',
@@ -46,11 +47,12 @@ export class SearchPropertiesComponent implements OnInit {
     public areas = [];
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private navbar: NavBarComponent, private sanitizer: DomSanitizer, private popover: NbPopoverModule) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private navbar: NavBarComponent, private sanitizer: DomSanitizer, private popover: NbPopoverModule, private spinner: NgxSpinnerService) { }
 
   public token: any;
 
   async ngOnInit() {
+    this.spinner.show();
     await this.service.Get('/propertystatuscheck')
 
     this.propertytypes = await this.service.Get('/propertytype') as any;
@@ -81,7 +83,8 @@ export class SearchPropertiesComponent implements OnInit {
 
     this.photos[0] = this.photo1;
     this.photos[1] = this.photo2;
-    this.photos[2] = this.photo3;
+    this.photos[2] = this.photo3;    
+    this.spinner.hide();
 
   }
 

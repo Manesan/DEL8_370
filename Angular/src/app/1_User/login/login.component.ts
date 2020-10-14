@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../environments/api.service';
 import { NavBarComponent } from '../../nav-bar/nav-bar.component';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   email:any;
   password:any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private route:ActivatedRoute, private navbar: NavBarComponent, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private route:ActivatedRoute, private navbar: NavBarComponent, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     if (localStorage.getItem("37y7ffheu73")){
@@ -25,6 +26,8 @@ export class LoginComponent implements OnInit {
 }
 
 async Login(){
+  
+  this.spinner.show();
   this.token = await this.service.Login(`/user?email=${this.email}&password=${this.password}`)
 
   if(this.token == null){
@@ -41,7 +44,7 @@ async Login(){
       localStorage.setItem("37y7ffheu73", this.token.token)
       this.router.navigate([""])
   }
-
+    this.spinner.hide();
 }
 
 

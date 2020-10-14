@@ -566,6 +566,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
 
                     //Find property
                     var property = db.PROPERTies.Include(y => y.RENTALs).Include(z => z.RENTALAPPLICATIONs).Include(yy => yy.PURCHASEOFFERs).Include(zz => zz.SALEs).FirstOrDefault(x => x.PROPERTYID == id);

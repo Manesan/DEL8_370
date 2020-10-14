@@ -10,6 +10,7 @@ import { Options } from 'ng5-slider';
 import { CountryCodes } from '../../../assets/CountryCodes';
 import {formatDate} from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 
@@ -164,7 +165,7 @@ public token: any; //holds user token
   photo: any;
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Property added successfully', "", {
@@ -204,6 +205,7 @@ public token: any; //holds user token
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.properties = await this.service.Get('/property?token=' + this.token.token);
     this.features = await this.service.Get('/feature?token=' + this.token.token);
@@ -220,9 +222,11 @@ public token: any; //holds user token
     this.buildingConditions = await this.service.Get('/buildingcondition?token=' + this.token.token);
     this.mandateTypes = await this.service.Get('/mandatetype?token=' + this.token.token);
     this.dateToday = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
 
     let mandatedocument = {
@@ -271,7 +275,7 @@ public token: any; //holds user token
 
 
     console.log("hit14")
-
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
@@ -406,7 +410,8 @@ pictureChangeListener($event){
   }
 
 
-  async view(id){
+  async view(id){    
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.token);
     let property = await this.service.Get('/property?token=' + this.token.token + '&id='+ id) as any;
@@ -528,7 +533,8 @@ pictureChangeListener($event){
       (base64Combined);
     }
     console.log(this.imgURL)
-
+    
+    this.spinner.hide();
   }
 
   getMandateDocument(){
@@ -544,6 +550,8 @@ pictureChangeListener($event){
 
 
   async update(id){
+    
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.propertydetails = [];
     //this.mandateTypeDocInput = tempDocument; // Delete this line once documents implemented
@@ -586,7 +594,7 @@ pictureChangeListener($event){
     }
     
     await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
-
+    this.spinner.hide();
     this.showUpdateSuccess();
   }
 
@@ -599,6 +607,8 @@ pictureChangeListener($event){
   }
 
   async delete(id){
+    
+    this.spinner.show();
     console.log(id);
     $("#deleteModal").modal('hide');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
@@ -611,6 +621,7 @@ pictureChangeListener($event){
     else{
       this.showDeleteSuccess();
     }
+    this.spinner.hide();
   }
 
   phoneNumberJoiner()

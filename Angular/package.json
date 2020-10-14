@@ -41,6 +41,7 @@
     "jspdf-autotable": "^3.5.13",
     "ng5-slider": "^1.2.4",
     "ngx-currency": "^2.5.1",
+    "ngx-spinner": "^10.0.1",
     "ngx-time-duration-picker": "^2.0.3",
     "ngx-toastr": "^12.1.0",
     "pdf-maker": "0.0.2",

@@ -64,6 +64,7 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { AuditReportComponent } from './9_Reporting_Administration/audit-report/audit-report.component';
 import { PasswordStrengthMeterModule } from 'angular-password-strength-meter';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     FormsModule,
     NgxCurrencyModule,
     MatPasswordStrengthModule,
+    NgxSpinnerModule
   ],
   providers: [NavBarComponent],
   bootstrap: [AppComponent]
