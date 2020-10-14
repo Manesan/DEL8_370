@@ -129,7 +129,7 @@ namespace BlackGoldProperties_API.Models
                 var guids = db.USERs.Where(x => x.USEREMAIL == useremail && x.USERGUIDEXPIRY > DateTime.Now).Count();
                 if (guids > 0)
                 {
-                    var user = db.USERs.Where(x => x.USEREMAIL == useremail && x.USERGUIDEXPIRY > DateTime.Now).FirstOrDefault();
+                    //var user = db.USERs.Where(x => x.USEREMAIL == useremail && x.USERGUIDEXPIRY > DateTime.Now).FirstOrDefault();
                     /*if (user.USERGUIDEXPIRY.Value <= DateTime.Now.AddMinutes(5))
                     {
                         var time = LinkToDBController.db.USERLOGINTIMEOUTs.OrderByDescending(y => y.USERLOGINTIMEOUTID).Select(x => x.USERLOGINTIMEOUTDESCRIPTION).FirstOrDefault();

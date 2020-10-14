@@ -206,6 +206,7 @@ public token: any; //holds user token
   async ngOnInit() {
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.properties = await this.service.Get('/property?token=' + this.token.token);
+    this.features = await this.service.Get('/feature?token=' + this.token.token);
     this.agents = await this.service.Get('/agents?token=' + this.token.token);
     this.suburbs = await this.service.Get('/suburb?token=' + this.token.token);
     this.marketTypes = await this.service.Get('/markettype?token=' + this.token.token);
@@ -217,7 +218,6 @@ public token: any; //holds user token
     this.options.ceil = this.terms[this.terms.length-1].TERMDESCRIPTION;
     this.highValue = this.terms[this.terms.length-1].TERMDESCRIPTION;
     this.buildingConditions = await this.service.Get('/buildingcondition?token=' + this.token.token);
-    this.features = await this.service.Get('/feature?token=' + this.token.token);
     this.mandateTypes = await this.service.Get('/mandatetype?token=' + this.token.token);
     this.dateToday = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
