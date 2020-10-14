@@ -49,7 +49,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 }
                 return Unauthorized();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return NotFound();
                 }
@@ -132,7 +132,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                 }
                 return Unauthorized();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return NotFound();
                 }

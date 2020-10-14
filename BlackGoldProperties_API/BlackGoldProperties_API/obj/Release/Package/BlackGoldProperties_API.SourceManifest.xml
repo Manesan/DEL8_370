@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

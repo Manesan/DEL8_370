@@ -67,12 +67,19 @@
             <p class="bgp-text-bold bgp-text-gold">Email</p>
             <input class="form-control"  [(ngModel)]="emailInput" id="emailInput"  name="emailInput"  disabled = "true" required maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
             <br>
-            <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
-            <input class="form-control"  [(ngModel)]="idnumberInput" id="idnumberInput" name="idnumberInput"   disabled = "true" required minlength="13" maxlength="13">
-            <br>
+            <div *ngIf="idnumberInput">
+              <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
+              <input class="form-control"  [(ngModel)]="idnumberInput" id="numberInput" name="idnumberInput"   disabled = "true" required minlength="13" maxlength="13">
+              <br>
+            </div>
+            <div *ngIf="passportnumberInput">
+              <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
+              <input class="form-control"  [(ngModel)]="passportnumberInput" id="numberInput" name="idnumberInput"   disabled = "true" required minlength="8" maxlength="20">
+              <br>
+            </div>      
             <p class="bgp-text-bold bgp-text-gold"> Address</p>
             <input class="form-control"  [(ngModel)]="addressInput" id="addressInput" name="addressInput"  disabled = "true" required maxlength="150">
-            <br>
+            <br>      
             <p class="bgp-text-bold bgp-text-gold">Contact Number</p>
             <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="contactnumberInput" id="contactnumberInput" name="contactnumberInput"   disabled = "true" required maxlength="20" pattern="\+([0-9]{1,})">
             <br>

@@ -12,6 +12,6 @@ namespace BlackGoldProperties_API.Controllers
     public class LinkToDBController : ApiController
     {
         /* Make any changes to the UserModel class as well */
-        public static BlackGoldDBEntities20 db = new BlackGoldDBEntities20();
+        public static BlackGoldPropertiesDBEntities db = new BlackGoldPropertiesDBEntities();
     }
 }

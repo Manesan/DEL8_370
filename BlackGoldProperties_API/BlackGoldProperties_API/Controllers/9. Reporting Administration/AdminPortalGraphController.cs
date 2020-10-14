@@ -35,22 +35,12 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                     dynamic graphsDetails = new ExpandoObject();
 
                     //Get sales count
-                    dynamic sales = db.SALEs.ToList();
-                    int saleCounter = 0;
-                    foreach (var sale in sales)
-                    {
-                        saleCounter++;
-                    }
-                    graphsDetails.PropertySalesCount = saleCounter;
+                    dynamic salesCount = db.SALEs.Count();
+                    graphsDetails.PropertySalesCount = salesCount;
 
                     //Get rental count
-                    dynamic rentals = db.RENTALs.ToList();
-                    int rentalCounter = 0;
-                    foreach (var rental in rentals)
-                    {
-                        rentalCounter++;
-                    }
-                    graphsDetails.PropertyRentalsCount = rentalCounter;
+                    dynamic rentalCount = db.RENTALs.Count();
+                    graphsDetails.PropertyRentalsCount = rentalCount;
 
                     //Get popular locations
                     var popularLocations = db.SUBURBs.Where(x => x.PROPERTies.Count > 0).OrderByDescending(y => y.PROPERTies.Count).Select(z => new

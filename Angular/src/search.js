@@ -456,10 +456,10 @@ function editPropertyOwner() {
   document.getElementById("nameInput").disabled = false;
   document.getElementById("surnameInput").disabled = false;
   document.getElementById("emailInput").disabled = false;
-  document.getElementById("idnumberInput").disabled = true;
+  document.getElementById("numberInput").disabled = false;
   document.getElementById("addressInput").disabled = false;
-  document.getElementById("contactInput").disabled = false;
-  document.getElementById("altcontactInput").disabled = false;
+  document.getElementById("contactnumberInput").disabled = false;
+  document.getElementById("altcontactnumberInput").disabled = false;
 }
 
 

@@ -1,6 +1,9 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using BlackGoldProperties_API.Models;
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,7 +14,7 @@ namespace BlackGoldProperties_API.Controllers
     public class DocumentController
     {
         //Azure storage connection string
-        protected static string AzureStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=blackgoldprojectstorage;AccountKey=l9UAbpyHyLK4NDpHtL0cVTegDlUg/x9wA1yG48vGUgtygCbiBs1EuBNwHy8oIqMLUeurLUVYDtWxwr7dySiB2w==;EndpointSuffix=core.windows.net";
+        protected static string AzureStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=bgpfilestorage;AccountKey=L5oaXNBVYAhzpgPvepjZ+gsbVwEQjrXBU6ims4hZ9AebvBXLnJMzSgM6D7mJNi61fllptgQl7BedA6t0PLXx3Q==;EndpointSuffix=core.windows.net";
 
         //Azure storage containers
         public class Containers
@@ -34,7 +37,7 @@ namespace BlackGoldProperties_API.Controllers
             public string FileExtension { get; set; }
         }
 
-        /* This commented portion relates to Azure file storage
+        //This portion relates to Azure file storage
         //Upload file
         public static dynamic UploadFile(string container, UploadClass file)
         {
@@ -52,10 +55,28 @@ namespace BlackGoldProperties_API.Controllers
                 var blobClient = blobContainer.GetBlobClient(filename);
                 blobClient.Upload(memoryStream);
                 memoryStream.Close();
-                string fileUri = blobClient.Uri.ToString();
+                string fileUri = blobClient.Name.ToString();
                 return (fileUri);
             }
             catch
+            {
+                return null;
+            }
+        }
+
+        public static dynamic DownloadFile(string container, string link)
+        {
+            try
+            {
+                BlobContainerClient blobContainerClient = new BlobContainerClient(AzureStorageConnectionString, container);
+                var blockBlob = blobContainerClient.GetBlobClient(link);
+                MemoryStream download = new MemoryStream();
+                blockBlob.DownloadTo(download);
+                byte[] bytes = download.ToArray();
+                var result = Convert.ToBase64String(bytes);
+                return (result);
+            }
+            catch (Exception e)
             {
                 return null;
             }
@@ -78,47 +99,47 @@ namespace BlackGoldProperties_API.Controllers
                 return (false);
             }
 
-        }*/
+        }
 
         // This section below relates to local file storage
         //Upload file
-        public static dynamic UploadFile(string container, UploadClass file)
-        {
-            try
-            {
-                var data = Convert.FromBase64String(file.FileBase64);
-                //Create a stream
-                var memoryStream = new MemoryStream(data);
-                //Get a random file name
-                var filename = Utilities.RandomString(8);
-                filename += $".{file.FileExtension}";
-                var fileStream = File.Create(HttpRuntime.AppDomainAppPath + "/" + container + filename);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                memoryStream.CopyTo(fileStream);
-                fileStream.Close();
-                var filePath = HttpRuntime.AppDomainAppPath + "/" + container + filename;
-                return (filePath);
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        //public static dynamic UploadFile(string container, UploadClass file)
+        //{
+        //    try
+        //    {
+        //        var data = Convert.FromBase64String(file.FileBase64);
+        //        //Create a stream
+        //        var memoryStream = new MemoryStream(data);
+        //        //Get a random file name
+        //        var filename = Utilities.RandomString(8);
+        //        filename += $".{file.FileExtension}";
+        //        var fileStream = File.Create(HttpRuntime.AppDomainAppPath + "/" + container + filename);
+        //        memoryStream.Seek(0, SeekOrigin.Begin);
+        //        memoryStream.CopyTo(fileStream);
+        //        fileStream.Close();
+        //        var filePath = HttpRuntime.AppDomainAppPath + "/" + container + filename;
+        //        return (filePath);
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
 
-        //Delete file
-        public static bool DeleteFile(string container, string fileUri)
-        {
-            try
-            {
-                File.Delete(fileUri);
-                return (true);
-            }
-            catch
-            {
-                return (false);
-            }
+        ////Delete file
+        //public static bool DeleteFile(string container, string fileUri)
+        //{
+        //    try
+        //    {
+        //        File.Delete(fileUri);
+        //        return (true);
+        //    }
+        //    catch
+        //    {
+        //        return (false);
+        //    }
 
-        }
+        //}
 
 
         //DOwnload File

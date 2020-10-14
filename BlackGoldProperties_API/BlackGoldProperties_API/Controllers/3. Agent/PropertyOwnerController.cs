@@ -34,12 +34,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         x.PROPERTYOWNERID, 
                         x.PROPERTYOWNERNAME, 
                         x.PROPERTYOWNERSURNAME, 
-                        x.PROPERTYOWNEREMAIL,
-                        PROPERTYOWNERIDNUMBER = x.PROPERTYOWNERIDNUMBER.Trim(),
-                        PROPERTYOWNERPASSPORTNUMBER = x.PROPERTYOWNERPASSPORTNUMBER.Trim(), 
-                        x.PROPERTYOWNERADDRESS,
-                        PROPERTYOWNERCONTACTNUMBER = x.PROPERTYOWNERCONTACTNUMBER.Trim(),
-                        PROPERTYOWNERALTCONTACTNUMBER = x.PROPERTYOWNERALTCONTACTNUMBER.Trim()
+                        x.PROPERTYOWNEREMAIL
                     }).ToList();
 
                     if (propertyowner == null)
