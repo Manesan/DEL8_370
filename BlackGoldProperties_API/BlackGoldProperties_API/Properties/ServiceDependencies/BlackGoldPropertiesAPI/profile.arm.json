@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "BlackGoldPropertiesAPI20201014141811",
+      "defaultValue": "BlackGoldPropertiesAPI",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

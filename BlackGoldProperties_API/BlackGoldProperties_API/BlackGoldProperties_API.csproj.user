@@ -19,7 +19,7 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_DbContextTypeFullName>BlackGoldProperties_API.Models.BlackGoldDBEntities4</WebStackScaffolding_DbContextTypeFullName>
-    <NameOfLastUsedPublishProfile>BlackGoldPropertiesAPI20201014141811 - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>BlackGoldPropertiesAPI</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
