@@ -26,9 +26,12 @@ export class PropertyOwnerComponent implements OnInit {
   public surnameInput: any;
   public emailInput: any;
   public idnumberInput: any;
+  public passportnumberInput: any;
   public addressInput: any;
   public contactnumberInput: any;
   public altcontactnumberInput: any;
+  public newContactNumber: any;
+  public newAltContactNumber: any;
 
   constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
@@ -68,7 +71,8 @@ async view(id)
   this.nameInput = propertyOwner.PROPERTYOWNERNAME, 
   this.surnameInput = propertyOwner.PROPERTYOWNERSURNAME, 
   this.emailInput = propertyOwner.PROPERTYOWNEREMAIL, 
-  this.idnumberInput = propertyOwner.PROPERTYOWNERIDORPASSPORTNUMBER, 
+  this.idnumberInput = propertyOwner.PROPERTYOWNERIDNUMBER, 
+  this.passportnumberInput = propertyOwner.PROPERTYOWNERPASSPORTNUMBER, 
   this.addressInput = propertyOwner.PROPERTYOWNERADDRESS, 
   this.contactnumberInput = propertyOwner.PROPERTYOWNERCONTACTNUMBER, 
   this.altcontactnumberInput = propertyOwner.PROPERTYOWNERALTCONTACTNUMBER,
@@ -85,9 +89,20 @@ async update(id)
     $("#editModal").modal('hide');
     $("#confirmEditModal").modal('show');
   //console.log(id);
-  await this.service.Patch(`/propertyowner?token=${this.token.token}&id=${id}&name=${this.nameInput}&surname=${this.surnameInput}&email=${this.emailInput}&idorpassport=${this.idnumberInput}&address=${this.addressInput}&contactnumber=${this.contactnumberInput}&altcontactnumber=${this.altcontactnumberInput}`);
+  this.phoneNumberUpdateJoiner();
+  await this.service.Patch(`/propertyowner?token=${this.token.token}&id=${id}&name=${this.nameInput}&surname=${this.surnameInput}&email=${this.emailInput}&owneridnumber=${this.idnumberInput}&ownerpassportnumber=${this.passportnumberInput}&contactnumber=${this.newContactNumber}&altcontactnumber=${this.newAltContactNumber}&address=${this.addressInput}`);
   this.showViewModal = false;
   this.showUpdateSuccess();
+  }
+}
+
+phoneNumberUpdateJoiner()
+{
+  if (this.contactnumberInput != null){
+    this.newContactNumber = "%2B"+this.contactnumberInput.substring(1);
+  }
+  if (this.altcontactnumberInput != null){
+    this.newAltContactNumber = "%2B"+this.altcontactnumberInput.substring(1);
   }
 }
 }

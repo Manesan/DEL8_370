@@ -580,11 +580,11 @@ pictureChangeListener($event){
     if (mandatedocument.FileBase64 != undefined){
       await this.service.Post(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}`, mandatedocument);
     }
-
-    if (listingpictureList[0].FileBase64 != undefined){
+    console.log(mandatedocument, listingpictureList)
+    if (listingpictureList[0] != undefined){
       await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpictureList);
     }
-
+    
     await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
 
     this.showUpdateSuccess();
