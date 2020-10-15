@@ -73,6 +73,7 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
+                    db.Configuration.LazyLoadingEnabled = false;
 
                     //Get specified property
                     var property = db.PROPERTies.Where(z => z.PROPERTYID == id).Select(x => new {
@@ -116,8 +117,8 @@ namespace BlackGoldProperties_API.Controllers._3._Agent
                         Maxtermdescription = (int?)x.TERM1.TERMDESCRIPTION,
                         x.PROPERTYRATEANDTAX,
                         x.PROPERTYLEVIES,
-                        Zoning = x.ZONINGs.OrderByDescending(z => z.ZONINGID).FirstOrDefault(),
-                        Terms = db.TERMs.Where(z => z.TERMID <= x.TERM.TERMID && z.TERMID >= x.TERM1.TERMID),
+                        Zoning = x.ZONINGs.Select(x => new { x.ZONINGESTIMATEDMONTHLYRATES, x.ZONINGID, x.ZONINGMUNICIPALVALUATION, x.ZONINGYEAROFVALUATION, x.ZONINGRATINGPERIOD, x.ZONINGUSAGECATEGORY, x.ZONINGUSAGE}).OrderByDescending(z => z.ZONINGID).FirstOrDefault(),
+                        Terms = db.TERMs.Where(z => z.TERMID <= x.TERM.TERMID && z.TERMID >= x.TERM1.TERMID).Select(x => new {x.TERMID, x.TERMDESCRIPTION}).ToList(),
                         x.PROPERTYAVAILABLEDATE
                     }).FirstOrDefault();
 
