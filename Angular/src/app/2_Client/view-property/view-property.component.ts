@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import {formatDate} from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -70,7 +71,7 @@ export class ViewPropertyComponent implements OnInit {
   agentname: any;
   result: any;
 
-  constructor(public service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService,  private route:ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(public service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService,  private route:ActivatedRoute, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
   showRentApplySuccess() {
     this.toastr.success('You have successfully applied to rent this property', "", {
@@ -93,6 +94,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.forsale = false;
     //console.log(this.id)
@@ -143,6 +145,7 @@ export class ViewPropertyComponent implements OnInit {
     //  this.propertyListingPicture = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any;
     //  this.propertyListingPicture = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + this.propertyListingPicture);
     this.dateToday = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.spinner.hide();
   }
 
 

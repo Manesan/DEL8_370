@@ -1,3 +1,5 @@
+
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.7)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 <div class="container-fluid bgp-background-gray bgp-padding" >
   <div  class="header">
     <h2 class="h1-responsive font-weight-bold text-center my-4 bgp-text-gold " >My Profile</h2>
@@ -45,7 +47,7 @@
         <div><input [(ngModel)]="passportnumber" type="text" id="passportnumber" name="passportnumber" class="form-control" minlength="20"  maxlength="20"></div>
       </div> -->
 
-      
+
       <div class="southAfricanYesDiv" *ngIf="SouthAfrican == 'Yes'">
         <label class="bgp-text-bold bgp-text-gold"> ID Number</label>
         <input id="idnumber" name="idnumber"class="form-control" ngDefaultControl [(ngModel)]="idnumber" minlength="13" maxlength="13" required >
