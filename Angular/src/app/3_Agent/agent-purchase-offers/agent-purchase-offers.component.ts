@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -37,7 +38,7 @@ export class AgentPurchaseOffersComponent implements OnInit {
   public fileExtensionsaledocument: string;
   resultssale: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAcceptSuccess() {
     this.toastr.success('Purchase offer accepted successfully', "", {
@@ -54,9 +55,11 @@ export class AgentPurchaseOffersComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.purchaseOffers = await this.service.Get('/agentpurchaseoffer?token=' + this.token.token);
-    console.log(this.purchaseOffers);
+    this.spinner.hide();
+    //console.log(this.purchaseOffers);
 
     this.showViewModal = false;
     this.address = null;
@@ -69,6 +72,7 @@ export class AgentPurchaseOffersComponent implements OnInit {
   }
 
   async view(id){
+    this.spinner.show();
     $("#viewModal").modal('show');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let agentpurchaseoffer = await this.service.Get('/agentpurchaseoffer?token=' + this.token.token + '&id='+ id) as any;
@@ -80,9 +84,10 @@ export class AgentPurchaseOffersComponent implements OnInit {
 
     this.propertyid = agentpurchaseoffer.PROPERTYID;
     this.address = agentpurchaseoffer.PROPERTYADDRESS;
+    this.spinner.hide();
 
     //this.showViewModal = true;
-    console.log(this.purchaseofferid)
+    //console.log(this.purchaseofferid)
   }
 
   async openAccept(id){
@@ -133,6 +138,7 @@ export class AgentPurchaseOffersComponent implements OnInit {
    }
 
   async accept(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
 
     let saleagreement = {
@@ -143,15 +149,18 @@ export class AgentPurchaseOffersComponent implements OnInit {
 
     this.accepted = true;
     await this.service.Patch(`/agentpurchaseoffer?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`, saleagreement);
+    this.spinner.hide();
     this.showAcceptSuccess();
   }
 
   async reject(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = false;
     $("#confirmRejectionModal").modal('hide');
     console.log(id);
     await this.service.Patch(`/agentpurchaseoffer?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`);
+    this.spinner.hide();
     this.showRejectSuccess();
   }
 

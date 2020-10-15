@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare function agreements(statusid): any;
 
@@ -56,7 +57,7 @@ export class ViewClientRentalsComponent implements OnInit {
   documenttype: string;
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showTerminationNoticeSuccess()
   {
@@ -97,6 +98,7 @@ export class ViewClientRentalsComponent implements OnInit {
 
   }
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.rentalApplications = await this.service.Get('/rentalapplication?token=' + this.token.token);
@@ -132,7 +134,7 @@ export class ViewClientRentalsComponent implements OnInit {
     this.rentalstatus = null;
     this.rentalid = null;
     this.statusid = null;
-
+    this.spinner.hide();
   }
 
 
@@ -170,6 +172,7 @@ rentalAgreementChangeListener($event){
  }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#rentalApplicationModal").modal('show');
     //console.log(id);
@@ -189,10 +192,11 @@ rentalAgreementChangeListener($event){
     this.email= rentalapplications.USEREMAIL;
     this.contact= rentalapplications.USERCONTACTNUMBER;
     this.rentalstatus = rentalapplications.RENTALSTATUSDESCRIPTION;
-
+    this.spinner.hide();
   }
 
   async viewagreement(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#rentalAgreementModal").modal('show');
     //console.log(id);
@@ -231,7 +235,7 @@ rentalAgreementChangeListener($event){
     this.rentaldocument = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ id) as any;
     //console.log(this.rentaldocument);
 
-
+    this.spinner.hide();
     //agreements(this.statusid);
   }
 
@@ -263,6 +267,7 @@ rentalAgreementChangeListener($event){
 
 
   async accept(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
 
     //console.log(this.note);
@@ -278,10 +283,12 @@ rentalAgreementChangeListener($event){
 
     $("#confirmAcceptanceModal").modal('hide');
     await this.service.Patch(`/rentalagreement?token=${this.token.token}&id=${id}&accepted=${this.accepted}`, rentalagreementdocument);
+    this.spinner.hide();
     this.showAcceptSuccess();
   }
 
   async reject(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = false;
     //console.log("false");
@@ -293,6 +300,7 @@ rentalAgreementChangeListener($event){
 
     $("#confirmRejectionModal").modal('hide');
     await this.service.Patch(`/rentalagreement?token=${this.token.token}&id=${id}&accepted=${this.accepted}`, rentalagreementdocument);
+    this.spinner.hide();
     this.showRejectSuccess();
     //console.log(id);
     //console.log(this.note);
@@ -305,17 +313,21 @@ rentalAgreementChangeListener($event){
   }
 
   async termination(id){
+    this.spinner.show();
     //console.log(id);
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.terminate = true;
     await this.service.Delete(`/rentalagreement?token=${this.token.token}&rentalid=${id}&terminate=${this.terminate}`);
+    this.spinner.hide();
     this.showTerminationNoticeSuccess();
   }
 
   async extend(id){
+    this.spinner.show();
     //console.log(id);
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     await this.service.Post(`/rentalagreement?token=${this.token.token}&rentalid=${id}&termid=${id}`);
+    this.spinner.hide();
     this.showAgreementExtensionSuccess();
   }
 

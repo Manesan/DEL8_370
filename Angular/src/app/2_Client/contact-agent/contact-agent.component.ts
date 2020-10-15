@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { CountryCodes } from '../../../assets/CountryCodes';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 declare var $: any; //needed to use jQuery in ts
@@ -34,7 +35,7 @@ export class ContactAgentComponent implements OnInit {
   public poppedNumber: any;
   public newContact: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
  // ngOnInit(): void { }
 
@@ -54,12 +55,14 @@ async ngOnInit()
 
 async sendmessage()
 {
+  this.spinner.show();
   //console.log("hit")
   this.phoneNumberJoiner();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(this.descriptionInput);
   let response = await this.service.Post(`/contactagent?token=${this.token.token}&name=${this.name}&surname=${this.surname}&email=${this.email}&subject=${this.subject}&message=${this.message}&contactnumber=${this.newContact}`);
   console.log(response)
+  this.spinner.hide();
   if (response == true){
     this.showMessageSentSuccess ();
   }

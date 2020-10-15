@@ -13,14 +13,14 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
         public IHttpActionResult Get([FromUri] string token, [FromUri] DateTime startdate, [FromUri] DateTime enddate)
         {
 
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(5 /*Administrator*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
@@ -53,12 +53,12 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                     else
                         return Ok(reportDetails);
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

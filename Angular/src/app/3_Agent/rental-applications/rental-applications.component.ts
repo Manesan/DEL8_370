@@ -6,6 +6,7 @@ import {HttpClient}  from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -53,7 +54,7 @@ export class RentalApplicationsComponent implements OnInit {
    resultsrental: any;
    documenttype: string;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAcceptSuccess() {
     this.toastr.success('Rental application accepted successfully', "", {
@@ -70,6 +71,7 @@ export class RentalApplicationsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.pendingRentalapplication = await this.service.Get('/agentrentalapplication?token=' + this.token.token);
     this.pendingRentalapplication.forEach(e => {
@@ -103,10 +105,11 @@ export class RentalApplicationsComponent implements OnInit {
     this.approvedRenewalRentalApplications.forEach(e => {
       e.RENTALAPPLICATIONDATE = e.RENTALAPPLICATIONDATE.split("T")[0];
     });
-    
-    console.log(this.pendingRentalapplication,this.approvedRentalApplications, this.rejectedRentalApplications, this.agentExtensionRentalApplications,
-      this.agentRenewalRentalApplications, this.clientRejectionRentalApplications, this.approvedExtensionRentalApplications, this.approvedRenewalRentalApplications  );
-    this.showViewModal = false;
+    this.spinner.hide();
+
+    //console.log(this.pendingRentalapplication,this.approvedRentalApplications, this.rejectedRentalApplications, this.agentExtensionRentalApplications,
+      //this.agentRenewalRentalApplications, this.clientRejectionRentalApplications, this.approvedExtensionRentalApplications, this.approvedRenewalRentalApplications  );
+   // this.showViewModal = false;
     //this.descriptionInput = null;
   }
 
@@ -144,6 +147,7 @@ rentalAgreementChangeListener($event){
  }
 
   async view(id){
+    this.spinner.show();
     $("#viewModal").modal('show');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
@@ -169,6 +173,7 @@ rentalAgreementChangeListener($event){
 
 
     this.term = rentalapplication.TERMDESCRIPTION + " months";
+    this.spinner.hide();
   }
 
   async openAccept(id){
@@ -211,6 +216,7 @@ rentalAgreementChangeListener($event){
 
 
   async accept(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     let rentalagreementdocument = {
       "FileBase64" : this.fileBase64rentalagreement,
@@ -223,11 +229,13 @@ rentalAgreementChangeListener($event){
     this.accepted = true;
     $("#confirmAcceptanceModal").modal('hide');
     await this.service.Patch(`/agentrentalapplication?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`, rentalagreementdocument);
+    this.spinner.hide();
     this.showAcceptSuccess();
     //console.log(this.rentalagreement);
   }
 
   async reject(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = false;
     $("#confirmRejectionModal").modal('hide');
@@ -236,6 +244,7 @@ rentalAgreementChangeListener($event){
       "FileExtension" : ""
     };
     await this.service.Patch(`/agentrentalapplication?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`, rentalagreementdocument);
+    this.spinner.hide();
     this.showRejectSuccess();
 
   }

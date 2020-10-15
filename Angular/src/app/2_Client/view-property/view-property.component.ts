@@ -274,6 +274,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   async applyToRent(){
+    this.spinner.show();
     //Build up the class that is being POST'ed to the API
     //This has to match with the class you created in the API
     let rentalapplication = {
@@ -308,9 +309,11 @@ export class ViewPropertyComponent implements OnInit {
 
     this.result = await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.termid}&start=${this.startdate}`, documents);
     if(this.result == "Error"){
+      this.spinner.hide();
       this.showAppliedAlreadyError();
     }
     else{
+      this.spinner.hide();
       this.showRentApplySuccess();
     }
 
@@ -327,6 +330,7 @@ export class ViewPropertyComponent implements OnInit {
 
   async applyPurchase(){
     $("#confirmPurchaseModal").modal('hide');
+    this.spinner.show();
     let bankstatement = {
       "FileBase64" : this.fileBase64bankdocument,
       "FileExtension" : this.fileExtensionbankdocument
@@ -351,6 +355,7 @@ export class ViewPropertyComponent implements OnInit {
     // console.log(documents);
 
     await this.service.Post(`/purchaseoffer?token=${this.token.token}&propertyid=${this.propertyid}&offeramount=${this.offeramount}`, documents);
+    this.spinner.hide();
     this.showPurchaseApplySuccess();
 
   }
