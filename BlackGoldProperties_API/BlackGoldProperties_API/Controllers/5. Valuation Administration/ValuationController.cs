@@ -197,7 +197,7 @@ namespace BlackGoldProperties_API.Controllers._5._Valuation_Administration
                     valuation.VALUATIONDESCRIPTION = Utilities.Trimmer(description);
                     valuation.VALUATIONDATE = date;
                     valuation.USERID = userid;
-                    valuation.IVSTATUSID = IVid;
+                    valuation.IVSTATUSID = 2;
                     valuation.VALUATIONDOCUMENT = documenturi;
 
                     //Save DB changes

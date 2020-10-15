@@ -35,6 +35,7 @@ url = 'https://blackgoldpropertiesapi.azurewebsites.net/api';
         window.location.reload();
       }
   });
+  console.log(response)
     return response;
   }
 

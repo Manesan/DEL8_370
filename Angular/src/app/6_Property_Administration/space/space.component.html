@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
   <!------->
   <div class="header">
@@ -48,7 +50,7 @@
           <div class="modal-header">
             <h4 class="modal-title bgp-text-gold" id="title">View Space</h4>
             <div class="bgp-buttons-in-cards">
-              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this space type" onclick="editSingleAttributeCRUD('Space ')"><i class="fas fa-pencil-alt"></i></button>
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this space type" onclick="editDoubleAttributeCRUD('Space ')"><i class="fas fa-pencil-alt"></i></button>
             </div>
           </div>
           <div id="prompt" style="display: none;">
@@ -61,8 +63,8 @@
             <input disabled id="descriptionInput"  class="form-control"  id="descriptionInput" name="descriptionInput" [(ngModel)]="descriptionInput" required maxlength="50">
             <br>
             <p class="bgp-text-bold bgp-text-gold">Space Type</p>
-            <input  [(ngModel)]="spacetypeInput"  disabled class="form-control"  disabled="true" id="spacetypeInput" name="spacetypeInput" >
-            <select [(ngModel)]="spacetypeid" class ="form-control" name="spacetypes" id="spacetypedescriptionInput" style="visibility: hidden;" required>
+            <input  [(ngModel)]="spacetypeInput"  disabled class="form-control"  disabled="true" id="dropdownDisplay" name="spacetypeInput" >
+            <select [(ngModel)]="spacetypeid" class ="form-control" name="spacetypes" id="dropdownInput" style="display:none;" required>
               <option *ngFor="let x of spacetypes" [ngValue]="x.SPACETYPEID">{{x.SPACETYPEDESCRIPTION}}</option>
             </select>
           </div>

@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas';
 // require('jspdf-autotable');
 import {bgpLogoBase64} from '../../../assets/bgplogo';
 import { format } from 'path';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-agent-report',
@@ -41,9 +42,10 @@ export class AgentReportComponent implements OnInit {
   //public BGPLogoBase64 = "../assets/bgplogo.JPG";
   public lineBreak = "\r\n";
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private spinner: NgxSpinnerService) { }
 
   async ngOnInit(){
+    this.spinner.show();
     //this.service._startDate.subscribe(startDate => this.startDate = startDate);
     //this.service._endDate.subscribe(endDate => this.endDate = endDate);
     console.log("hit",this.startDate, this.endDate)
@@ -62,9 +64,11 @@ export class AgentReportComponent implements OnInit {
     //this.reportDefects = reportDetails.Inspections.Defects;
     //this.reportInspectionDocument = reportDetails.Inspections.INSPECTIONDOCUMENT;
     console.log(this.reportUser)
+    this.spinner.hide();
   }
 
   async DownloadReport(){
+    this.spinner.show();
     
     window.scrollTo(0,0);
     var doc = new jsPDF("a4"),
@@ -122,6 +126,7 @@ export class AgentReportComponent implements OnInit {
     /*}*/
     doc.text("***End of report***", (pageWidth / 2.5), finalY+20)
     doc.save('Agent Report')
+    this.spinner.hide();
 
         /*(doc as any).autoTable({
       head: this.agents,

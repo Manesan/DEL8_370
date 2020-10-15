@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -23,7 +24,7 @@ export class DefectComponent implements OnInit {
   public defectid: any;
   public descriptionInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Defect added successfully', "", {
@@ -55,6 +56,7 @@ export class DefectComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
       this.token ={"token" : localStorage.getItem("37y7ffheu73")}
       //console.log(this.token.token);
       this.defects = await this.service.Get('/defect?token=' + this.token.token);
@@ -63,9 +65,11 @@ export class DefectComponent implements OnInit {
       this.showViewModal = false;
       this.descriptionInput = null;
       //location.reload.bind(location);
+    this.spinner.hide();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#editModal").modal('show');
     //console.log(id);
@@ -75,20 +79,25 @@ export class DefectComponent implements OnInit {
     this.defectid = defect.DEFECTID;
     this.showViewModal = true;
     //console.log(this.descriptionInput);
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     await this.service.Patch(`/defect?token=${this.token.token}&id=${id}&description=${this.descriptionInput}`);
+    this.spinner.hide();
     this.showUpdateSuccess();
     this.showViewModal = false;
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.descriptionInput);
     await this.service.Post(`/defect?token=${this.token.token}&description=${this.descriptionInput}`);
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
@@ -101,8 +110,10 @@ export class DefectComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     let response = await this.service.Delete('/defect?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();

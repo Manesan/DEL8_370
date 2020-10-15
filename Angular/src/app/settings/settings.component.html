@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 
 <div class="container-fluid bgp-background-gray bgp-padding" > 
   <!------->
@@ -14,7 +16,7 @@
             <h3 class=" font-weight-bold text-center my-4  bgp-text-gold" >Duration: (Minutes)</h3>
             <div>
                 <div>
-                    <input [(ngModel)]="duration" placeholder="Duration" type="number" id="timer" name="timer" class="form-control" required>
+                    <input [(ngModel)]="duration" placeholder="Duration" type="number" id="timer" name="timer" class="form-control" required min="10" max="60">
                 </div>
             </div>
             <br>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { CountryCodes } from '../../../assets/CountryCodes';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -54,7 +55,7 @@ export class EmployeeComponent implements OnInit {
   public counter: any;
   response: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Employee added successfully', "", {
@@ -89,6 +90,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.employees = await this.service.Get('/employee?token=' + this.token.token);
@@ -110,9 +112,11 @@ export class EmployeeComponent implements OnInit {
     this.employeetypeid = null
     this.dateemployed = null;
     this.renumeration = null;
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.phoneNumberJoiner();
     let employeeroles = this.employeeTypeDescriptions;
@@ -125,6 +129,7 @@ export class EmployeeComponent implements OnInit {
     &altcontactnumber=${this.newAltContactNumber}&email=${this.email}&idnumber=${this.idnumber}&passportnumber=${this.passportnumber}
     &address=${this.address}&banking=${this.banking}&dateemployed=${this.dateemployed}
     &remuneration=${this.renumeration}&password=${this.password}` , employeeroles);
+    this.spinner.hide();
 
     this.showAddSuccess();
 
@@ -132,6 +137,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#editModal").modal('show');
     this.phoneNumberJoiner();
@@ -171,9 +177,11 @@ export class EmployeeComponent implements OnInit {
       });
     console.log(this.idnumber, this.passportnumber, user)
     console.log(this.employeetypes, this.employeeTypeDescriptionInput)
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.phoneNumberUpdater();
     let employeeroles = this.employeeTypeDescriptions;
@@ -185,6 +193,7 @@ export class EmployeeComponent implements OnInit {
     &address=${this.address}&banking=${this.banking}
     &dateemployed=${this.dateemployed}&remuneration=${this.renumeration}` , employeeroles);
     this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showUpdateSuccess();
   }
 
@@ -198,8 +207,10 @@ export class EmployeeComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let response = await this.service.Delete('/employee?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -33,7 +34,7 @@ export class PropertyOwnerComponent implements OnInit {
   public newContactNumber: any;
   public newAltContactNumber: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showUpdateSuccess() 
   {
@@ -45,6 +46,7 @@ export class PropertyOwnerComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.propertyOwners = await this.service.Get('/propertyowner?token=' + this.token.token);
@@ -57,10 +59,13 @@ export class PropertyOwnerComponent implements OnInit {
     this.addressInput = null; 
     this.contactnumberInput = null; 
     this.altcontactnumberInput =null;
+    this.spinner.hide();
 }
 
 async view(id)
 {
+  
+  this.spinner.show();
   $("#editModal").modal('show');
 
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
@@ -77,23 +82,29 @@ async view(id)
   this.contactnumberInput = propertyOwner.PROPERTYOWNERCONTACTNUMBER, 
   this.altcontactnumberInput = propertyOwner.PROPERTYOWNERALTCONTACTNUMBER,
   this.showViewModal = true;
+  this.spinner.hide();
   
+}
+
+  //Add form validation
+  async submitUpdate(){
+    //console.log(this.descriptionInput);
+    $("#confirmEditModal").modal('show');
+    $("#editModal").modal('hide');
 }
 
 async update(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
-  if(this.nameInput != "" && this.surnameInput != "" &&this.emailInput != "" && this.addressInput != "" && this.contactnumberInput != "" )
-  {
-    //console.log(this.descriptionInput);
-    $("#editModal").modal('hide');
-    $("#confirmEditModal").modal('show');
+
   //console.log(id);
   this.phoneNumberUpdateJoiner();
   await this.service.Patch(`/propertyowner?token=${this.token.token}&id=${id}&name=${this.nameInput}&surname=${this.surnameInput}&email=${this.emailInput}&owneridnumber=${this.idnumberInput}&ownerpassportnumber=${this.passportnumberInput}&contactnumber=${this.newContactNumber}&altcontactnumber=${this.newAltContactNumber}&address=${this.addressInput}`);
   this.showViewModal = false;
   this.showUpdateSuccess();
-  }
+  
+  this.spinner.hide();
 }
 
 phoneNumberUpdateJoiner()

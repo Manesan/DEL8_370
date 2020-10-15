@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -25,7 +26,7 @@ export class ProvincesComponent implements OnInit {
   public provinceid: any;
   public nameInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { console.log }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { console.log }
 
   showAddSuccess() {
     this.toastr.success('Province added successfully', "", {
@@ -60,21 +61,26 @@ export class ProvincesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.provinces = await this.service.Get('/province?token=' + this.token.token);
     //Added
     this.showViewModal = false;
     this.nameInput = null;
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.nameInput);
     await this.service.Post(`/province?token=${this.token.token}&provincename=${this.nameInput}`);
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     let province = await this.service.Get('/province?token=' + this.token.token + '&id='+ id) as any;
@@ -83,13 +89,16 @@ export class ProvincesComponent implements OnInit {
 
     this.showViewModal = true;
     console.log(this.showViewModal);
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     await this.service.Patch(`/province?token=${this.token.token}&id=${id}&provincename=${this.nameInput}`);
     this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showUpdateSuccess();
   }
 
@@ -102,8 +111,10 @@ export class ProvincesComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let response = await this.service.Delete('/province?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();

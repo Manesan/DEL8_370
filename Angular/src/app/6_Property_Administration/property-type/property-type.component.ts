@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -24,7 +25,7 @@ export class PropertyTypeComponent implements OnInit {
   public propertyTypeid: any;
   public descriptionInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Property type added successfully', "", {
@@ -68,6 +69,7 @@ export class PropertyTypeComponent implements OnInit {
 
 async view(id)
 {
+  this.spinner.show();
   $("#editModal").modal('show');
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(id);
@@ -77,22 +79,27 @@ async view(id)
   this.propertyTypeid = propertyType.PROPERTYTYPEID;
   this.showViewModal = true;
   //console.log(this.descriptionInput);
+    this.spinner.hide();
 }
 
 async update(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   console.log(this.descriptionInput);
   await this.service.Patch(`/propertytype?token=${this.token.token}&id=${id}&description=${this.descriptionInput}`);
   //this.showViewModal = false;
+    this.spinner.hide();
   this.showUpdateSuccess();
 }
 
 async add()
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(this.descriptionInput);
   await this.service.Post(`/propertytype?token=${this.token.token}&description=${this.descriptionInput}`);
+  this.spinner.hide();
   this.showAddSuccess();
 }
 
@@ -107,8 +114,10 @@ async deleteBinding(id)
 
 async delete(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   let response = await this.service.Delete('/propertytype?token=' + this.token.token + '&id='+ id);
+  this.spinner.hide();
   console.log(response)
   if (response === 409){
     this.showDeleteFailure();

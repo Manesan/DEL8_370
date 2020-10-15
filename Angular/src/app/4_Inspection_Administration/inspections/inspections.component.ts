@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -72,7 +73,7 @@ export class InspectionsComponent implements OnInit {
    public fileExtensioninspectiondocument: string;
    resultsinspection: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
   showSaveSuccess() {
     this.toastr.success('Inspection saved successfully', "", {
@@ -90,6 +91,7 @@ export class InspectionsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.inspections = await this.service.Get('/inspection?token=' + this.token.token);
     this.inspectors = await this.service.Get('/inspectors?token=' + this.token.token);
@@ -107,9 +109,11 @@ export class InspectionsComponent implements OnInit {
       e.INSPECTIONDATE = e.INSPECTIONDATE.split("T")[0];
     });
     console.log(this.inspections)
+    this.spinner.hide();
   }
 
   async view(id){
+    this.spinner.show();
     this.defectDescriptions = [];
     this.defectQuantities = [];
     this.defectSpaces = [];
@@ -155,6 +159,7 @@ export class InspectionsComponent implements OnInit {
       this.propertyDefectQuantityInput = e.PROPERTYDEFECTQUANTITY;
     });
     //console.log(inspection, inspection.PropertyDefects, this.propertyDefects)
+    this.spinner.hide();
   }
 
   getInspectionDocument(){
@@ -202,6 +207,7 @@ inspectionDocumentChangeListener($event){
 
 
   async save (id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
 
     let inspectiondocument = {
@@ -219,14 +225,17 @@ inspectionDocumentChangeListener($event){
     this.defectDescriptions = [];
     this.defectQuantities = [];
     this.defectSpaces = [];
+    this.spinner.hide();
     this.showSaveSuccess();
   }
 
   async assign(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(id);
     await this.service.Post(`/assigninspector?token=${this.token.token}&inspectionid=${id}&userid=${this.inspectorid}`);
     this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showAssignSuccess();
   }
 
@@ -249,6 +258,7 @@ inspectionDocumentChangeListener($event){
   addDefect(){
     if (this.defectDescriptionInput != null && this.spaceDescriptionInput != null && this.propertyDefectQuantityInput != null){
       let check = false;
+      console.log('hit', this.propertyDefects)
     this.propertyDefects.forEach(e => {
       if (e[0].DEFECTDESCRIPTION == this.defectDescriptionInput.DEFECTDESCRIPTION && e[0].SPACEDESCRIPTION == this.spaceDescriptionInput.SPACEDESCRIPTION){
         check = true;

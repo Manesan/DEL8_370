@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 declare var jsPDF: any;
 import html2canvas from 'html2canvas';
 import { url } from 'inspector';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-audit-report',
@@ -54,9 +55,10 @@ export class AuditReportComponent implements OnInit {
   public MinRentalPrice: any;
   public lineBreak = "\r\n";
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
+    this.spinner.show();
     // this.service._startDate.subscribe(startDate => this.startDate = startDate);
     // this.service._endDate.subscribe(endDate => this.endDate = endDate);
     console.log("hit",this.startDate, this.endDate)
@@ -104,6 +106,7 @@ export class AuditReportComponent implements OnInit {
 
     console.log(this.houses[0].Municipal?.PROPERTYDOCUMENT1, this.houses[0].TitleDeed?.PROPERTYDOCUMENT1, this.houses[0].MunicipalReport?.PROPERTYDOCUMENT1,
       this.houses[0].Valuation?.PROPERTYDOCUMENT1, this.houses[0].LightsWater?.PROPERTYDOCUMENT1, this.houses[0].Levies?.PROPERTYDOCUMENT1);*/
+    this.spinner.hide();
   }
 
   async SaveReport(){
@@ -154,6 +157,7 @@ export class AuditReportComponent implements OnInit {
   }}
 
   async DownloadReport(){
+    this.spinner.show();
     window.scrollTo(0,0);
     var doc = new jsPDF("a4")
     var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -192,6 +196,7 @@ export class AuditReportComponent implements OnInit {
 
     doc.save('Audit Report')
 
+    this.spinner.hide();
     
   }
 

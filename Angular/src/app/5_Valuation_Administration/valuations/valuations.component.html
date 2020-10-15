@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
   <!------->
     <div class="header">
@@ -82,8 +84,8 @@
                   <option ngDefaultControl [(ngModel)]="valuationStatusDescription" *ngFor="let x of valuationStatuses" [ngValue]="x.IVSTATUSID">{{x.IVSTATUSDESCRIPTION}}</option>
                 </select> -->
                 <br>
-                <p class="bgp-text-bold bgp-text-gold" style="visibility:hidden" id="label1">Valuation Document (.PDF)</p>
-                <input class="bgp-text-white"name="valuationdocument" type="file" accept="application/pdf"  id= "uploadButton" style="visibility:hidden" required (change)="valuationDocumentChangeListener($event)"/>
+                <p class="bgp-text-bold bgp-text-gold" style="display:none" id="label1">Valuation Document (.PDF)</p>
+                <input class="bgp-text-white"name="valuationdocument" type="file" accept="application/pdf"  id= "uploadButton" style="display:none" required (change)="valuationDocumentChangeListener($event)"/>
               </div>
               <div class= "modal-footer ">
                   <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Capture</button>

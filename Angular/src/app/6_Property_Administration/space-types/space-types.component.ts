@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 declare var $: any; //needed to use jQuery in ts
@@ -26,7 +27,7 @@ export class SpaceTypesComponent implements OnInit {
   public spaceTypeid: any;
   public descriptionInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Space type added successfully', "", {
@@ -61,16 +62,19 @@ export class SpaceTypesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.spaceTypes = await this.service.Get('/spacetype?token=' + this.token.token);
     //console.log(this.spacetypes);
     //this.showViewModal=false;
     this.descriptionInput=null;
+    this.spinner.hide();
 }
 
 async view(id)
 {
+  this.spinner.show();
   $("#editModal").modal('show');
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(id);
@@ -80,22 +84,27 @@ async view(id)
   this.spaceTypeid = spaceType.SPACETYPEID;
   this.showViewModal = true;
   //console.log(this.descriptionInput);
+    this.spinner.hide();
 }
 
 async update(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(id);
   await this.service.Patch(`/spacetype?token=${this.token.token}&id=${id}&description=${this.descriptionInput}`);
   this.showViewModal = false;
+  this.spinner.hide();
   this.showUpdateSuccess();
 }
 
 async add()
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(this.descriptionInput);
   await this.service.Post(`/spacetype?token=${this.token.token}&description=${this.descriptionInput}`);
+  this.spinner.hide();
   this.showAddSuccess();
 }
 
@@ -110,8 +119,10 @@ async deleteBinding(id)
 
 async delete(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   let response = await this.service.Delete('/spacetype?token=' + this.token.token + '&id='+ id);
+  this.spinner.hide();
   console.log(response)
   if (response === 409){
     this.showDeleteFailure();

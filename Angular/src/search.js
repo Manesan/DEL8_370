@@ -203,14 +203,14 @@ function editValuation() {
   document.getElementById("edit").style.display = "none";
 
   //make upload doc button visible
-  document.getElementById("uploadButton").display ==="block" ;
+  document.getElementById("uploadButton").style.display ="block" ;
   uploadButton.style.visibility = "visible";
 
   //make OK button visible
   document.getElementById("OKButton").style.visibility = "visible" ;
 
   //make labels visible
-  document.getElementById("label1").display ==="block" ;
+  document.getElementById("label1").style.display ="block" ;
   label1.style.visibility = "visible";
 
   //enable input fields
@@ -220,9 +220,9 @@ function editValuation() {
 
   document.getElementById("prompt").innerHTML = "Please provide the valuation details";
   document.getElementById("downloadDocument").style.display = "none" ;
-  document.getElementById("valuerInput").style.visibility = "visible";
+  //document.getElementById("valuerInput").style.visibility = "visible";
   //document.getElementById("input4").style.display = "none";
-  document.getElementById("valuationStatusInput").style.visibility = "visible";
+  //document.getElementById("valuationStatusInput").style.visibility = "visible";
   //document.getElementById("input6").style.display = "none";
 }
 
@@ -405,6 +405,24 @@ function editSingleAttributeCRUD(objectName) {
   document.getElementById("descriptionInput").disabled = false;
 }
 
+function editDoubleAttributeCRUD(objectName) {
+
+  // edit header text
+  document.getElementById("title").innerHTML = "Update " + objectName;
+
+  //hide control
+  document.getElementById("edit").style.display = "none";
+
+  //show control
+  document.getElementById("OKButton").style.visibility = "visible";
+  document.getElementById("prompt").style.display = "block";
+
+  //enable input field
+  document.getElementById("descriptionInput").disabled = false;
+  document.getElementById("dropdownDisplay").style.display = "none";
+  document.getElementById("dropdownInput").style.display = "block";
+}
+
 
 //----------------------------------------//LANI JS:
 // Employee
@@ -456,7 +474,7 @@ function editPropertyOwner() {
   document.getElementById("nameInput").disabled = false;
   document.getElementById("surnameInput").disabled = false;
   document.getElementById("emailInput").disabled = false;
-  document.getElementById("numberInput").disabled = false;
+  //document.getElementById("numberInput").disabled = false;
   document.getElementById("addressInput").disabled = false;
   document.getElementById("contactnumberInput").disabled = false;
   document.getElementById("altcontactnumberInput").disabled = false;
@@ -527,12 +545,12 @@ function editPointOfInterest(){
    document.getElementById("prompt").style.display = "block";
 
    document.getElementById("edit").style.display = "none";
-   document.getElementById("typeInput").style.visibility = "visible";
+   document.getElementById("typeInput").style.display = "block";
    document.getElementById("typeInput").disabled = false;
 
    document.getElementById("suburbNameInput").style.display = "none";
    document.getElementById("suburbInput").disabled = false;
-   document.getElementById("suburbInput").style.visibility = "visible";
+   document.getElementById("suburbInput").style.display = "block";
 
    document.getElementById("pointTypeNameInput").style.display = "none";
    document.getElementById("nameInput").style.visibility = "visible";
