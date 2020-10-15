@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(private service: ApiService, private http: HttpClient, private router: Router, private route:ActivatedRoute, private navbar: NavBarComponent, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.spinner.hide();
     if (localStorage.getItem("37y7ffheu73")){
       this.router.navigate([""]);
       this.navbar.ngOnInit();

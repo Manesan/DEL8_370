@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -46,7 +47,7 @@ export class ValuationsComponent implements OnInit {
   public documenttype: any;
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showCaptureSuccess() {
     this.toastr.success('Valuation captured successfully', "", {
@@ -65,6 +66,7 @@ export class ValuationsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.valuations = await this.service.Get('/valuation?token=' + this.token.token);
     this.valuers = await this.service.Put('/employee?token=' + this.token.token);
@@ -74,10 +76,12 @@ export class ValuationsComponent implements OnInit {
     });
     this.properties = await this.service.Get('/property?token=' + this.token.token);
     console.log(this.valuers);
+    this.spinner.hide();
     this.showViewModal = false;
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let valuation = await this.service.Get('/valuation?token=' + this.token.token + '&id='+ id) as any;
     this.propertyAddress = valuation.PROPERTYADDRESS;
@@ -95,6 +99,7 @@ export class ValuationsComponent implements OnInit {
     this.statusid = valuation.IVSTATUSID;
     this.showViewModal = true;
     console.log(this.valuerid)
+    this.spinner.hide();
   }
 
   getValuationDocument(){
@@ -142,6 +147,7 @@ export class ValuationsComponent implements OnInit {
 
 
   async capture(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.valuerid);
     let valuationdocument = {
@@ -150,15 +156,18 @@ export class ValuationsComponent implements OnInit {
     };
     //console.log(valuationdocument);
     await this.service.Patch(`/valuation?token=${this.token.token}&id=${id}&date=${this.valuationDate}&description=${this.valuationDescription}&userid=${this.valuerid}&IVid=${this.statusid}`, valuationdocument);
+    this.spinner.hide();
     this.showCaptureSuccess();
   }
 
   async assign(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#confirmCaptureAssignmentModal").modal('hide');
     //console.log(id);
     await this.service.Patch(`/assignvaluer?token=${this.token.token}&valuationid=${id}&userid=${this.valuerid}`);
     //this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showAssignSuccess();
   }
 

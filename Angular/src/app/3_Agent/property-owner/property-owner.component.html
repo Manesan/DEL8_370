@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
 
   <!------->
@@ -53,9 +55,9 @@
             <br >
             <h6 class="bgp-text-gold" style="text-align: center;">Please provide the updated property owner details</h6>
           </div>
-
-          <div class="modal-body scrollbar" id="style-3">
-            <form  ngNativeValidate (ngSubmit)="update(propertyOwnerid)">
+ <form autocomplete="off" ngNativeValidate (ngSubmit)="submitUpdate()" class="scrollbar" id="style-3">
+          <div class="modal-body">
+           
             <p class="bgp-text-bold bgp-text-gold">Name</p>
             <input class="form-control"  [(ngModel)]="nameInput"  id="nameInput" name="nameInput"  disabled = "true" required  maxlength="50">
 
@@ -74,7 +76,7 @@
             </div>
             <div *ngIf="passportnumberInput">
               <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
-              <input class="form-control"  [(ngModel)]="passportnumberInput" id="numberInput" name="idnumberInput"   disabled = "true" required minlength="8" maxlength="20">
+              <input class="form-control"  [(ngModel)]="passportnumberInput" id="numberInput" name="idnumberInput"   disabled = "true" required minlength="8" maxlength="20" >
               <br>
             </div>      
             <p class="bgp-text-bold bgp-text-gold"> Address</p>
@@ -85,15 +87,16 @@
             <br>
             <p class="bgp-text-bold bgp-text-gold">Alt Contact Number</p>
             <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="altcontactnumberInput" id="altcontactnumberInput"   name="altcontactnumberInput" disabled = "true" maxlength="20" pattern="\+([0-9]{1,})">
-          </form>
+         
           </div >
           <div class= "modal-footer  ">
-            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal" data-toggle="modal" data-target="#confirmEditModal"id="OKButton" style="visibility: hidden;">Update</button>
+            <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton" style="visibility: hidden;">Update</button>
             &nbsp;
             <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onClick="window.location.reload();" >Cancel</button>
           </div>
-
+        </form>
         </div>
+        
       </div>
     </div>
   <!-----End of Edit Modal-->

@@ -209,11 +209,13 @@ public token: any; //holds user token
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.properties = await this.service.Get('/property?token=' + this.token.token);
     this.features = await this.service.Get('/feature?token=' + this.token.token);
+    this.otherBuildingDetails = await this.service.Get('/otherbuildingdetail?token=' + this.token.token);
+    this.spinner.hide();
     this.agents = await this.service.Get('/agents?token=' + this.token.token);
     this.suburbs = await this.service.Get('/suburb?token=' + this.token.token);
     this.marketTypes = await this.service.Get('/markettype?token=' + this.token.token);
     this.propertyTypes = await this.service.Get('/propertytype?token=' + this.token.token);
-    this.otherBuildingDetails = await this.service.Get('/otherbuildingdetail?token=' + this.token.token);
+    
     this.terms = await this.service.Get('/term?token=' + this.token.token);
     this.options.floor = this.terms[0].TERMDESCRIPTION;
     this.value = this.terms[0].TERMDESCRIPTION;
@@ -222,7 +224,6 @@ public token: any; //holds user token
     this.buildingConditions = await this.service.Get('/buildingcondition?token=' + this.token.token);
     this.mandateTypes = await this.service.Get('/mandatetype?token=' + this.token.token);
     this.dateToday = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    this.spinner.hide();
   }
 
   async add(){
@@ -258,10 +259,10 @@ public token: any; //holds user token
     console.log(this.propertydetails);
     this.phoneNumberJoiner();
     this.getMarketTypeID(); ////////////////////New for markettype
-    if (this.marketTypeID = 1){
-      this.value = null;
-      this.highValue = null;
-    }
+    // if (this.marketTypeID = 1){
+    //   this.value = null;
+    //   this.highValue = null;
+    // }
     console.log("hit1")
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     await this.service.Post(`/property?token=${this.token.token}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOAltContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.propertyZonintEstimatedMonthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
@@ -613,7 +614,8 @@ pictureChangeListener($event){
     $("#deleteModal").modal('hide');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.token)
-    let response = await this.service.Delete('/property?token=' + this.token.token + '&id='+ id)
+    let response = await this.service.Delete('/property?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();
@@ -621,7 +623,6 @@ pictureChangeListener($event){
     else{
       this.showDeleteSuccess();
     }
-    this.spinner.hide();
   }
 
   phoneNumberJoiner()

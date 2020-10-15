@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 declare var $: any; //needed to use jQuery in ts
@@ -29,7 +30,7 @@ export class SuburbsComponent implements OnInit {
   public cityid: any;
   public cityNameInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Suburb added successfully', "", {
@@ -64,6 +65,7 @@ export class SuburbsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.suburbs = await this.service.Get('/suburb?token=' + this.token.token);
@@ -75,16 +77,20 @@ export class SuburbsComponent implements OnInit {
     //this.suburbid = null;
     this.nameInput = null;
     //this.cityid = null;
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.nameInput, this.cityid);
     await this.service.Post(`/suburb?token=${this.token.token}&suburbname=${this.nameInput}&cityid=${this.cityid}`);
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     $("#editModal").modal('show');
@@ -97,14 +103,17 @@ export class SuburbsComponent implements OnInit {
 
     this.showViewModal = true;
     //console.log(this.descriptionInput);
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#confirmEditModal").modal('hide');
     //console.log(id);
     await this.service.Patch(`/suburb?token=${this.token.token}&id=${id}&suburbname=${this.nameInput}&cityid=${this.cityid}`);
     //this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showUpdateSuccess();
   }
 
@@ -117,8 +126,10 @@ export class SuburbsComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let response = await this.service.Delete('/suburb?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();

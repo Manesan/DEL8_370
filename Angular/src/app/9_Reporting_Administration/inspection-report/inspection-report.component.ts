@@ -10,6 +10,7 @@ declare var jsPDF: any;
 import html2canvas from 'html2canvas';
 //import jsPDF from 'jspdf';
 //import * as jsPDF from 'jspdf';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-inspection-report',
@@ -38,10 +39,12 @@ export class InspectionReportComponent implements OnInit {
     public lineBreak = "\r\n";
   
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private spinner: NgxSpinnerService) { }
 
   async ngOnInit()
    {
+     
+  this.spinner.show();
     this.service._startDate.subscribe(startDate => this.startDate = startDate);
      this.service._endDate.subscribe(endDate => this.endDate = endDate);
 
@@ -92,9 +95,11 @@ export class InspectionReportComponent implements OnInit {
           }
         })
       console.log(reportDetails)
+      this.spinner.hide();
   }
 
   async DownloadReport(){
+    this.spinner.show();
     window.scrollTo(0,0);
     var doc = new jsPDF("a4")
     
@@ -166,6 +171,7 @@ export class InspectionReportComponent implements OnInit {
       doc.text("***End of report***", (pageWidth / 2.5), 130)
 
         doc.save('Inspection Report')
+        this.spinner.hide();
   //     console.log(pageWidth)
 
   //     let length = reportDetails["allInspections"].length;

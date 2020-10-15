@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -31,7 +32,7 @@ export class PointOfInterestComponent implements OnInit {
   public suburbid: any;
   public suburbNameInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Point of interest added successfully', "", {
@@ -58,6 +59,7 @@ export class PointOfInterestComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.pointsofinterest = await this.service.Get('/pointofinterest?token=' + this.token.token);
@@ -70,16 +72,20 @@ export class PointOfInterestComponent implements OnInit {
     //this.typeInput = null;
     //this.suburbInput = null;
     //location.reload.bind(location);
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.nameInput, this.suburbid, this.typeid);
     await this.service.Post(`/pointofinterest?token=${this.token.token}&name=${this.nameInput}&suburbid=${this.suburbid}&typeid=${this.typeid}`);
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#editModal").modal('show');
     //console.log(id);
@@ -94,12 +100,15 @@ export class PointOfInterestComponent implements OnInit {
 
     this.showViewModal = true;
     console.log(this.pointTypeNameInput);
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     await this.service.Patch(`/pointofinterest?token=${this.token.token}&id=${id}&name=${this.nameInput}&typeid=${this.typeid}&suburbid=${this.suburbid}`);
+    this.spinner.hide();
     this.showUpdateSuccess();
     this.showViewModal = false;
   }
@@ -113,8 +122,10 @@ export class PointOfInterestComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     await this.service.Delete('/pointofinterest?token=' + this.token.token + '&id='+ id)
+    this.spinner.hide();
     this.showDeleteSuccess();
   }
 

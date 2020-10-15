@@ -369,11 +369,11 @@
 
                     <div class="southAfricanYesDiv" *ngIf="propertyOwnerIdNumberInput">
                       <p class="bgp-text-bold bgp-text-gold"> ID Number</p>
-                      <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" required>
+                      <input id="OwnerIDInput" name="OwnerIDInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerIdNumberInput" minlength="13" maxlength="13" required disabled>
                     </div>
                     <div class="southAfricanNoDiv" *ngIf="propertyOwnerPassportNumberInput">
                       <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
-                      <input id="OwnerPassportInput" name="OwnerPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerPassportNumberInput" maxlength="20" required>
+                      <input id="OwnerPassportInput" name="OwnerPassportInput"class="form-control" ngDefaultControl [(ngModel)]="propertyOwnerPassportNumberInput" maxlength="20" required disabled>
                     </div>
 
                     <br>
@@ -675,7 +675,7 @@
                     </h4>
                   </div>
                   <div id="imagesUpdate" class="panel-collapse collapse hide">
-                    <input #file1 class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file1.files)"/>
+                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
               <br><br>
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">

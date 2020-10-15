@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -26,7 +27,7 @@ export class OtherBuildingDetailComponent implements OnInit {
 
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Other building detail added successfully', "", {
@@ -62,6 +63,7 @@ export class OtherBuildingDetailComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.otherbuildingdetails = await this.service.Get('/otherbuildingdetail?token=' + this.token.token);
@@ -70,16 +72,20 @@ export class OtherBuildingDetailComponent implements OnInit {
     this.showViewModal = false;
     this.descriptionInput = null;
     //location.reload.bind(location);
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.descriptionInput);
     await this.service.Post(`/otherbuildingdetail?token=${this.token.token}&description=${this.descriptionInput}`);
+    this.spinner.hide();
     this.showAddSuccess();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#editModal").modal('show');
     //console.log(id);
@@ -89,12 +95,15 @@ export class OtherBuildingDetailComponent implements OnInit {
 
     this.showViewModal = true;
     //console.log(this.showViewModal);
+    this.spinner.hide();
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     await this.service.Patch(`/otherbuildingdetail?token=${this.token.token}&id=${id}&description=${this.descriptionInput}`);
+    this.spinner.hide();
     this.showUpdateSuccess();
     this.showViewModal = false;
   }
@@ -108,8 +117,10 @@ export class OtherBuildingDetailComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let response = await this.service.Delete('/otherbuildingdetail?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();

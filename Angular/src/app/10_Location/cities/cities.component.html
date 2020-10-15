@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
 
   <!------->
@@ -46,7 +48,7 @@
           <div class="modal-header" >
             <h4 class="modal-title bgp-text-gold"  id="title">View City</h4>
             <div class="bgp-buttons-in-cards">
-              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this city" onclick="editSingleAttributeCRUD('City')"><i class="fas fa-pencil-alt"></i></button>
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this city" onclick="editDoubleAttributeCRUD('City')"><i class="fas fa-pencil-alt"></i></button>
             </div>
           </div>
           <div id="prompt" style="display: none;">
@@ -59,15 +61,15 @@
             <input [(ngModel)]="nameInput" disabled id="descriptionInput" name="descriptionInput" class="form-control" required>
             <br>
             <p class="bgp-text-bold bgp-text-gold">Province</p>
-            <input disabled class="form-control" [(ngModel)]="provinceNameInput" id="provinceNameInput" name="provinceNameInput">
-            <select [(ngModel)]="provinceid" class ="form-control" name="provinces" id="provinceInput" style="visibility: hidden;">
+            <input disabled class="form-control" [(ngModel)]="provinceNameInput" id="dropdownDisplay" name="provinceNameInput">
+            <select [(ngModel)]="provinceid" class ="form-control" name="provinces" id="dropdownInput" style="display: none;">
               <option *ngFor="let x of provinces" [ngValue]="x.PROVINCEID">{{x.PROVINCENAME}}</option>
             </select>
           </div>
           <div class= "modal-footer">
             <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit"  id="OKButton" style="visibility: hidden;" >Update</button>
             &nbsp;
-            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">Cancel</button>
+            <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" onclick="window.location.reload()">Cancel</button>
           </div>
         </form>
         </div>

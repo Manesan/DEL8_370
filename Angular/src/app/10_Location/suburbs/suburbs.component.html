@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
 
   <!------->
@@ -46,7 +48,7 @@
           <div class="modal-header">
             <h4 class="modal-title bgp-text-gold"  id="title">View Suburb</h4>
             <div class="bgp-buttons-in-cards">
-              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this suburb" onclick="editSingleAttributeCRUD('Suburb')"><i class="fas fa-pencil-alt"></i></button>
+              <button id="edit" class="btn btn-outline-warning my-2 my-sm-0" title="Edit this suburb" onclick="editDoubleAttributeCRUD('Suburb')"><i class="fas fa-pencil-alt"></i></button>
             </div>
           </div>
           <div id="prompt" style="display: none;">
@@ -59,8 +61,8 @@
               <input [(ngModel)]="nameInput" disabled id="descriptionInput" name="descriptionInput" class="form-control" required>
               <br>
               <p class="bgp-text-bold bgp-text-gold">City</p>
-              <input disabled class="form-control" [(ngModel)]="cityNameInput" id="cityNameInput" name="cityNameInput" required>
-              <select [(ngModel)]="cityid" class ="form-control" name="cities" id="cityInput" style="visibility: hidden;">
+              <input disabled class="form-control" [(ngModel)]="cityNameInput" id="dropdownDisplay" name="cityNameInput" required>
+              <select [(ngModel)]="cityid" class ="form-control" name="cities" id="dropdownInput" style="display: none;">
                 <option *ngFor="let x of cities" [ngValue]="x.CITYID">{{x.CITYNAME}}</option>
               </select>
             </div>

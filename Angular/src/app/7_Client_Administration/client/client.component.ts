@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -64,7 +65,7 @@ export class ClientComponent implements OnInit {
   copyOfIdDocumentID: any;
   clientDocument: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showUploadSuccess() {
     this.toastr.success('Document uploaded successfully', "", {
@@ -75,6 +76,7 @@ export class ClientComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.clients = await this.service.Get('/viewclient?token=' + this.token.token);
@@ -92,6 +94,7 @@ export class ClientComponent implements OnInit {
     this.passwordInput = null;
     this.clientTypeInput = null;
     this.propertyAddressInput = null;
+    this.spinner.hide();
   }
 
   //PROPERTY DOCUMENT CONVERSION
@@ -128,6 +131,7 @@ export class ClientComponent implements OnInit {
    }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#editModal").modal('show');
     this.clientid = id;
@@ -159,6 +163,7 @@ export class ClientComponent implements OnInit {
     this.iduploaddate = user[0].idcopy.CLIENTDOCUMENTUPLOADDATE;
     // this.copyOfPassportDocument = user[0].passportcopy.CLIENTDOCUMENT1;
     // this.passportuploaddate = user[0].passportcopy.CLIENTDOCUMENTUPLOADDATE;
+    this.spinner.hide();
   }
 
   async getClientCreditDocument(id){

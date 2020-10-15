@@ -9,6 +9,7 @@ import {Chart} from 'chart.js';
 import 'jspdf-autotable';
 declare var jsPDF: any;
 import html2canvas from 'html2canvas';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-property-report',
@@ -48,9 +49,10 @@ export class PropertyReportComponent implements OnInit {
   public surname: any;
   public lineBreak = "\r\n";
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.service._startDate.subscribe(startDate => this.startDate = startDate);
     this.service._endDate.subscribe(endDate => this.endDate = endDate);
 
@@ -164,9 +166,11 @@ export class PropertyReportComponent implements OnInit {
         }
       }
     })
+    this.spinner.hide();
   }
 
   async DownloadReport(){
+    this.spinner.show();
     
     window.scrollTo(0,0);
     var doc = new jsPDF("a4")
@@ -246,6 +250,7 @@ export class PropertyReportComponent implements OnInit {
 
     doc.save('Property Report')
 
+    this.spinner.hide();
 
   }
 }

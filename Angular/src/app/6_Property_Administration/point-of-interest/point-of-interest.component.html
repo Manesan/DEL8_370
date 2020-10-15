@@ -1,3 +1,5 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffc000" type = "ball-square-clockwise-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
 <div class="container-fluid bgp-background-gray bgp-padding">
   <!------->
   <div class="header">
@@ -65,14 +67,14 @@
             <br>
             <p class="bgp-text-bold bgp-text-gold">Type</p>
             <input [(ngModel)]="pointTypeNameInput" disabled class="form-control"  disabled="true" id="pointTypeNameInput" name="pointTypeNameInput" style="display: block;">
-            <select [(ngModel)]="typeid" class ="form-control" name="pointofinteresttypes" id="typeInput" style="visibility: hidden;" required>
+            <select [(ngModel)]="typeid" class ="form-control" name="pointofinteresttypes" id="typeInput" style="display: none;" required>
               <option *ngFor="let x of pointofinteresttypes" [ngValue]="x.POINTOFINTERESTTYPEID">{{x.POINTOFINTERESTTYPEDESCRIPTION}}</option>
             </select>
 
             <br>
             <p class="bgp-text-bold bgp-text-gold">Suburb</p>
             <input  [(ngModel)]="suburbNameInput"  disabled class="form-control"  disabled="true" id="suburbNameInput" name="suburbNameInput" style="display: block;" >
-            <select [(ngModel)]="suburbid" class ="form-control" name="suburbs" id="suburbInput" style="visibility: hidden;" required>
+            <select [(ngModel)]="suburbid" class ="form-control" name="suburbs" id="suburbInput" style="display: none;" required>
               <option *ngFor="let x of suburbs" [ngValue]="x.SUBURBID">{{x.SUBURBNAME}}</option>
             </select>
           </div>

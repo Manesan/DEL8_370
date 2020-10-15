@@ -59,6 +59,7 @@ export class SearchPropertiesComponent implements OnInit {
     this.markettypes = await this.service.Get('/markettype') as any;
     this.areas = await this.service.Get('/areas') as any;
     this.featuredproperties = await this.service.Get('/featured') as any;
+    this.spinner.hide();
 
     console.log(this.featuredproperties)
 
@@ -83,8 +84,7 @@ export class SearchPropertiesComponent implements OnInit {
 
     this.photos[0] = this.photo1;
     this.photos[1] = this.photo2;
-    this.photos[2] = this.photo3;    
-    this.spinner.hide();
+    this.photos[2] = this.photo3;  
 
   }
 

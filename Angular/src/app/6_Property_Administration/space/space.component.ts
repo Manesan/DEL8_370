@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -26,7 +27,7 @@ export class SpaceComponent implements OnInit {
   public spacetypeid: any;
   public spacetypeInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('Space  added successfully', "", {
@@ -63,6 +64,7 @@ export class SpaceComponent implements OnInit {
 
   async ngOnInit()
    {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.spaces = await this.service.Get('/space?token=' + this.token.token);
@@ -71,10 +73,12 @@ export class SpaceComponent implements OnInit {
     //this.showViewModal=false;
     this.descriptionInput=null;
     this.spacetypeInput=null;
+    this.spinner.hide();
 }
 
 async view(id)
 {
+  this.spinner.show();
   $("#editModal").modal('show');
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(id);
@@ -86,23 +90,28 @@ async view(id)
   this.spacetypeInput = space.SPACETYPEDESCRIPTION;
   this.showViewModal = true;
   //console.log(this.descriptionInput);
+    this.spinner.hide();
 }
 
 async update(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   $("#confirmEditModal").modal('hide');
   //console.log(id);
   await this.service.Patch(`/space?token=${this.token.token}&id=${id}&description=${this.descriptionInput}&spacetypeid=${this.spacetypeid}`);
   this.showViewModal = false;
+  this.spinner.hide();
   this.showUpdateSuccess();
 }
 
 async add()
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   //console.log(this.descriptionInput);
   await this.service.Post(`/space?token=${this.token.token}&description=${this.descriptionInput}&spacetypeid=${this.spacetypeid}`);
+  this.spinner.hide();
   this.showAddSuccess();
 }
 
@@ -117,8 +126,10 @@ async deleteBinding(id)
 
 async delete(id)
 {
+  this.spinner.show();
   this.token ={"token" : localStorage.getItem("37y7ffheu73")}
   let response = await this.service.Delete('/space?token=' + this.token.token + '&id='+ id);
+  this.spinner.hide();
   console.log(response)
   if (response === 409){
     this.showDeleteFailure();

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -28,7 +29,7 @@ export class CitiesComponent implements OnInit {
   public provinceid: any;
   public provinceNameInput: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAddSuccess() {
     this.toastr.success('City added successfully', "", {
@@ -63,6 +64,7 @@ export class CitiesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.cities = await this.service.Get('/city?token=' + this.token.token);
@@ -71,16 +73,20 @@ export class CitiesComponent implements OnInit {
     //Added
     this.showViewModal = false;
     this.nameInput = null;
+    this.spinner.hide();
   }
 
   async add(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.nameInput, this.provinceid);
     await this.service.Post(`/city?token=${this.token.token}&cityname=${this.nameInput}&provinceid=${this.provinceid}`);
     this.showAddSuccess();
+    this.spinner.hide();
   }
 
   async view(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     let city = await this.service.Get('/city?token=' + this.token.token + '&id='+ id) as any;
@@ -91,14 +97,17 @@ export class CitiesComponent implements OnInit {
     this.provinceid = city.PROVINCEID;
 
     this.showViewModal = true;
+    this.spinner.hide();
     //console.log(this.descriptionInput);
   }
 
   async update(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
     await this.service.Patch(`/city?token=${this.token.token}&id=${id}&cityname=${this.nameInput}&provinceid=${this.provinceid}`);
     this.showViewModal = false; //Added
+    this.spinner.hide();
     this.showUpdateSuccess();
   }
 
@@ -111,8 +120,10 @@ export class CitiesComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     let response = await this.service.Delete('/city?token=' + this.token.token + '&id='+ id);
+    this.spinner.hide();
     console.log(response)
     if (response === 409){
       this.showDeleteFailure();
