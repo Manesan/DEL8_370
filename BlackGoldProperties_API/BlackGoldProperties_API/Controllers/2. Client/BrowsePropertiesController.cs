@@ -110,7 +110,7 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     PropertyPOI = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION, SUBURBID = (int?)y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME }).ToList(),
                     Otherbuildingdetail = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { OTHERBUILDINGDETAILID = (int?)y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList(),
                     Agent = x.EMPLOYEEPROPERTies.Select(y => new { y.EMPLOYEE.USER.USERID, y.EMPLOYEE.USER.USERNAME, y.EMPLOYEE.USER.USERSURNAME, y.EMPLOYEE.USER.USEREMAIL }).FirstOrDefault(),
-                    Terms = db.TERMs.Where(z => z.TERMID <= x.TERM.TERMID && z.TERMID >= x.TERM1.TERMID),
+                    Terms = db.TERMs.Where(z => z.TERMID <= x.TERM.TERMID && z.TERMID >= x.TERM1.TERMID).Select(x => new { x.TERMID, x.TERMDESCRIPTION }).ToList()
                 }).FirstOrDefault();
 
                 if (property == null)
