@@ -1085,15 +1085,15 @@
 
               <br>
 
-               <!-----Start of one panel-->
-               <div class="panel-group">
+                    <!-----Start of one panel-->
+              <div class="panel-group">
                 <div class="panel panel-default">
                   <div class="panel-heading">
                     <h4 class="panel-title">
-                      <a data-toggle="collapse" href="#imagesAdd" class="bgp-text-gold">Images</a>
+                      <a data-toggle="collapse" href="#imagesUpdate" class="bgp-text-gold">Images</a>
                     </h4>
                   </div>
-                  <div id="imagesAdd" class="panel-collapse collapse hide">
+                  <div id="imagesUpdate" class="panel-collapse collapse hide">
                     <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
               <br><br>
               <div *ngFor="let x of imgURL; let i = index">
@@ -1116,7 +1116,6 @@
                 <br>
                 <br>
               </div>
-
                   </div>
                 </div>
               </div>

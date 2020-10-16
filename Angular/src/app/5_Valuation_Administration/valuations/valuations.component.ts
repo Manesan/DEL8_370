@@ -73,7 +73,7 @@ export class ValuationsComponent implements OnInit {
     this.valuers = await this.service.Put('/employee?token=' + this.token.token);
     this.valuationStatuses = await this.service.Put('/ivstatus?token=' + this.token.token);
     this.valuations.forEach(i => {
-      i.VALUATIONDATE = i.VALUATIONDATE.split("T")[0];
+      i.VALUATIONDATE = i.VALUATIONDATE?.split("T")[0];
     });
     this.properties = await this.service.Get('/property?token=' + this.token.token);
     console.log(this.valuers);
@@ -91,7 +91,7 @@ export class ValuationsComponent implements OnInit {
     this.valuationDocument = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ id) as any;
 
     this.valuationDescription = valuation.VALUATIONDESCRIPTION;
-    this.valuationDate = valuation.VALUATIONDATE.split("T")[0];
+    this.valuationDate = valuation.VALUATIONDATE?.split("T")[0];
     this.valuer = valuation.USERNAME + " " + valuation.USERSURNAME;
     this.valuationStatusDescription = valuation.IVSTATUSDESCRIPTION;
     this.valuationid = valuation.VALUATIONID;
