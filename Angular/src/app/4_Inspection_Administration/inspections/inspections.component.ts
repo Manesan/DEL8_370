@@ -106,7 +106,7 @@ export class InspectionsComponent implements OnInit {
     this.defectQuantities = [];
     this.defectSpaces = [];
     this.inspections.forEach(e => {      
-      e.INSPECTIONDATE = e.INSPECTIONDATE.split("T")[0];
+      e.INSPECTIONDATE = e.INSPECTIONDATE?.split("T")[0];
     });
     console.log(this.inspections)
     this.spinner.hide();
@@ -125,7 +125,7 @@ export class InspectionsComponent implements OnInit {
     this.documenttype = "Inspection";
     this.inspectionDocument = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ id) as any;
 
-    this.inspectionDate = inspection.INSPECTIONDATE.split("T")[0];
+    this.inspectionDate = inspection.INSPECTIONDATE?.split("T")[0];
     this.inspector = inspection.USERNAME + " " + inspection.USERSURNAME;
     this.inspectionTypeDescription = inspection.INSPECTIONTYPEDESCRIPTION;
     this.inspectionStatusDescription = inspection.IVSTATUSDESCRIPTION;
