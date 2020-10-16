@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -44,7 +45,7 @@ export class UpdateClientInfoComponent implements OnInit {
   clientDocument: any;
 
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showUpdateSuccess() {
     this.toastr.success('Your profile has been updated successfully!', "", {
@@ -62,6 +63,7 @@ export class UpdateClientInfoComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     let client = await this.service.Get('/clientinfo?token=' + this.token.token) as any;
     console.log(client);
@@ -80,7 +82,7 @@ export class UpdateClientInfoComponent implements OnInit {
     else{
       this.SouthAfrican = 'No';
     }
-    
+
     console.log(this.idnumber, this.passportnumber);
 
     this.clientdocumenttypedescription= client [0].USERDOCUMENTTYPEDESCRIPTION
@@ -90,6 +92,7 @@ export class UpdateClientInfoComponent implements OnInit {
     this.documenttypes = await this.service.Get('/documenttypes') as any;
     //console.log(this.documenttypes);
     this.clientdocument= client[0].CLIENTDOCUMENT;
+    this.spinner.hide();
   }
 
   async update(){

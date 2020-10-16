@@ -69,6 +69,7 @@ export class ValuationsComponent implements OnInit {
     this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.valuations = await this.service.Get('/valuation?token=' + this.token.token);
+    this.spinner.hide();
     this.valuers = await this.service.Put('/employee?token=' + this.token.token);
     this.valuationStatuses = await this.service.Put('/ivstatus?token=' + this.token.token);
     this.valuations.forEach(i => {
@@ -76,7 +77,6 @@ export class ValuationsComponent implements OnInit {
     });
     this.properties = await this.service.Get('/property?token=' + this.token.token);
     console.log(this.valuers);
-    this.spinner.hide();
     this.showViewModal = false;
   }
 

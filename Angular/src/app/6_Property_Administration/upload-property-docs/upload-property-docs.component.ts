@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -33,11 +34,13 @@ export class UploadPropertyDocsComponent implements OnInit {
   documenttype: string;
   propertyDocument: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.properties = await this.service.Get('/propertydocument');
     this.documenttypes = await this.service.Get('/propertydocumenttypes');
+    this.spinner.hide();
     console.log(this.properties);
   }
 
@@ -111,6 +114,7 @@ export class UploadPropertyDocsComponent implements OnInit {
   }
 
   async upload(){
+    this.spinner.show();
     let propertydocument = {
       "FileBase64" : this.fileBase64propertydocument,
       "FileExtension" : this.fileExtensionpropertydocument
@@ -122,6 +126,7 @@ export class UploadPropertyDocsComponent implements OnInit {
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
 
     await this.service.Post(`/propertydocument?token=${this.token.token}&propertyid=${this.propertyid}&documenttype=${this.documenttypeid}`, propertydocument);
+    this.spinner.hide();
     this.showUploadSuccess();
   }
 

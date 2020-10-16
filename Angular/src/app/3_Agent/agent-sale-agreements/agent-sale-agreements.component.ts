@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-agent-sale-agreements',
@@ -22,15 +23,18 @@ export class AgentSaleAgreementsComponent implements OnInit {
   documenttype: string;
   saleagreement: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.saleAgreements = await this.service.Get('/agentsaleagreement?token=' + this.token.token);
-    console.log(this.saleAgreements)
+    this.spinner.hide();
+    //console.log(this.saleAgreements)
   }
 
   async getSaleAgreement(id){
+    this.spinner.show();
     //console.log(id)
     this.documenttype = "SaleAgreement";
     this.saleagreement = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ id) as any;
@@ -42,6 +46,7 @@ export class AgentSaleAgreementsComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
+    this.spinner.hide();
   }
 
 }

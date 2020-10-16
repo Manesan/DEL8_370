@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -44,7 +45,7 @@ export class ViewClientPurchasesComponent implements OnInit {
   resultssale: any;
   documenttype: string;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showAcceptSuccess() {
     this.toastr.success('You have accepted your sale agreement', "", {
@@ -62,6 +63,7 @@ export class ViewClientPurchasesComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(this.token.token);
     this.purchases = await this.service.Get('/purchaseoffer?token=' + this.token.token);
@@ -91,7 +93,7 @@ export class ViewClientPurchasesComponent implements OnInit {
     this.saleamount = null;
     this.saledateconcluded =null;
     this.toBeMaintained = false;
-
+    this.spinner.hide();
   }
 
 
@@ -130,6 +132,7 @@ export class ViewClientPurchasesComponent implements OnInit {
 
   async view(id)
   {
+    this.spinner.show();
     this.purchaseofferid = id;
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#purchaseOfferModal").modal('show');
@@ -143,13 +146,14 @@ export class ViewClientPurchasesComponent implements OnInit {
     this.offeramount = purchases.OFFERAMOUNT;
     this.offerstatus = purchases.PURCHASEOFFERSTATUSDESCRIPTION;
 
-
+    this.spinner.hide();
 
     this.showViewModal = true;
     //console.log(this.showViewModal);
   }
 
   async viewsale(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     $("#saleAgreementModal").modal('show');
     //console.log(id);
@@ -171,6 +175,7 @@ export class ViewClientPurchasesComponent implements OnInit {
     if(this.salestatus == "Pending Client Sale Agreement Acceptance"){
       this.toBeMaintained = true;
     }
+    this.spinner.hide();
   }
 
   getSaleAgreement(){
@@ -199,6 +204,7 @@ export class ViewClientPurchasesComponent implements OnInit {
 
 
   async accept(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     //console.log(id);
     //console.log(this.note);
@@ -213,11 +219,13 @@ export class ViewClientPurchasesComponent implements OnInit {
     //console.log(this.accepted)
     $("#confirmAcceptanceModal").modal('hide');
     await this.service.Patch(`/saleagreement?token=${this.token.token}&id=${id}&accepted=${this.accepted}`, saleagreementdocument);
+    this.spinner.hide();
     this.showAcceptSuccess();
     //console.log(this.rentalagreement);
   }
 
   async reject(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = false;
     $("#confirmRejectionModal").modal('hide');
@@ -228,6 +236,7 @@ export class ViewClientPurchasesComponent implements OnInit {
     };
 
     await this.service.Patch(`/saleagreement?token=${this.token.token}&id=${id}&accepted=${this.accepted}`, saleagreementdocument);
+    this.spinner.hide();
     this.showDeclineSuccess();
     //console.log(id);
     //console.log(this.note);

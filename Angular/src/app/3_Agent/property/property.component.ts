@@ -346,7 +346,7 @@ pictureChangeListener($event){
       this.fileBase64picturedocument.forEach(e => {
         if (e == readerValue){
           duplicate = true;
-        }        
+        }
       });
       if (duplicate == false){
         this.fileBase64picturedocument.push(readerValue);
@@ -355,7 +355,7 @@ pictureChangeListener($event){
       else{
         this.showNoDuplicateImage();
       }
-     
+
    }
    //Read the file in and parse it to Base64
    myReader.readAsDataURL(file);
@@ -398,7 +398,7 @@ pictureChangeListener($event){
       }
       else{
       }
-      
+
       console.log(this.imgURL)
     }
   }
@@ -411,7 +411,7 @@ pictureChangeListener($event){
   }
 
 
-  async view(id){    
+  async view(id){
     this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     console.log(this.token);
@@ -527,14 +527,14 @@ pictureChangeListener($event){
       this.photos[x] = this.sanitizer.bypassSecurityTrustResourceUrl
       (base64Combined);
 
-      
+
       this.fileBase64picturedocument.push(base64);
       this.fileExtensionpicturedocument.push(property.Picture[x].LISTINGPICTUREIMAGE.split('.').pop());
       this.imgURL[x] = this.sanitizer.bypassSecurityTrustResourceUrl
       (base64Combined);
     }
     console.log(this.imgURL)
-    
+
     this.spinner.hide();
   }
 
@@ -551,7 +551,7 @@ pictureChangeListener($event){
 
 
   async update(id){
-    
+
     this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     this.propertydetails = [];
@@ -593,7 +593,7 @@ pictureChangeListener($event){
     if (listingpictureList[0] != undefined){
       await this.service.Patch(`/propertyfileupdate?token=${this.token.token}&propertyid=${id}`, listingpictureList);
     }
-    
+
     await this.service.Patch(`/property?token=${this.token.token}&id=${id}&address=${this.propertyAddressInput}&price=${this.priceInput}&ownername=${this.propertyOwnerNameInput}&ownersurname=${this.propertyOwnerSurnameInput}&owneremail=${this.propertyOwnerEmailInput}&owneraddress=${this.propertyOwnerAddressInput}&owneridnumber=${this.propertyOwnerIdNumberInput}&ownerpassportnumber=${this.propertyOwnerPassportNumberInput}&ownercontactnumber=${this.newPOContactNumber}&owneraltcontactnumber=${this.newPOContactNumber}&markettypeid=${this.marketTypeID}&propertytypeid=${this.propertyTypeID}&availabledate=${this.propertyAvailableDate}&suburbid=${this.suburbID}&mandatetypeid=${this.mandateTypeID}&mandatedate=${this.mandateDateInput}&agentid=${this.agentid}&minterm=${this.value}&maxterm=${this.highValue}&ratesandtax=${this.ratesAndTaxesInput}&condition=${this.buildingConditionID}&municipalvaluation=${this.propertyZoningMunicipalValuation}&monthlyrates=${this.monthlyRates}&period=${this.propertyZoningRatingPeriod}&usagecategory=${this.propertyZoningUsageCategory}&yearofvaluation=${this.propertyZoningYearOfValuation}&zoningusage=${this.propertyZoningUsage}&levies=${this.leviesInput}`, this.propertydetails);
     this.spinner.hide();
     this.showUpdateSuccess();
@@ -608,7 +608,7 @@ pictureChangeListener($event){
   }
 
   async delete(id){
-    
+
     this.spinner.show();
     console.log(id);
     $("#deleteModal").modal('hide');
@@ -725,5 +725,5 @@ pictureChangeListener($event){
     console.log(this.propertyOtherBuildingDetails);
   }
 
-  
+
 }

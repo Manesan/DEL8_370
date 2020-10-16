@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import {formatDate} from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -70,7 +71,7 @@ export class ViewPropertyComponent implements OnInit {
   agentname: any;
   result: any;
 
-  constructor(public service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService,  private route:ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(public service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService,  private route:ActivatedRoute, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
   showRentApplySuccess() {
     this.toastr.success('You have successfully applied to rent this property', "", {
@@ -93,6 +94,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.forsale = false;
     //console.log(this.id)
@@ -143,6 +145,7 @@ export class ViewPropertyComponent implements OnInit {
     //  this.propertyListingPicture = await this.service.Get('/downloadfile?token=' + this.token.token + '&documenttype=' + this.documenttype + '&id='+ this.pictureid) as any;
     //  this.propertyListingPicture = this.sanitizer.bypassSecurityTrustResourceUrl('data:image;base64,' + this.propertyListingPicture);
     this.dateToday = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.spinner.hide();
   }
 
 
@@ -271,6 +274,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   async applyToRent(){
+    this.spinner.show();
     //Build up the class that is being POST'ed to the API
     //This has to match with the class you created in the API
     let rentalapplication = {
@@ -305,9 +309,11 @@ export class ViewPropertyComponent implements OnInit {
 
     this.result = await this.service.Post(`/rentalapplication?token=${this.token.token}&propertyid=${this.propertyid}&termid=${this.termid}&start=${this.startdate}`, documents);
     if(this.result == "Error"){
+      this.spinner.hide();
       this.showAppliedAlreadyError();
     }
     else{
+      this.spinner.hide();
       this.showRentApplySuccess();
     }
 
@@ -324,6 +330,7 @@ export class ViewPropertyComponent implements OnInit {
 
   async applyPurchase(){
     $("#confirmPurchaseModal").modal('hide');
+    this.spinner.show();
     let bankstatement = {
       "FileBase64" : this.fileBase64bankdocument,
       "FileExtension" : this.fileExtensionbankdocument
@@ -348,6 +355,7 @@ export class ViewPropertyComponent implements OnInit {
     // console.log(documents);
 
     await this.service.Post(`/purchaseoffer?token=${this.token.token}&propertyid=${this.propertyid}&offeramount=${this.offeramount}`, documents);
+    this.spinner.hide();
     this.showPurchaseApplySuccess();
 
   }

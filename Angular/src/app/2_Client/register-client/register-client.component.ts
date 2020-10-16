@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { CountryCodes } from '../../../assets/CountryCodes';
 import { AbstractControl } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -42,7 +43,7 @@ export class RegisterClientComponent implements OnInit {
   public clientIdNumberInput: any;
   public clientPassportNumberInput:any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
 
 
@@ -58,13 +59,15 @@ export class RegisterClientComponent implements OnInit {
   //   console.log(this.clients);
   }
 
-  async register(){;
+  async register(){
     if(this.password == this.confirmpassword){
+      this.spinner.show();
       this.phoneNumberJoiner();
       this.token = await this.service.Post(`/registerclient?email=${this.email}&name=${this.name}&surname=${this.surname}&contactnumber=${this.newNumber}
       &altcontactnumber=${this.newAltnumber}&address=${this.address}&password=${this.password}&idnumber=${this.clientIdNumberInput}
       &passportnumber=${this.clientPassportNumberInput}`);
       localStorage.setItem("37y7ffheu73", this.token.token)
+      this.spinner.hide();
       this.showRegisterSuccess();
     }
     else{

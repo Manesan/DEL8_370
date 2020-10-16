@@ -150,7 +150,7 @@ export class ClientComponent implements OnInit {
     this.users = user[0].USERNAME + " " + user[0].USERSURNAME;
     this.userid = user.USERID;
     this.clienttypeid = user.CLIENTTYPEID;
-
+    this.spinner.hide();
     this.creditCheckReportDocument = user[0].creditcheckreport.CLIENTDOCUMENT1;
     this.creditCheckReportID = user[0].creditcheckreport.CLIENTDOCUMENTID;
     this.credituploaddate = user[0].creditcheckreport.CLIENTDOCUMENTUPLOADDATE;
@@ -163,7 +163,6 @@ export class ClientComponent implements OnInit {
     this.iduploaddate = user[0].idcopy.CLIENTDOCUMENTUPLOADDATE;
     // this.copyOfPassportDocument = user[0].passportcopy.CLIENTDOCUMENT1;
     // this.passportuploaddate = user[0].passportcopy.CLIENTDOCUMENTUPLOADDATE;
-    this.spinner.hide();
   }
 
   async getClientCreditDocument(id){

@@ -17,24 +17,19 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
         [Route("api/propertyreport")]
         public IHttpActionResult Get([FromUri] string token, [FromUri] DateTime startdate, [FromUri] DateTime endDate)
         {
-            //Check valid token, logged in, role
-            if (TokenManager.Validate(token) != true)
-                return BadRequest(); // Returns as user is invalid
-            if (TokenManager.IsLoggedIn(token) != true)
-                return BadRequest(); // Returns as user is not logged in
-            if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
-            {
                 try
+                {
+                //Check valid token, logged in, role
+                if (TokenManager.Validate(token) != true)
+                    return BadRequest(); // Returns as user is invalid
+                if (TokenManager.IsLoggedIn(token) != true)
+                    return BadRequest(); // Returns as user is not logged in
+                if (TokenManager.GetRoles(token).Contains(5 /*Administrator*/) || TokenManager.GetRoles(token).Contains(1 /*Director*/) || TokenManager.GetRoles(token).Contains(2 /*Agent*/))
                 {
                     //DB context
                     var db = LinkToDBController.db;
                     db.Configuration.ProxyCreationEnabled = false;
 
-                    //Find user from token
-                    //var email = TokenManager.ValidateToken(token);
-                    //var user = db.USERs.Where(x => x.USEREMAIL == email).FirstOrDefault();
-                    //var generatorName = user.USERNAME;
-                    //var generatorSurname = user.USERSURNAME;
 
                     //Get all properties 
                     var saleProperties = db.PROPERTies.Where(y => startdate <= y.PROPERTYADDEDDATE && y.PROPERTYADDEDDATE <= endDate && y.MARKETTYPEID == 1).Select(x => new {
@@ -51,8 +46,6 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                         Defects = x.INSPECTIONs.Select(z => z.PROPERTYDEFECTs.Select(t => new { t.SPACE.SPACEDESCRIPTION, t.DEFECT.DEFECTDESCRIPTION }).ToList()),
                         PointofInterests = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
                         Municipal = x.PROPERTYDOCUMENTs.Where(y => y.PROPERTYDOCUMENTTYPEID == 5).Select(y => new { y.PROPERTYDOCUMENTID, y.PROPERTYDOCUMENT1, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEID, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEDESCRIPTION }).ToList(),
-                        //generatorName,
-                        //generatorSurname
                     }).OrderBy(z => z.PROPERTYID).ToList();
 
                     var rentalProperties = db.PROPERTies.Where(y => startdate <= y.PROPERTYADDEDDATE && y.PROPERTYADDEDDATE <= endDate && y.MARKETTYPEID == 2).Select(x => new {
@@ -69,8 +62,6 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                         Defects = x.INSPECTIONs.Select(z => z.PROPERTYDEFECTs.Select(t => new { t.SPACE.SPACEDESCRIPTION, t.DEFECT.DEFECTDESCRIPTION }).ToList()),
                         PointofInterests = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTNAME, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION }).ToList(),
                         Municipal = x.PROPERTYDOCUMENTs.Where(y => y.PROPERTYDOCUMENTTYPEID == 5).Select(y => new { y.PROPERTYDOCUMENTID, y.PROPERTYDOCUMENT1, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEID, y.PROPERTYDOCUMENTTYPE.PROPERTYDOCUMENTTYPEDESCRIPTION }).ToList(),
-                        //generatorName,
-                        //generatorSurname
                     }).OrderBy(z => z.PROPERTYID).ToList();
 
                     dynamic reportDetails = new ExpandoObject();
@@ -95,12 +86,12 @@ namespace BlackGoldProperties_API.Controllers._9._Reporting_Administration
                         return Ok(reportDetails);
                     }
                 }
+                return Unauthorized();
+                }
                 catch (Exception)
                 {
                     return NotFound();
                 }
-            }
-            return Unauthorized();
         }
     }
 }

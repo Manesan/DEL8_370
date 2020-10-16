@@ -4,6 +4,7 @@ import {ApiService} from '../../../environments/api.service';
 import {HttpClient}  from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -35,9 +36,10 @@ public bathroom: any;
 
 public counter: any;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private sanitizer: DomSanitizer) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private sanitizer: DomSanitizer, private spinner: NgxSpinnerService) { }
 
    async ngOnInit(){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.markettype = this.service.callSearchMarketType();
     this.propertytype = this.service.callSearchPropertyType();
@@ -65,6 +67,7 @@ public counter: any;
 
     }
     console.log(this.photos)
+    this.spinner.hide();
 
 
   }

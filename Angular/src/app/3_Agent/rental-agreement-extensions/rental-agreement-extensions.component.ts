@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any; //needed to use jQuery in ts
 
@@ -53,7 +54,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
   public clientid: any;
   documenttype: string;
 
-  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService) { }
+  constructor(private service: ApiService, private http: HttpClient, private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService) { }
 
   showExtendSuccess() {
     this.toastr.success('Rental agreement extended successfully', "", {
@@ -70,6 +71,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
 
     this.concludedRentalAgreements = await this.service.Get('/agentrentalagreement?token=' + this.token.token); //status 1 --fine
@@ -83,13 +85,15 @@ export class RentalAgreementExtensionsComponent implements OnInit {
 
     this.pendingAgentExtensionRentalAgreements = await this.service.Get('/rentalagreementextensions?token=' + this.token.token); //pending agent extensions
 
-    console.log(this.concludedRentalAgreements, this.rentedRentalAgreements, this.cancelRentalAgreements, this.pendingClientAcceptanceRentalAgreements,
-      this.rentalRenewedRentalAgreements, this.pendingClientExtensionRentalAgreements, this.pendingClientRenewalRentalAgreements);
-    //this.showViewModal = false;
+    //console.log(this.concludedRentalAgreements, this.rentedRentalAgreements, this.cancelRentalAgreements, this.pendingClientAcceptanceRentalAgreements,
+      //this.rentalRenewedRentalAgreements, this.pendingClientExtensionRentalAgreements, this.pendingClientRenewalRentalAgreements);
+      this.spinner.hide();
+      //this.showViewModal = false;
     //this.descriptionInput = null;
   }
 
   async view(id){
+    this.spinner.show();
     $("#viewModal").modal('show');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
 
@@ -118,6 +122,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
     this.contact = agentrentalagreement.USERCONTACTNUMBER;
     this.email = agentrentalagreement.USEREMAIL;
     //console.log(this.descriptionInput);
+    this.spinner.hide();
   }
 
 
@@ -127,6 +132,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
 
   //  RENTAL AGREEMENTS TO EXTEND
   async viewExtend(id){
+    this.spinner.show();
     $("#extendModal").modal('show');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
@@ -151,6 +157,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
     this.email = rentalagreementextensions.USEREMAIL;
     //this.showViewModal = true;
     //console.log(this.descriptionInput);
+    this.spinner.hide();
   }
 
   showAcceptSuccess() {
@@ -192,18 +199,22 @@ export class RentalAgreementExtensionsComponent implements OnInit {
   }
 
   async accept(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = true;
     $("#confirmAcceptExtendModal").modal('hide');
     await this.service.Patch(`/agentrentalapplication?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`);
+    this.spinner.hide();
     this.showAcceptSuccess();
   }
 
   async reject(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.accepted = false;
     $("#confirmRejectExtendModal").modal('hide');
     await this.service.Patch(`/agentrentalapplication?token=${this.token.token}&id=${id}&accepted=${this.accepted}&note=${this.note}`);
+    this.spinner.hide();
     this.showRejectSuccess();
   }
 
@@ -212,6 +223,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
 
   //RENTAL AGREEMENTS TO CANCEL
   async viewCancel(id){
+    this.spinner.show();
     $("#viewCancelModal").modal('show');
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     //console.log(id);
@@ -237,6 +249,7 @@ export class RentalAgreementExtensionsComponent implements OnInit {
     this.surname = rentalagreementterminations.USERSURNAME;
     this.contact = rentalagreementterminations.USERCONTACTNUMBER;
     this.email = rentalagreementterminations.USEREMAIL;
+    this.spinner.hide();
     //this.showViewModal = true;
     //console.log(this.descriptionInput);
   }
@@ -256,8 +269,10 @@ export class RentalAgreementExtensionsComponent implements OnInit {
   }
 
   async delete(id){
+    this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
     await this.service.Delete('/rentalagreementterminations?token=' + this.token.token + '&id='+ this.rentalid)
+    this.spinner.hide();
     this.showCancelSuccess();
   }
 
