@@ -14,6 +14,13 @@
   background-color:#4a4c4e;
 }
 
-// .bgp-padding{
-//   padding: 10px 10px 10px 10px;
-// }
+.bgp-padding-mobile{
+  padding: 10px 10px 10px 10px;
+}
+
+.visibledevice {display:none;}
+.visibledesktop {display:display;}
+@media (max-width : 400px) {
+  .visibledevice {display:block;}
+  .visibledesktop {display:none;}
+}
