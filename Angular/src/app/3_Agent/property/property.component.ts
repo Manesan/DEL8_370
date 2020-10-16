@@ -319,6 +319,7 @@ pictureChangeListener($event){
   this.readThisPicture($event.target);
 
   let img: any = document.getElementById("PropertyImage");
+  console.log(img.files)
   if(typeof (FileReader) !== 'undefined') {
     let reader = new FileReader();
 
