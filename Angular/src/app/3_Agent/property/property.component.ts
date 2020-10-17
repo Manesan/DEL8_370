@@ -552,6 +552,7 @@ pictureChangeListener($event){
 
 
   async update(id){
+    $("#confirmEditModal").modal('hide');
 
     this.spinner.show();
     this.token ={"token" : localStorage.getItem("37y7ffheu73")}
