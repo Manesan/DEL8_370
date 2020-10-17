@@ -20,12 +20,12 @@ namespace BlackGoldProperties_API.Controllers._2._Client
             try
             {
                 //Null checks
-                if (markettype < 1 || string.IsNullOrEmpty(markettype.ToString()))
-                    return BadRequest();
-                if (propertytype < 1 || string.IsNullOrEmpty(propertytype.ToString()))
-                    return BadRequest();
-                if (string.IsNullOrEmpty(area))
-                    return BadRequest();
+                //if (markettype < 1 || string.IsNullOrEmpty(markettype.ToString()))
+                //    return BadRequest();
+                //if (propertytype < 1 || string.IsNullOrEmpty(propertytype.ToString()))
+                //    return BadRequest();
+                //if (string.IsNullOrEmpty(area))
+                //    return BadRequest();
 
                 //DB context
                 var db = LinkToDBController.db;
