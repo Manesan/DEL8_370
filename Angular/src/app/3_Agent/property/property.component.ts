@@ -215,7 +215,7 @@ public token: any; //holds user token
     this.suburbs = await this.service.Get('/suburb?token=' + this.token.token);
     this.marketTypes = await this.service.Get('/markettype?token=' + this.token.token);
     this.propertyTypes = await this.service.Get('/propertytype?token=' + this.token.token);
-    
+
     this.terms = await this.service.Get('/term?token=' + this.token.token);
     this.options.floor = this.terms[0].TERMDESCRIPTION;
     this.value = this.terms[0].TERMDESCRIPTION;

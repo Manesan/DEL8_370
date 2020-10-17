@@ -681,7 +681,7 @@
                     </h4>
                   </div>
                   <div id="imagesUpdate" class="panel-collapse collapse hide">
-                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
+                    <input #file1 class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
               <br><br>
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">
