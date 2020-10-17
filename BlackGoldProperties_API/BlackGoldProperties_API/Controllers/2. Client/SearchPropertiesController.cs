@@ -20,12 +20,12 @@ namespace BlackGoldProperties_API.Controllers._2._Client
             try
             {
                 //Null checks
-                if (markettype < 1 || string.IsNullOrEmpty(markettype.ToString()))
-                    return BadRequest();
-                if (propertytype < 1 || string.IsNullOrEmpty(propertytype.ToString()))
-                    return BadRequest();
-                if (string.IsNullOrEmpty(area))
-                    return BadRequest();
+                //if (markettype < 1 || string.IsNullOrEmpty(markettype.ToString()))
+                //    return BadRequest();
+                //if (propertytype < 1 || string.IsNullOrEmpty(propertytype.ToString()))
+                //    return BadRequest();
+                //if (string.IsNullOrEmpty(area))
+                //    return BadRequest();
 
                 //DB context
                 var db = LinkToDBController.db;
@@ -45,8 +45,8 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     x.SUBURB.CITY.PROVINCE.PROVINCENAME,
                     PROPERTYTYPEID = (int?)x.PROPERTYTYPE.PROPERTYTYPEID,
                     x.PROPERTYTYPE.PROPERTYTYPEDESCRIPTION,
-                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE, y.PROPERTYFEATUREQUANTITY }).ToList(),
-                    x.PROPERTYSTATU,
+                    PropertyFeatures = x.PROPERTYFEATUREs.Select(y => new { y.FEATURE.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).ToList(),
+                    x.PROPERTYSTATU.PROPERTYSTATUSID,
                     x.PROPERTYAVAILABLEDATE,
                     InspectionStatus = x.INSPECTIONs.Select(y => new { y.INSPECTIONID, y.IVSTATUSID }).OrderByDescending(y => y.INSPECTIONID).FirstOrDefault(),                    
                     Price = x.PRICEs.OrderByDescending(y => y.PRICEDATE).Select(z => z.PRICEAMOUNT).FirstOrDefault(), 
@@ -55,9 +55,9 @@ namespace BlackGoldProperties_API.Controllers._2._Client
                     Parking = x.PROPERTYFEATUREs.Select(y => new { y.FEATUREID, y.FEATURE.FEATUREDESCRIPTION, y.PROPERTYFEATUREQUANTITY }).Where(z => z.FEATUREID == 3).FirstOrDefault(),
                     Picture = x.LISTINGPICTUREs.Select(y => new { y.LISTINGPICTUREID, y.LISTINGPICTUREIMAGE }).OrderByDescending(y => y.LISTINGPICTUREID).FirstOrDefault(),
                     Employee = x.EMPLOYEEPROPERTies.Select(y => new { y.EMPLOYEE.USER.USEREMAIL }),
-                    PropertyPOI = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION, SUBURBID = (int?)y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME }).ToList(),
+                    PropertyPOI = x.SUBURB.SUBURBPOINTOFINTERESTs.Select(y => new { y.POINTOFINTEREST.POINTOFINTERESTID, y.POINTOFINTEREST.POINTOFINTERESTTYPE.POINTOFINTERESTTYPEDESCRIPTION, SUBURBID = (int?)y.SUBURB.SUBURBID, y.SUBURB.SUBURBNAME }).ToList(),
                     Otherbuildingdetail = x.PROPERTYOTHERBUILDINGDETAILs.Select(y => new { OTHERBUILDINGDETAILID = (int?)y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILID, y.OTHERBUILDINGDETAIL.OTHERBUILDINGDETAILDESCRIPTION }).ToList()
-                }).Where(y => y.MARKETTYPEID == markettype && y.PROPERTYTYPEID == propertytype && (y.SUBURBNAME.Contains(area) || y.CITYNAME.Contains(area)) && y.PROPERTYSTATU.PROPERTYSTATUSID == 1 && y.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
+                }).Where(y => y.MARKETTYPEID == markettype && y.PROPERTYTYPEID == propertytype && (y.SUBURBNAME.Contains(area) || y.CITYNAME.Contains(area)) && y.PROPERTYSTATUSID == 1 && y.PROPERTYAVAILABLEDATE <= DateTime.Now).ToList();
 
 
                 if (properties == null)

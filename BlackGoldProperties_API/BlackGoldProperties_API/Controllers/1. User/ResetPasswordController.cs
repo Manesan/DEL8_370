@@ -7,6 +7,9 @@ using System.Net.Http;
 using System.Web.Http;
 using BlackGoldProperties_API.Models;
 using BlackGoldProperties_API.Controllers;
+//using Twilio;
+//using Twilio.Rest.Api.V2010.Account;
+//using Twilio.Types;
 
 namespace BlackGoldProperties_API.Controllers._1._User
 {
@@ -23,6 +26,7 @@ namespace BlackGoldProperties_API.Controllers._1._User
 
             try
             {
+
                 //DB context
                 var db = LinkToDBController.db;
                 var user = db.USERs.FirstOrDefault(x => x.USEREMAIL == email);
@@ -45,6 +49,13 @@ namespace BlackGoldProperties_API.Controllers._1._User
                     to = "27767674103",  //change this to the users number from DB
                     text = "Black Gold Properties OTP: " + OTP
                 });
+
+                //Initialize access to Twilio
+                //TwilioClient.Init("CACa4d3fb5453d0cd01c3038433eb786c22", "fcea04d8450e6209e03a2a89600b5a66");
+                ////Send OTP using Twilio
+                //MessageResource.CreateAsync(new PhoneNumber("27767674103"),
+                //                             from: new PhoneNumber("15037446462"),
+                // body: "Black Gold Properties OTP: " + OTP);
 
                 //Store OTP in User table
                 user.USEROTP = OTP;

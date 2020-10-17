@@ -236,6 +236,7 @@ url = 'https://blackgoldpropertiesapi.azurewebsites.net/api';
     this.priceto = priceto;
     this.bedroom = bedroom;
     this.bathroom = bathroom;
+    return "OK"
   }
 
   public async callSearchArea(){

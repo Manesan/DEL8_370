@@ -84,12 +84,12 @@ export class SearchPropertiesComponent implements OnInit {
 
     this.photos[0] = this.photo1;
     this.photos[1] = this.photo2;
-    this.photos[2] = this.photo3;  
+    this.photos[2] = this.photo3;
 
   }
 
   async search(){
-    if(this.markettype != null && this.propertytype != null && this.area !== null){
+
       if(this.priceto == undefined){
          this.priceto = 999; //Not provided
       }
@@ -102,9 +102,9 @@ export class SearchPropertiesComponent implements OnInit {
       if(this.bathroom == undefined){
          this.bathroom = 999; //Not provided
       }
-    this.service.storeSearchProperty(this.markettype, this.propertytype, this.area, this.pricefrom, this.priceto, this.bedroom, this.bathroom)
+    await this.service.storeSearchProperty(this.markettype, this.propertytype, this.area, this.pricefrom, this.priceto, this.bedroom, this.bathroom)
     this.router.navigate(['browse'])
-    }
+
   }
 
   async view(id){

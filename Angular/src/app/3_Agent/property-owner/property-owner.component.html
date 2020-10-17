@@ -13,6 +13,12 @@
 
   <!----Search cards-->
   <div class="col-sm-12 mb-5" >
+        <!----Help link-->
+        <div class="bgp-help-link">
+          <a class="" href="" >Help</a>
+        </div>
+        <br>
+            <!------->
     <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
   </div>
   <!------->
@@ -57,7 +63,7 @@
           </div>
  <form autocomplete="off" ngNativeValidate (ngSubmit)="submitUpdate()" class="scrollbar" id="style-3">
           <div class="modal-body">
-           
+
             <p class="bgp-text-bold bgp-text-gold">Name</p>
             <input class="form-control"  [(ngModel)]="nameInput"  id="nameInput" name="nameInput"  disabled = "true" required  maxlength="50">
 
@@ -78,16 +84,16 @@
               <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
               <input class="form-control"  [(ngModel)]="passportnumberInput" id="numberInput" name="idnumberInput"   disabled = "true" required minlength="8" maxlength="20" >
               <br>
-            </div>      
+            </div>
             <p class="bgp-text-bold bgp-text-gold"> Address</p>
             <input class="form-control"  [(ngModel)]="addressInput" id="addressInput" name="addressInput"  disabled = "true" required maxlength="150">
-            <br>      
+            <br>
             <p class="bgp-text-bold bgp-text-gold">Contact Number</p>
             <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="contactnumberInput" id="contactnumberInput" name="contactnumberInput"   disabled = "true" required maxlength="20" pattern="\+([0-9]{1,})">
             <br>
             <p class="bgp-text-bold bgp-text-gold">Alt Contact Number</p>
             <input placeholder="e.g. +27123456789"  class="form-control"  [(ngModel)]="altcontactnumberInput" id="altcontactnumberInput"   name="altcontactnumberInput" disabled = "true" maxlength="20" pattern="\+([0-9]{1,})">
-         
+
           </div >
           <div class= "modal-footer  ">
             <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" id="OKButton" style="visibility: hidden;">Update</button>
@@ -96,7 +102,7 @@
           </div>
         </form>
         </div>
-        
+
       </div>
     </div>
   <!-----End of Edit Modal-->

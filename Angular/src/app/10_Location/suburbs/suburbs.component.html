@@ -12,6 +12,12 @@
 
   <!----Search cards-->
     <div class="col-sm-12 mb-5" >
+          <!----Help link-->
+          <div class="bgp-help-link">
+            <a class="" href="" >Help</a>
+          </div>
+          <br>
+              <!------->
       <button title="Add a suburb" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus" ></i></button>
       <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
     </div>
@@ -103,8 +109,8 @@
       <div class="modal-content bgp-modal" >
         <div class="modal-header"  >
           <h4 class="modal-title bgp-text-gold">Add Suburb</h4>
-        </div> 
-        <form  ngNativeValidate (ngSubmit)="submitAdd()">       
+        </div>
+        <form  ngNativeValidate (ngSubmit)="submitAdd()">
         <div class="modal-body">
           <div id=prompt>
             <h6 class="bgp-text-gold" style="text-align: center;">Please provide the suburb details</h6>
@@ -115,15 +121,15 @@
               <p class="bgp-text-bold bgp-text-gold">City</p>
               <select [(ngModel)]="cityid" class ="form-control" name="cities" id="cityInput" required>
                 <option *ngFor="let x of cities" [ngValue]="x.CITYID">{{x.CITYNAME}}</option>
-              </select>           
+              </select>
           </div>
-          
+
         <div class= "modal-footer">
           <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" >Add</button>
           &nbsp;
           <button  type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white " data-dismiss="modal" onClick="window.location.reload();">Cancel</button>
         </div>
-      </form> 
+      </form>
       </div>
     </div>
   </div>
@@ -162,7 +168,7 @@
           </div>
           <div class= "modal-footer">
             <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="delete(suburbid)">Yes</button>
-            &nbsp;  
+            &nbsp;
             <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
         </div>
         </div>

@@ -12,6 +12,12 @@
 
       <!----Search cards-->
       <div class="col-sm-12 mb-5" >
+                 <!----Help link-->
+                 <div class="bgp-help-link">
+                  <a class="" href="" >Help</a>
+                </div>
+                <br>
+                    <!------->
           <button title="Add an employee"  class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"  ></i></button>
           <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
       </div>
@@ -94,7 +100,7 @@
                                           <label class="bgp-text-bold bgp-text-gold">Email </label>
                                           <input [(ngModel)]="email" disabled class="form-control bgp-disabled" type="email"  id="email" name="email" disabled="true"  required  maxlength="50" pattern="[a-zA-Z0-9.-_-+%]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}">
                                           <br>
-                                          
+
                                           <!-- <div class="idpassport" id="idpassport" name="idpassport">
                                           <label class="bgp-text-bold bgp-text-gold">ID Number </label>
                                           <input [(ngModel)]="idnumber" disabled class="form-control bgp-disabled"  disabled="true" id="idnumber" name="idnumber" disabled="true"   minlength="13" maxlength="13">
@@ -111,7 +117,7 @@
                                             <p class="bgp-text-bold bgp-text-gold"> Passport Number</p>
                                             <input id="passportnumber" name="passportnumber"class="form-control" ngDefaultControl [(ngModel)]="passportnumber" minlength="8" maxlength="20" required disabled="true">
                                         </div>
-                                         
+
 
                                           <br>
                                           <label class="bgp-text-bold bgp-text-gold">Address </label>
@@ -363,7 +369,7 @@
                                     <br>
                                     <label class="bgp-text-bold bgp-text-gold">Password </label>
                                     <input value="BlackGoldProperties" [(ngModel)]="password" type="password" class="form-control" id="password" name="password" required minlength="8" maxlength="20">
-                                    
+
                    <password-strength-meter [password]="password" [enableFeedback]="true"></password-strength-meter>
                                 </div>
                             </div>

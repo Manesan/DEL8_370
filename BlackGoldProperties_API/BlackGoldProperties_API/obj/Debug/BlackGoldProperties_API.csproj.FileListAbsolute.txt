@@ -3584,3 +3584,5 @@ C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldPro
 C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.Identity.Client.xml
 C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldProperties_API\bin\Twilio.dll
+C:\Users\Manesan Pillay\Desktop\DEL8GIT_DEV\BlackGoldProperties_API\BlackGoldProperties_API\bin\Twilio.xml

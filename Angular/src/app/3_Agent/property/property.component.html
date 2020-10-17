@@ -14,6 +14,12 @@
 
   <!----Search cards-->
   <div class="col-sm-12 mb-5" >
+        <!----Help link-->
+        <div class="bgp-help-link">
+          <a class="" href="" >Help</a>
+        </div>
+        <br>
+            <!------->
     <button  class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal" title="Add a property"><i class="fas fa-plus "   ></i></button>
     &nbsp;
     <button id="generate" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-dismiss="modal" data-target="#propertyreportModal" title="Generate property report"><i class="fas fa-chart-pie"></i></button>
@@ -675,7 +681,7 @@
                     </h4>
                   </div>
                   <div id="imagesUpdate" class="panel-collapse collapse hide">
-                    <input #file class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file.files)" multiple required accept="image/*" oninput="checkImage()"/>
+                    <input #file1 class="bgp-text-white" name="PropertyImage" id="PropertyImage" type="file" accept="jpg, JPEG" (change)="pictureChangeListener($event)" (change)="preview(file1.files)" multiple required accept="image/*" oninput="checkImage()"/>
               <br><br>
               <div *ngFor="let x of imgURL; let i = index">
                 <div class="imageDisplay">

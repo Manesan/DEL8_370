@@ -40,7 +40,6 @@ public counter: any;
 
    async ngOnInit(){
     this.spinner.show();
-    this.token ={"token" : localStorage.getItem("37y7ffheu73")};
     this.markettype = this.service.callSearchMarketType();
     this.propertytype = this.service.callSearchPropertyType();
     this.area = this.service.callSearchArea();
@@ -58,6 +57,8 @@ public counter: any;
       this.results = true;
     }
     console.log(this.properties)
+
+    this.token ={"token" : localStorage.getItem("37y7ffheu73")};
 
     this.documenttype = "ListingPicture";
     for(let x = 0; x < this.properties.length; x++){
