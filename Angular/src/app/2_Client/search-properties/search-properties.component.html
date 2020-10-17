@@ -141,12 +141,11 @@
         <br>
     </div>
 
-
+    <button type="button"  class="btn bgp-buttons-in-cards" mat-raised-button #tooltip="matTooltip" matTooltip="Click the 'Search' button after providing the necessary filters to start browsing the available results" matTooltipPosition="right">
+      <i class="fas fa-info-circle"></i>
+     </button>
           <div class="bgp-buttons-in-cards">
-            <button type="button"  class="btn" mat-raised-button #tooltip="matTooltip" matTooltip="Click the 'Search' button after providing the necessary filters to start browsing the available results" matTooltipPosition="right">
-              <i class="fas fa-info-circle"></i>
-             </button>
-            <button  type="submit"  class="btn btn-outline-warning my-2 my-sm-0"  title="Search"><i class="fas fa-search-location"></i> Search</button>
+            <button  type="submit" id="submitSearch" class="btn btn-outline-warning"  title="Search"><i class="fas fa-search-location"></i> Search</button>
           </div>
         </form>
         </div>

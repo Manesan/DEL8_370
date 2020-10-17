@@ -11,8 +11,8 @@ declare var $: any; //needed to use jQuery in ts
   providedIn: 'root'
 })
 export class ApiService {
-url = 'https://localhost:44373/api';
-//url = 'https://blackgoldpropertiesapi.azurewebsites.net/api';
+//url = 'https://localhost:44373/api';
+url = 'https://blackgoldpropertiesapi.azurewebsites.net/api';
   constructor(private http: HttpClient,  private router: Router, private toastr: ToastrService) { }
   headers = {
     headers: new HttpHeaders({
@@ -236,6 +236,7 @@ url = 'https://localhost:44373/api';
     this.priceto = priceto;
     this.bedroom = bedroom;
     this.bathroom = bathroom;
+    return "OK"
   }
 
   public async callSearchArea(){

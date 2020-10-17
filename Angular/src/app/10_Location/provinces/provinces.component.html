@@ -11,6 +11,12 @@
 
   <!----Search cards-->
   <div class="col-sm-12 mb-5" >
+                    <!----Help link-->
+                    <div class="bgp-help-link">
+                      <a class="" href="" >Help</a>
+                    </div>
+                    <br>
+                        <!------->
     <button title="Add a province" class="btn btn-outline-dark my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"   ></i></button>
     <input  type="text" id="myFilter" class="form-control bgp-searchbox" onkeyup="searchCards()" placeholder="Search">
   </div>
@@ -40,7 +46,7 @@
   </div>
   <!----End of Rows-->
 
-    <!-- Start of Edit Modal -->    
+    <!-- Start of Edit Modal -->
       <div id="editModal" class="modal fade" role="dialog" [style.display]="showViewModal ? 'block' : 'none'" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content bgp-modal">
@@ -67,7 +73,7 @@
         </form>
           </div>
         </div>
-      </div>      
+      </div>
   <!-----End of Edit Modal-->
 
   <!-- Start of Confirm Edit Modal -->
@@ -133,7 +139,7 @@
         </div>
       </div>
     </div>
-  <!-----End of Confirm Add Modal-->  
+  <!-----End of Confirm Add Modal-->
 
 
   <!-- Start of Delete Modal -->
@@ -148,7 +154,7 @@
         </div>
         <div class= "modal-footer">
           <button class="btn btn-outline-warning my-2 my-sm-0 bgp-buttons-in-cards" type="submit" data-dismiss="modal"  data-toggle="modal" (click)="delete(provinceid)">Yes</button>
-          &nbsp;  
+          &nbsp;
           <button type="button" class="btn btn-default  bgp-buttons-in-cards bgp-text-white" data-dismiss="modal" (click)="ngOnInit()">No</button>
       </div>
       </div>
