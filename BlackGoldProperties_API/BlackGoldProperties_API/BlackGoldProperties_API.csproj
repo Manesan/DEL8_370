@@ -538,6 +538,7 @@
     <Compile Include="Controllers\9. Reporting Administration\PropertyReportController.cs" />
     <Compile Include="Controllers\9. Reporting Administration\ValuationReportController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BackupController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\DownloadFilesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

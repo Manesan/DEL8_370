@@ -129,20 +129,21 @@ namespace BlackGoldProperties_API.Models
                 var guids = db.USERs.Where(x => x.USEREMAIL == useremail && x.USERGUIDEXPIRY > DateTime.Now).Count();
                 if (guids > 0)
                 {
-                    var user = db.USERs.Where(x => x.USEREMAIL == useremail).FirstOrDefault();
-                    if (user.USERGUIDEXPIRY.Value <= DateTime.Now.AddMinutes(10))
-                    {
-                        var time = LinkToDBController.db.USERLOGINTIMEOUTs.OrderByDescending(y => y.USERLOGINTIMEOUTID).Select(x => x.USERLOGINTIMEOUTDESCRIPTION).FirstOrDefault();
-                        user.USERGUIDEXPIRY = DateTime.Now.AddMinutes(Convert.ToDouble(time));
-                        try
-                        {
-                            db.SaveChanges();
-                        }
-                        catch (Exception)
-                        {
-                            return false;
-                        }
-                    }
+                    //var user = db.USERs.Where(x => x.USEREMAIL == useremail).FirstOrDefault();
+                    //if (user.USERGUIDEXPIRY.Value <= DateTime.Now.AddMinutes(10))
+                    //{
+                    //    var time = LinkToDBController.db.USERLOGINTIMEOUTs.OrderByDescending(y => y.USERLOGINTIMEOUTID).Select(x => x.USERLOGINTIMEOUTDESCRIPTION).FirstOrDefault();
+                    //    //user.USERGUID = GenerateToken(useremail);
+                    //    user.USERGUIDEXPIRY = DateTime.Now.AddMinutes(Convert.ToDouble(time));
+                    //    try
+                    //    {
+                    //        db.SaveChanges();
+                    //    }
+                    //    catch (Exception)
+                    //    {
+                    //        return false;
+                    //    }
+                    //}
                     return true;
                 }
                 return false;
