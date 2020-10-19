@@ -66,7 +66,7 @@ namespace BlackGoldProperties_API.Controllers._1._User
                 //Return ok
                 return Ok();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                 return NotFound();
             }

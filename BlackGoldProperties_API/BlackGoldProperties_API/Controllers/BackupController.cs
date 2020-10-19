@@ -1,7 +1,9 @@
 ﻿using Azure.Core;
 using BlackGoldProperties_API.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,11 @@ namespace BlackGoldProperties_API.Controllers
         private readonly string clientSecret = "ObZ6Hp.~wdjLgvuVm6sKNPkUwueZnOCdUN";
         private readonly string tenantId = "ddfa59c8-38d0-49a3-822e-1d3bcb5bf85b";
         private readonly string resource = "https://management.azure.com/";
-        private readonly string subscriptionId = "f446f314-c88c-4d86-8580-dc68668928a1"; 
+        private readonly string subscriptionId = "f446f314-c88c-4d86-8580-dc68668928a1";
+        private readonly string storageKey = "L5oaXNBVYAhzpgPvepjZ+gsbVwEQjrXBU6ims4hZ9AebvBXLnJMzSgM6D7mJNi61fllptgQl7BedA6t0PLXx3Q==";
+        private readonly string storageUri = "https://bgpfilestorage.blob.core.windows.net/bgp-backups/Backup.bacpac";
+        private readonly string administratorLogin = "BGPAdmin";
+        private readonly string administratorLoginPassword = "#BlackGoldProperties";
         private static readonly HttpClient client = new HttpClient();
         private static JavaScriptSerializer _Serializer = new JavaScriptSerializer();
         //private readonly IHttpClientFactory _clientFactory;
@@ -62,15 +68,28 @@ namespace BlackGoldProperties_API.Controllers
                 string newResponse = await response.Content.ReadAsStringAsync();
                 dynamic dynamic = _Serializer.Deserialize<dynamic>(newResponse);
                 var accessToken =  dynamic["access_token"];
-                var backupUrl = "https://management.azure.com/subscriptions/" + subscriptionId + "/resourceGroups/BlackGoldProperties/providers/Microsoft.Sql/servers/bgp-db/databases/BlackGoldPropertiesDB/export?api-version=2017-05-10";
-                var response2 = await client.GetStringAsync(backupUrl);
-                //return response2;
-                using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, backupUrl))
+                var backupUrl = "https://management.azure.com/subscriptions/" + subscriptionId + "/resourceGroups/BlackGoldProperties/providers/Microsoft.Sql/servers/bgp-db/databases/BlackGoldPropertiesDB/export?api-version=2015-01-01";
+
+                var body = new Dictionary<string, string>
                 {
-                    requestMessage.Headers.Authorization =
-                        new AuthenticationHeaderValue("Bearer", accessToken);
-                        await client.SendAsync(requestMessage);
-                    return requestMessage;
+                    { "storageKeyType", "SharedAccessKey" },
+                    { "storageKey", storageKey },
+                    { "storageUri", storageUri },
+                    { "administratorLogin", administratorLogin },
+                    { "administratorLoginPassword", administratorLoginPassword },
+                    { "authenticationType", "Sql" },
+                };
+
+                var jsonBody = JsonConvert.SerializeObject(body);
+                var bodyData = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                Console.WriteLine(jsonBody.Length);
+
+                using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, backupUrl))
+                {
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    requestMessage.Content = bodyData;
+                    var result = await client.SendAsync(requestMessage);
+                    return result;
                 }
 
 

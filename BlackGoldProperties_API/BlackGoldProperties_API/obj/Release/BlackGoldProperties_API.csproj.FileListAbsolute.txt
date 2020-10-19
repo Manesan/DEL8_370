@@ -198,3 +198,5 @@ C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldPrope
 C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.Identity.Client.xml
 C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.WindowsAzure.Storage.pdb
 C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\bin\Microsoft.WindowsAzure.Storage.xml
+C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\bin\Twilio.dll
+C:\INF 370\INF370_BlackGoldProject_DEL8_9\BlackGoldProperties_API\BlackGoldProperties_API\bin\Twilio.xml
