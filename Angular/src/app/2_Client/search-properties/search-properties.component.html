@@ -15,6 +15,7 @@
               <div class="col-sm-3">
                 <p class="bgp-text-gold">Market Type</p>
                 <select  [(ngModel)]="markettype" class ="form-control bgp-smallsearchinput" name="markettype" id="markettype"  required>
+                  <option value selected hidden >---Please Select---</option>
                   <option *ngFor = "let x of markettypes"  [ngValue]= "x.MARKETTYPEID">{{x.MARKETTYPEDESCRIPTION}}</option>
                 </select>
                 <br>
@@ -23,6 +24,7 @@
               <div class="col-sm-3">
                 <p class="bgp-text-gold">Property Type</p>
                 <select [(ngModel)]="propertytype" class ="form-control bgp-smallsearchinput" name="propertytype" id="propertytype" required>
+                  <option value selected hidden >---Please Select---</option>
                   <option  *ngFor = "let x of propertytypes" [ngValue]= "x.PROPERTYTYPEID">{{x.PROPERTYTYPEDESCRIPTION}}</option>
                 </select>
                 <br>

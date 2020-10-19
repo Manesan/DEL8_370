@@ -57,7 +57,7 @@ import { PropertyReportComponent } from './9_Reporting_Administration/property-r
 import { ValuationReportComponent } from './9_Reporting_Administration/valuation-report/valuation-report.component';
 import { AgentReportComponent } from './9_Reporting_Administration/agent-report/agent-report.component';
 import { SettingsComponent } from './settings/settings.component';
-import { NbThemeModule, NbLayoutModule, NbPopoverModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbPopoverModule, NbSelectModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { NgxCurrencyModule } from "ngx-currency";
@@ -139,7 +139,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     FormsModule,
     NgxCurrencyModule,
     MatPasswordStrengthModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NbSelectModule
   ],
   providers: [NavBarComponent],
   bootstrap: [AppComponent]

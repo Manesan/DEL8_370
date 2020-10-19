@@ -15,7 +15,7 @@
     <div class="col-sm-12 mb-5">
           <!----Help link-->
           <div class="bgp-help-link">
-            <a class="" href="" >Help</a>
+            <a class="" href="https://manesan.github.io/WebHelp/pages/rental-agreements.html" >Help</a>
           </div>
           <br>
               <!------->
@@ -112,7 +112,7 @@
           <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
           <div class="bgp-buttons-in-cards">
             <form method="get" action="file.pdf">
-              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+              <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
             </form>
           </div>
         </div>
@@ -222,7 +222,7 @@
           <br>
           <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
           <div class="bgp-buttons-in-cards">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
           </div>
         </div>
       </div>
@@ -257,7 +257,7 @@
           <br>
           <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
           <div class="bgp-buttons-in-cards">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
           </div>
         </div>
       </div>
@@ -292,7 +292,7 @@
           <br>
           <h6 class="card-subtitle">{{x.RENTALSTATUSDESCRIPTION}}</h6>
           <div class="bgp-buttons-in-cards">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="view(x.RENTALID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
           </div>
         </div>
       </div>
@@ -327,7 +327,7 @@
           <br>
           <h6 class="card-subtitle">{{x.RENTALAPPLICATIONSTATUSDESCRIPTION}}</h6>
           <div class="bgp-buttons-in-cards">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewCancel(x.RENTALAPPLICATIONID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"  (click)="viewExtend(x.RENTALAPPLICATIONID)" title="View this rental agreement"><i class="far fa-eye"></i></button>
           </div>
         </div>
       </div>
